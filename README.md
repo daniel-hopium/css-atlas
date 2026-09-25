@@ -62,4 +62,6 @@ Alles steckt in einer Datei:
   angezeigt werden und Code auf Englisch geschrieben wird.
 
 Entstanden als Teil von [Daumenregel](https://daniel-hopium.github.io/pattern-library/),
-der UI-Pattern-Library; einige Einträge verlinken dorthin.
+der UI-Pattern-Library; einige Einträge verlinken dorthin. Dritte im Bunde ist der
+[ARIA-Kompass](https://daniel-hopium.github.io/aria-compass/). Alle drei verlinken sich im
+Überblick gegenseitig unter „Die Schwester-Apps“.

@@ -12,6 +12,8 @@ Kategorien: **Neu** (neue Funktionen), **Verbessert** (bestehendes Verhalten), *
 ## Unveröffentlicht
 
 ### Neu
+- Abschnitt „Die Schwester-Apps“ im Überblick: Kacheln zu Daumenregel und ARIA-Kompass,
+  beide mit Symbol für externe Links. Auch der Daumenregel-Link oben trägt das Symbol.
 - Zweisprachig: alle Einträge, Vorschauen, Hinweise und Messwerte auf Deutsch und Englisch.
   Ein Link oben rechts wechselt die Sprache; sie steht als `?lang=en` in der Adresse und wird
   gemerkt. Links zur Daumenregel tragen die Sprache mit.

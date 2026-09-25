@@ -167,6 +167,7 @@ select{padding-right:10px;cursor:pointer}
 
 /* Start page */
 .start-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:28px}
+.start-grid.sisters{margin-top:12px}
 .tile{padding:16px 18px;border:1.5px solid var(--line);border-radius:var(--radius-lg);background:var(--surface);display:grid;gap:6px;align-content:start}
 .tile h3{margin:0;font:700 1rem/1.3 var(--font-body);display:flex;gap:8px;align-items:center}
 .tile p{margin:0;font-size:.9375rem;color:var(--muted)}
@@ -334,7 +335,7 @@ a.logo:hover{background:var(--surface-2)}
       <span class="logo-mark" aria-hidden="true">{}</span>
       <span class="logo-name">CSS-Atlas<span class="logo-sub" data-en="CSS you can touch">CSS zum Anfassen</span></span><span class="sr-only" data-en=", overview">, Überblick</span>
     </a>
-    <a class="hdr-link" href="https://daniel-hopium.github.io/pattern-library/"><span class="hdr-long" data-en="UI rules: ">UI-Regeln: </span>Daumenregel<span class="sr-only" data-en=" (other app)"> (andere App)</span></a>
+    <a class="hdr-link" href="https://daniel-hopium.github.io/pattern-library/"><span class="hdr-long" data-en="UI rules: ">UI-Regeln: </span>Daumenregel<span class="sr-only" data-en=" (other app)"> (andere App)</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="ic"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5"/></svg></a>
     <a class="hdr-link" id="lang-link" href="?lang=en" hreflang="en" lang="en">English</a>
   </header>
 
@@ -441,6 +442,7 @@ const P={
   play:'<rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="M10.5 9.5v5l4-2.5z"/>',
   code:'<path d="M8.5 7L3.5 12l5 5M15.5 7l5 5-5 5"/>',
   compass:'<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
+  ext:'<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5"/>',
   wifioff:'<path d="M3 3l18 18M8.5 16.3a5 5 0 016.2-.6M5 12.6a10 10 0 014.6-2.6M19 12.6a10 10 0 00-2.4-1.8M2 8.8a15 15 0 014-2.5M22 8.8A15 15 0 0011.5 5M12 20h.01"/>'
 };
 const ic=(n,cls='')=>`<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="ic ${cls}">${P[n]}</svg>`;
@@ -902,6 +904,8 @@ function caStartHTML(){
   <div class="field ca-find"><label for="ca-q">${tx('Eigenschaft suchen','Search properties')} <span class="opt">${tx('Name oder Stichwort','name or keyword')}</span></label><input class="input" id="ca-q" type="search" autocomplete="off" spellcheck="false"></div>
   <p class="count" id="ca-count" role="status"></p>
   <div class="table-wrap" tabindex="0" role="region" aria-label="${tx('Alle Einträge im CSS-Atlas','All entries in the CSS Atlas')}"><table class="table ca-index"><caption class="sr-only">${tx('Alle Einträge im CSS-Atlas','All entries in the CSS Atlas')}</caption><thead><tr><th scope="col">${tx('Eigenschaft','Property')}</th><th scope="col">${tx('Was sie tut','What it does')}</th><th scope="col">${tx('Kapitel','Chapter')}</th></tr></thead><tbody>${CSSA.map(e=>`<tr data-q="${esc(norm(`${e.name} ${e.sub} ${CAT_BY[e.cat].title} ${e.desc.replace(/<[^>]+>/g,'')}`))}"><td><a href="#${e.cat}/${e.id}"><code>${esc(e.name)}</code></a></td><td>${e.sub}</td><td>${CAT_BY[e.cat].title}</td></tr>`).join('')}</tbody></table></div>
+  <h2>${tx('Die Schwester-Apps','The sister apps')}</h2>
+  <div class="start-grid sisters"><div class="tile"><h3>${ic('button')} Daumenregel</h3><p>${tx('UI-Regeln mit Live-Beispielen und Negativbeispielen – dazu der WCAG-Kompass und Gut &amp; Schlecht mit Quiz.','UI rules with live examples and counter-examples – plus the WCAG compass and Good &amp; Bad with a quiz.')}</p><a class="btn btn-secondary" href="https://daniel-hopium.github.io/pattern-library/?lang=${LANG}">${tx('Daumenregel öffnen','Open Daumenregel')}<span class="sr-only"> ${tx('(andere App)','(other app)')}</span>${ic('ext')}</a></div><div class="tile"><h3>${ic('code')} ${tx('ARIA-Kompass','ARIA Compass')}</h3><p>${tx('WAI-ARIA zum Anfassen: Rollen, Namen und Zustände mit Live-Beispielen und einem Inspektor, der zeigt, was der Screenreader hört.','WAI-ARIA hands-on: roles, names and states with live examples and an inspector that shows what the screen reader hears.')}</p><a class="btn btn-secondary" href="https://daniel-hopium.github.io/aria-compass/?lang=${LANG}">${tx('ARIA-Kompass öffnen','Open ARIA Compass')}<span class="sr-only"> ${tx('(andere App)','(other app)')}</span>${ic('ext')}</a></div></div>
   <nav class="pager" aria-label="${tx('Weiter','Next')}"><a class="next" href="#${CA_CATS[0].id}"><small>${tx('Erstes Kapitel →','First chapter →')}</small>${CA_CATS[0].title}</a></nav>
 </article>`;
 }
