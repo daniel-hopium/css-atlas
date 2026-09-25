@@ -30,3 +30,10 @@ Kategorien: **Neu** (neue Funktionen), **Verbessert** (bestehendes Verhalten), *
 ### Verbessert
 - Klassennamen in den Vorschauen sind jetzt englisch (`.card` statt `.karte`), wie in
   echtem Code üblich.
+
+### Behoben
+- Fachliche Durchsicht aller 53 Einträge: Hinweise, die noch aus der Daumenregel stammten
+  (Markenwechsel, `.seg`), `scroll-snap-type` statt `scroll-snap`, eine gültige
+  `:nth-child`-Stolperfalle, fehlende Farbe bei einer Outline-Klasse und der MDN-Link zu den
+  Kombinatoren.
+
