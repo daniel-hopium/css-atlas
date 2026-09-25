@@ -12,6 +12,7 @@ Kategorien: **Neu** (neue Funktionen), **Verbessert** (bestehendes Verhalten), *
 ## Unveröffentlicht
 
 ### Neu
+- Ein Klick auf das Logo führt zum Überblick.
 - CSS-Atlas als eigene App: 53 CSS-Eigenschaften und Selektoren in neun Kapiteln, jeweils
   mit Live-Vorschau, CSS-Code mit hervorgehobener Zeile, Tailwind-Klasse und MDN-Link,
   fast immer auch mit einer Stolperfalle.

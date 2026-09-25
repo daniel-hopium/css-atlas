@@ -319,6 +319,9 @@ a.grp[aria-current="page"]{color:var(--brand)}
 .ca-attrs{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
 .ca-attrs a{padding:4px 6px;border-radius:4px}
 #ca-x{margin:0;font-size:1.375rem;font-weight:800}
+a.logo{color:inherit;text-decoration:none;border-radius:var(--radius-sm);padding:2px 8px 2px 2px;margin-left:-2px}
+a.logo:hover{background:var(--surface-2)}
+.logo-name{display:block}
 </style>
 </head>
 <body>
@@ -326,10 +329,10 @@ a.grp[aria-current="page"]{color:var(--brand)}
 <div class="app">
   <a class="skip" href="#hauptinhalt" id="skip">Zum Inhalt springen</a>
   <header class="appbar">
-    <div class="logo">
+    <a class="logo" href="#start">
       <span class="logo-mark" aria-hidden="true">{}</span>
-      <p class="logo-name">CSS-Atlas<span class="logo-sub">CSS zum Anfassen</span></p>
-    </div>
+      <span class="logo-name">CSS-Atlas<span class="logo-sub">CSS zum Anfassen</span></span><span class="sr-only">, Überblick</span>
+    </a>
     <a class="hdr-link" href="https://daniel-hopium.github.io/pattern-library/"><span class="hdr-long">UI-Regeln: </span>Daumenregel<span class="sr-only"> (andere App)</span></a>
   </header>
 
