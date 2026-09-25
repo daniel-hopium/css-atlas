@@ -1,0 +1,970 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>CSS-Atlas – CSS zum Anfassen</title>
+<meta name="description" content="CSS-Eigenschaften und Selektoren mit Live-Vorschau: Wert anklicken, Wirkung sehen, CSS und Tailwind-Klasse ablesen.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Figtree:wght@600;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#F3F5F7; --surface:#FFFFFF; --surface-2:#EBEFF3; --ink:#15191F; --muted:#545C6A;
+  --line:#D8DDE4; --line-strong:#838C9B;
+  --success:#1B6B40; --success-bg:#E3F2E9; --warn:#7A4D00; --warn-bg:#FBF0D9;
+  --danger:#B3261E; --danger-bg:#FBE8E6; --danger-ink:#FFFFFF;
+  --toast-bg:#1D2229; --toast-ink:#F2F4F7; --toast-ok:#7BD9A1; --toast-err:#FF9A8F;
+  --shadow:0 1px 2px rgb(16 24 40 / .06), 0 10px 28px rgb(16 24 40 / .14);
+
+  --brand-l:#1F5FAD; --brand-ink-l:#FFFFFF; --brand-soft-l:#E6EEF8;
+  --brand-d:#86B6F2; --brand-ink-d:#0A1A2F; --brand-soft-d:#16263A;
+  --radius-ctl:10px; --radius-sm:8px; --radius-lg:14px; --radius-mark:10px;
+  --font-display:"Figtree", "Atkinson Hyperlegible", system-ui, sans-serif; --display-wt:800;
+
+  --brand:var(--brand-l); --brand-ink:var(--brand-ink-l); --brand-soft:var(--brand-soft-l);
+  --toast-action:var(--brand-d);
+  --focus:var(--brand);
+  --font-body:"Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono:"JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0E1115; --surface:#161A20; --surface-2:#1E232B; --ink:#E7EAEE; --muted:#A0A8B4;
+    --line:#2B313A; --line-strong:#6B7483;
+    --success:#74D39B; --success-bg:#15291E; --warn:#F2C063; --warn-bg:#2C2210;
+    --danger:#FF8A80; --danger-bg:#34171A; --danger-ink:#2B0A07;
+    --toast-bg:#E9ECF0; --toast-ink:#15191F; --toast-ok:#1B6B40; --toast-err:#B3261E;
+    --shadow:0 1px 2px rgb(0 0 0 / .4), 0 10px 28px rgb(0 0 0 / .5);
+    --brand:var(--brand-d); --brand-ink:var(--brand-ink-d); --brand-soft:var(--brand-soft-d);
+    --toast-action:var(--brand-l);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0E1115; --surface:#161A20; --surface-2:#1E232B; --ink:#E7EAEE; --muted:#A0A8B4;
+  --line:#2B313A; --line-strong:#6B7483;
+  --success:#74D39B; --success-bg:#15291E; --warn:#F2C063; --warn-bg:#2C2210;
+  --danger:#FF8A80; --danger-bg:#34171A; --danger-ink:#2B0A07;
+  --toast-bg:#E9ECF0; --toast-ink:#15191F; --toast-ok:#1B6B40; --toast-err:#B3261E;
+  --shadow:0 1px 2px rgb(0 0 0 / .4), 0 10px 28px rgb(0 0 0 / .5);
+  --brand:var(--brand-d); --brand-ink:var(--brand-ink-d); --brand-soft:var(--brand-soft-d);
+  --toast-action:var(--brand-l);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:1rem;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--brand);text-decoration:underline;text-underline-offset:.16em;text-decoration-thickness:.08em}
+a:hover{text-decoration-thickness:.14em}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+h1[tabindex="-1"]:focus,main:focus,[tabindex="-1"]:focus:not(:focus-visible){outline:none}
+code{font-family:var(--font-mono);font-size:.86em;background:var(--surface-2);padding:.1em .35em;border-radius:4px;overflow-wrap:anywhere}
+kbd{font-family:var(--font-mono);font-size:.8rem;border:1px solid var(--line-strong);border-bottom-width:2px;border-radius:4px;padding:0 .4em;background:var(--surface);white-space:nowrap}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* Skip link */
+.skip{position:absolute;left:12px;top:-100px;z-index:100;background:var(--brand);color:var(--brand-ink);padding:10px 16px;border-radius:var(--radius-ctl);font-weight:700;text-decoration:none}
+.skip:focus{top:calc(8px + env(safe-area-inset-top,0px))}
+
+/* App shell */
+.app{height:100%;display:grid;grid-template-rows:auto minmax(0,1fr)}
+.appbar{display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap;padding:8px 16px;background:var(--surface);border-bottom:1px solid var(--line);position:relative}
+.logo{display:flex;align-items:center;gap:10px;margin-right:auto;min-width:0;position:relative}
+.logo-mark{width:36px;height:36px;border-radius:var(--radius-mark);background:var(--brand);color:var(--brand-ink);display:grid;place-items:center;font:var(--display-wt) 1.15rem/1 var(--font-display);flex:none}
+.logo-name{font:var(--display-wt) 1.125rem/1.15 var(--font-display);letter-spacing:-.01em;margin:0}
+.logo-sub{display:block;font:400 .75rem/1.3 var(--font-body);color:var(--muted);letter-spacing:.02em}
+.hdr-ctl{display:flex;align-items:center;gap:8px;position:relative}
+.hdr-ctl label{font-weight:700;font-size:.9375rem}
+.shell{display:grid;grid-template-columns:minmax(280px,340px) minmax(0,1fr);min-height:0}
+.master{overflow:auto;background:var(--surface);border-right:1px solid var(--line);position:relative;overscroll-behavior:contain}
+.detail{overflow:auto;position:relative;overscroll-behavior:contain}
+.detail-top{display:none}
+@media (max-width:799px){
+  .shell{grid-template-columns:minmax(0,1fr)}
+  .master{border-right:0}
+  .shell[data-view="detail"] .master{display:none}
+  .shell[data-view="master"] .detail{display:none}
+  .detail-top{display:block;padding:10px 16px 0}
+}
+
+/* Controls */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:var(--radius-ctl);border:1.5px solid transparent;font:inherit;font-weight:700;line-height:1.2;cursor:pointer;text-decoration:none;transition:background-color .15s,border-color .15s,transform .1s;text-align:center}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--brand);color:var(--brand-ink)}
+.btn-primary:hover{background:color-mix(in srgb,var(--brand) 86%,var(--ink))}
+.btn-secondary{background:var(--surface);color:var(--ink);border-color:var(--line-strong)}
+.btn-secondary:hover{background:var(--surface-2)}
+.btn-ghost{background:transparent;color:var(--brand)}
+.btn-ghost:hover{background:var(--brand-soft)}
+.btn-danger{background:var(--danger);color:var(--danger-ink)}
+.btn-danger:hover{background:color-mix(in srgb,var(--danger) 86%,var(--ink))}
+.btn[aria-disabled="true"]{opacity:.5;cursor:not-allowed}
+.btn[aria-disabled="true"]:active{transform:none}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.icon-btn{width:44px;height:44px;display:inline-grid;place-items:center;border-radius:var(--radius-ctl);background:transparent;border:0;color:var(--ink);cursor:pointer;flex:none}
+.icon-btn:hover{background:var(--surface-2)}
+.spinner{width:18px;height:18px;border:2.5px solid currentColor;border-right-color:transparent;border-radius:50%;animation:spin .8s linear infinite;display:none;flex:none}
+.is-loading .spinner{display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.input,select{min-height:44px;border:1.5px solid var(--line-strong);border-radius:var(--radius-ctl);background:var(--surface);color:var(--ink);font:inherit;padding:0 14px;max-width:100%}
+select{padding-right:10px;cursor:pointer}
+.input{width:100%}
+.input[aria-invalid="true"]{border-color:var(--danger);border-width:2px}
+.input-short{max-width:10rem}
+.field{display:grid;gap:6px}
+.field>label{font-weight:700}
+.opt{font-weight:400;color:var(--muted)}
+.hint{font-size:.875rem;color:var(--muted);margin:0;line-height:1.45}
+.hint-err{color:var(--danger);font-weight:700}
+.err{display:flex;gap:6px;align-items:flex-start;font-size:.9rem;color:var(--danger);font-weight:700;margin:0;line-height:1.4}
+.err .ic{width:18px;height:18px;margin-top:1px}
+.check-row{display:flex;align-items:center;gap:10px;min-height:44px}
+.check-row input{width:22px;height:22px;accent-color:var(--brand);margin:0;flex:none}
+
+/* Master list */
+.master-top{position:sticky;top:0;z-index:2;background:var(--surface);padding:16px 16px 12px;border-bottom:1px solid var(--line);display:grid;gap:12px}
+.search{display:grid;gap:6px;position:relative}
+.search label{font-weight:700;font-size:.9375rem;display:flex;justify-content:space-between;align-items:center}
+.search-box{position:relative}
+.search-box .ic{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+.search-box .input{padding-left:40px}
+.q-status{margin:0;font-size:.8125rem;color:var(--muted)}
+.side-nav{padding-bottom:24px;position:relative}
+.grp{margin:18px 16px 6px 22px;font-size:.75rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.items{list-style:none;margin:0;padding:0 8px}
+.items:first-child{padding-top:8px}
+.item{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;gap:2px 8px;padding:10px 12px 11px 14px;border-radius:var(--radius-sm);color:inherit;text-decoration:none;position:relative;min-height:44px}
+.item:hover{background:var(--surface-2)}
+.item[aria-current="page"]{background:var(--brand-soft)}
+.item[aria-current="page"]::before{content:"";position:absolute;left:3px;top:10px;bottom:10px;width:4px;border-radius:4px;background:var(--brand)}
+.item-title{font-weight:700;line-height:1.3}
+.item-short{grid-column:1/-1;font-size:.875rem;color:var(--muted);line-height:1.4}
+.item-badge{display:inline-flex;align-items:center;gap:3px;font-size:.75rem;font-weight:700;color:var(--success)}
+.item-badge .ic{width:15px;height:15px;stroke-width:2.6}
+.list-empty{padding:28px 20px;display:grid;justify-items:start;gap:8px}
+.list-empty .ic{width:28px;height:28px;color:var(--muted)}
+.le-title{font-weight:700;margin:0}
+
+/* Lesson */
+.lesson{max-width:48rem;margin:0 auto;padding:28px 28px 96px;container-type:inline-size}
+@media (max-width:599px){.lesson{padding:16px 16px 96px}}
+.eyebrow{font-size:.8125rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);margin:0 0 8px}
+.lesson h1{font:var(--display-wt) clamp(1.75rem,1.3rem + 1.8vw,2.375rem)/1.12 var(--font-display);letter-spacing:-.015em;margin:0 0 14px;text-wrap:balance}
+.lesson h2{font:700 1.25rem/1.3 var(--font-display);margin:40px 0 12px;text-wrap:balance}
+.rule{font-size:1.1875rem;line-height:1.55;margin:20px 0 0;max-width:62ch}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:24px;flex-wrap:wrap;position:relative}
+.pager a{display:flex;flex-direction:column;gap:2px;padding:12px 16px;border:1.5px solid var(--line);border-radius:var(--radius-lg);text-decoration:none;color:inherit;flex:1 1 220px;min-width:0;font-weight:700}
+.pager a:hover{border-color:var(--line-strong);background:var(--surface)}
+.pager small{font-weight:400;color:var(--muted);font-size:.8125rem}
+.pager .next{text-align:right}
+.back{display:inline-flex;align-items:center;gap:4px;min-height:44px;padding:0 12px 0 6px;font-weight:700;text-decoration:none;border-radius:var(--radius-ctl);position:relative}
+.back:hover{background:var(--surface-2)}
+
+/* Start page */
+.start-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:28px}
+.tile{padding:16px 18px;border:1.5px solid var(--line);border-radius:var(--radius-lg);background:var(--surface);display:grid;gap:6px;align-content:start}
+.tile h3{margin:0;font:700 1rem/1.3 var(--font-body);display:flex;gap:8px;align-items:center}
+.tile p{margin:0;font-size:.9375rem;color:var(--muted)}
+.tile .btn{justify-self:start;margin-top:6px}
+.empty{display:grid;justify-items:start;gap:10px;padding-top:24px}
+.empty>.ic{width:40px;height:40px;color:var(--muted)}
+
+/* Toasts */
+.toasts{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));pointer-events:none}
+@media (min-width:800px){.toasts{align-items:flex-end;padding-right:24px}}
+.toast{pointer-events:auto;position:relative;display:flex;align-items:center;gap:8px;width:min(100%,440px);padding:8px 6px 8px 14px;min-height:56px;background:var(--toast-bg);color:var(--toast-ink);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden;animation:toast-in .24s cubic-bezier(.2,.8,.2,1)}
+.toast.leaving{animation:toast-out .16s ease-in forwards}
+.toast-ic{display:grid;color:var(--toast-action)}
+.toast-success .toast-ic{color:var(--toast-ok)}
+.toast-error .toast-ic{color:var(--toast-err)}
+.toast-msg{margin:0;flex:1;font-size:.9375rem;line-height:1.4;padding:6px 0}
+.toast-action{background:transparent;border:0;color:var(--toast-action);font:inherit;font-weight:700;min-height:44px;padding:0 12px;border-radius:var(--radius-sm);cursor:pointer;flex:none}
+.toast-action:hover,.toast .icon-btn:hover{background:color-mix(in srgb,var(--toast-ink) 12%,transparent)}
+.toast .icon-btn{color:var(--toast-ink)}
+.toast :focus-visible{outline-color:var(--toast-action)}
+.toast-timer{position:absolute;left:0;bottom:0;height:3px;width:100%;background:var(--toast-action);transform-origin:left;animation:toast-timer linear forwards}
+.toast:hover .toast-timer,.toast:focus-within .toast-timer{animation-play-state:paused}
+@keyframes toast-in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes toast-out{to{opacity:0;transform:translateY(8px)}}
+@keyframes toast-timer{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+
+.chips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.chips a{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 12px;border:1.5px solid var(--line-strong);border-radius:var(--radius-ctl);background:var(--surface);color:var(--ink);text-decoration:none;font-weight:700;font-size:.9375rem}
+.chips a:hover{background:var(--surface-2)}
+.chips a[aria-current="page"]{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.chips .ic{width:18px;height:18px}
+.code{margin:0;padding:12px 14px;font:400 .8125rem/1.55 var(--font-mono);overflow-x:auto;white-space:pre;tab-size:2}
+.code code{background:none;padding:0;font-size:inherit;overflow-wrap:normal}
+.count{margin:16px 0 0;font-weight:700;color:var(--muted);min-height:1.5em}
+.table{width:100%;border-collapse:collapse;font-size:.9375rem}
+.table th,.table td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.table th{font-weight:700;white-space:nowrap}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius-lg)}
+/* Seitenleiste im Stil einer Doku: Kapitel als Überschrift, Einträge darunter */
+.grp{display:block;text-decoration:none}
+a.grp:hover{color:var(--brand)}
+a.grp[aria-current="page"]{color:var(--brand)}
+.items .item{grid-template-columns:minmax(0,1fr);min-height:36px;padding:6px 12px 6px 14px}
+.item code{background:none;padding:0;font-size:.875rem;font-weight:600}
+.item.item-page{padding-top:10px;padding-bottom:11px}
+@media (pointer:coarse){.items .item{min-height:44px;align-content:center}}
+.hdr-link{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 12px;font-weight:700;text-decoration:none;border-radius:var(--radius-ctl)}
+.hdr-link:hover{background:var(--surface-2)}
+.hdr-link .ic{width:18px;height:18px}
+@media (max-width:479px){.hdr-long{display:none}.appbar{flex-wrap:nowrap}}
+.xlink::after{content:" ↗"}
+/* CSS-Atlas */
+:root{--ca-hl:#DB2777;--ca-hl-bg:rgb(219 39 119 / .14)}
+.ca-toc{margin-top:20px;position:relative}
+.ca-toc code{background:none;padding:0;font-size:.875rem}
+.ca-entry{padding:28px 0 32px;border-bottom:1px solid var(--line);scroll-margin-top:16px;position:relative}
+.ca-entry.ca-hit{border:2px solid var(--brand);border-radius:var(--radius-lg);padding:22px 16px 26px;margin:12px -16px 0;box-shadow:0 0 0 4px var(--brand-soft)}
+.lesson .ca-entry h2{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
+.ca-entry h2 code{font-size:1.25rem;background:none;padding:0;color:var(--brand)}
+.ca-sub{font:400 1rem/1.4 var(--font-body);color:var(--muted)}
+.ca-desc{margin:8px 0 14px;max-width:68ch}
+.ca-vals{border:0;margin:0 0 12px;padding:0;display:flex;flex-wrap:wrap;gap:6px;min-width:0;position:relative}
+.ca-vals label{position:relative;display:inline-flex;align-items:center;min-height:36px;padding:0 10px;border:1.5px solid var(--line-strong);border-radius:var(--radius-sm);background:var(--surface);cursor:pointer}
+.ca-vals label:hover{background:var(--surface-2)}
+.ca-vals input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.ca-vals code{background:none;padding:0;font-size:.8125rem}
+.ca-vals label:has(input:checked){background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.ca-vals label:has(input:focus-visible){outline:3px solid var(--focus);outline-offset:2px}
+.ca-stage{position:relative;isolation:isolate;overflow:hidden;padding:20px;min-height:96px;border:1.5px dashed var(--line-strong);border-radius:var(--radius-lg);
+  background:radial-gradient(var(--line) 1px,transparent 1.2px) 0 0/14px 14px,var(--surface)}
+.ca-meas,.ca-note{margin:8px 0 0;font-size:.875rem;font-weight:700;color:var(--muted)}
+.ca-note{color:var(--ink);font-weight:400;padding:8px 12px;border-left:4px solid var(--brand);background:var(--brand-soft);border-radius:0 var(--radius-sm) var(--radius-sm) 0;max-width:68ch}
+.ca-codebox{margin-top:12px;border:1.5px solid var(--line);border-radius:var(--radius-lg);background:var(--surface);overflow:hidden;position:relative}
+.ca-pre{background:var(--surface)}
+.ca-hl{background:var(--brand-soft);color:var(--brand);font-weight:700;border-radius:3px}
+.ca-tw{margin:0;padding:8px 14px;border-top:1px solid var(--line);font-size:.8125rem;color:var(--muted);background:var(--surface-2)}
+.ca-tw code{background:none;padding:0;color:var(--ink)}
+.ca-tip{margin:12px 0 0;padding:10px 14px;border-left:4px solid var(--warn);background:var(--warn-bg);border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:.9375rem;max-width:68ch;position:relative}
+.ca-links{margin:10px 0 0;font-size:.875rem;color:var(--muted)}
+.ca-find{margin:8px 0 0;position:relative}
+.ca-index code{background:none;padding:0}
+/* Bausteine der Vorschau */
+.ca-i{display:grid;place-items:center;min-width:48px;min-height:48px;padding:8px 12px;border-radius:8px;color:#FFFFFF;font:700 .9375rem/1.25 var(--font-mono);text-align:center}
+.ca-t1{background:#6D28D9}.ca-t2{background:#BE185D}.ca-t3{background:#0369A1}.ca-t4{background:#047857}
+.ca-c{border-radius:8px;outline:1.5px solid color-mix(in srgb,var(--line-strong) 60%,transparent);outline-offset:4px}
+.ca-flow{margin:0;line-height:1.9;max-width:44ch}
+.ca-flow .ca-i{padding:6px 10px}
+.ca-scroll{height:170px;overflow:auto;padding:0 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.ca-scroll p{margin:10px 0;font-size:.875rem;max-width:40ch}
+.ca-pos{width:90px;z-index:1}
+.ca-outer{position:relative;min-height:190px;padding:28px 12px 12px;border:1.5px dashed #0369A1;border-radius:8px}
+.ca-parent{min-height:110px;margin-top:8px;padding:28px 12px 12px;border:1.5px dashed #BE185D;border-radius:8px;width:62%}
+.ca-lbl{position:absolute;margin-top:-22px;font:600 .75rem/1.2 var(--font-mono);color:var(--muted)}
+.ca-stack{position:relative;height:150px}
+.ca-stack .ca-i{position:absolute;width:110px;height:80px;box-shadow:0 4px 10px rgb(0 0 0 / .25)}
+.ca-z1{left:0;top:0}.ca-z2{left:60px;top:30px}.ca-z3{left:120px;top:60px}
+.ca-ovf{height:90px;width:min(100%,320px);padding:8px 10px;border:1.5px dashed #BE185D;border-radius:6px;margin-bottom:80px;background:var(--surface)}
+.ca-ovf p{margin:0;font-size:.9375rem}
+.ca-mw p{margin:0}
+.ca-trunc{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700}
+.ca-small{font-size:.8125rem;color:var(--muted)}
+.ca-narrow{max-width:300px}
+.ca-mc .ca-i{width:220px}
+.ca-bm-wrap{display:flow-root;width:min(100%,320px);background:repeating-linear-gradient(45deg,#F9CC9D 0 6px,#FBE0C4 6px 12px);border-radius:4px}
+.ca-bm{background:#C3D08B;color:#1B1B1B}
+.ca-bm-c{background:#8CB6C0;padding:14px;text-align:center;font:700 .875rem/1.2 var(--font-mono)}
+.ca-legend{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.8125rem}
+.ca-legend li{display:flex;align-items:center;gap:6px}
+.ca-legend i{width:14px;height:14px;border-radius:3px;display:inline-block}
+.ca-hatch{background:repeating-linear-gradient(45deg,#F9CC9D 0 3px,#FBE0C4 3px 6px)}
+.ca-text{margin:0}
+.ca-w360{max-width:360px}.ca-w260{width:260px;max-width:100%}.ca-w160{width:160px;padding:8px;border:1.5px dashed var(--line-strong)}
+.ca-caps{text-transform:uppercase;font-weight:700;font-size:.8125rem;margin-bottom:8px}
+.ca-sq{width:110px;height:110px}
+.ca-card{width:200px;padding:28px 20px;border-radius:12px;background:var(--surface);border:1px solid var(--line);font-weight:700;margin:12px}
+.ca-btn{border:0;cursor:pointer}
+.ca-row{display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+.ca-photo{width:200px;height:120px;border-radius:8px;
+  background:radial-gradient(circle at 25% 70%,#FFFFFF 0 14%,transparent 15%),radial-gradient(circle at 72% 30%,#FDE047 0 16%,transparent 17%),linear-gradient(115deg,#6D28D9 0 22%,#38BDF8 22% 40%,#BE185D 40% 55%,#FFFFFF 55% 64%,#047857 64% 80%,#F59E0B 80%)}
+.ca-shape{width:96px;height:96px;fill:#F59E0B}
+.ca-bd{width:min(100%,320px);height:150px;display:grid;place-items:center}
+.ca-glass{padding:18px 26px;border-radius:12px;background:rgb(255 255 255 / .35);border:1px solid rgb(255 255 255 / .6);color:#111827;font-weight:800}
+.ca-orig{position:relative;width:110px;height:110px;margin:30px 60px}
+.ca-ghost{position:absolute;inset:0;border:2px dashed var(--line-strong);border-radius:8px}
+.ca-track{position:relative;padding:8px;border-radius:999px;background:var(--surface-2);margin-bottom:12px}
+.ca-ball{width:40px;height:40px;min-width:40px;min-height:40px;padding:0;border-radius:50%}
+@media (prefers-reduced-motion: reduce){.ca-ball{transition:none!important}}
+.ca-cur{display:grid;place-items:center;height:110px;border-radius:8px;background:var(--brand-soft);color:var(--brand);font-weight:700;text-align:center;padding:12px}
+.ca-pe{position:relative;height:110px;display:grid;place-items:center}
+.ca-pe-over{position:absolute;inset:14px 20% 14px 45%;display:grid;place-items:center;border-radius:8px;font-weight:800;color:#1B1B1B;background:repeating-linear-gradient(45deg,rgb(253 224 71 / .8) 0 10px,rgb(253 224 71 / .45) 10px 20px)}
+.ca-mono{margin:10px 0 0;font:500 .9375rem/1.4 var(--font-mono);padding:8px 12px;border-radius:6px;background:var(--surface-2);display:inline-block}
+.ca-snap{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 12px}
+.ca-snapi{flex:0 0 70%;height:110px}
+.ca-form{display:flex;flex-wrap:wrap;gap:16px 24px;align-items:center}
+.ca-form label{display:inline-flex;align-items:center;gap:8px;font-weight:700}
+.ca-form input[type=checkbox],.ca-form input[type=radio]{width:22px;height:22px;margin:0}
+.ca-stage h4{margin:0 0 6px;font-size:1rem}
+.ca-stage .box p,.ca-stage .box section{margin:6px 0;padding:4px 8px}
+.ca-stage .box section{border:1px dashed var(--line-strong);border-radius:6px}
+.ca-stage .liste{margin:0;padding-left:1.6em;display:grid;gap:4px}
+.ca-stage .liste li{padding:2px 8px;border-radius:4px}
+.ca-stage .karten{display:flex;flex-wrap:wrap;gap:10px}
+.ca-stage .karte{display:flex;align-items:center;gap:8px;padding:12px 14px;border:1.5px solid var(--line-strong);border-radius:10px;background:var(--surface);font-weight:700;cursor:pointer}
+.ca-stage .karte input{width:20px;height:20px;margin:0}
+.ca-stage .badge{font-size:.75rem;padding:2px 8px;border-radius:999px;background:#FDE047;color:#1B1B1B}
+.ca-states{display:flex;flex-wrap:wrap;gap:16px;align-items:end}
+.ca-states .gruppe{display:grid;gap:6px;padding:10px;border-radius:8px;min-width:200px}
+.ca-stage .hinweis{margin:12px 0}
+.ca-stage .punkte{margin:0;padding-left:1.6em}
+.ca-attrs{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
+.ca-attrs a{padding:4px 6px;border-radius:4px}
+#ca-x{margin:0;font-size:1.375rem;font-weight:800}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <a class="skip" href="#hauptinhalt" id="skip">Zum Inhalt springen</a>
+  <header class="appbar">
+    <div class="logo">
+      <span class="logo-mark" aria-hidden="true">{}</span>
+      <p class="logo-name">CSS-Atlas<span class="logo-sub">CSS zum Anfassen</span></p>
+    </div>
+    <a class="hdr-link" href="https://daniel-hopium.github.io/pattern-library/"><span class="hdr-long">UI-Regeln: </span>Daumenregel<span class="sr-only"> (andere App)</span></a>
+  </header>
+
+  <div class="shell" id="shell" data-view="master">
+    <div class="master" id="master">
+      <div class="master-top">
+        <div class="search">
+          <label for="q">Eintrag suchen <kbd aria-label="Tastenkürzel Strg K">Strg K</kbd></label>
+          <div class="search-box">
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="ic"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+            <input class="input" id="q" type="search" autocomplete="off" spellcheck="false" aria-describedby="q-status">
+          </div>
+        </div>
+        <p class="q-status" id="q-status" aria-live="polite"></p>
+      </div>
+      <nav class="side-nav" aria-label="Einträge" id="list"></nav>
+    </div>
+
+    <main class="detail" id="hauptinhalt" tabindex="-1">
+      <div class="detail-top"><a class="back" href="#uebersicht"><svg viewBox="0 0 24 24" aria-hidden="true" class="ic"><path d="M15 5l-7 7 7 7"/></svg>Alle Einträge</a></div>
+      <div id="view"></div>
+    </main>
+  </div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+<div class="sr-only" id="live-polite" role="status" aria-live="polite"></div>
+<div class="sr-only" id="live-assert" role="alert" aria-live="assertive"></div>
+
+<script>
+(function(){
+'use strict';
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const reducedMotion=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isNarrow=()=>matchMedia('(max-width: 799px)').matches;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const norm=s=>s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+
+const P={
+  check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  ok:'<circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/>',
+  xc:'<circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/>',
+  x:'<path d="M6 6l12 12M18 6L6 18"/>',
+  back:'<path d="M15 5l-7 7 7 7"/>',
+  fwd:'<path d="M9 5l7 7-7 7"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  search:'<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>',
+  trash:'<path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13"/>',
+  info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.6v.2"/>',
+  alert:'<path d="M12 3.5l9.5 16.5h-19z"/><path d="M12 10v4.5M12 17.3v.2"/>',
+  copy:'<rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2"/><path d="M15.5 8.5V5a1 1 0 00-1-1H5a1 1 0 00-1 1v9.5a1 1 0 001 1h3.5"/>',
+  home:'<path d="M4 11l8-7 8 7v9h-5.5v-6h-5v6H4z"/>',
+  bell:'<path d="M6 16v-5a6 6 0 0112 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 004 0"/>',
+  user:'<circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c1-4 4-5.5 7-5.5s6 1.5 7 5.5"/>',
+  mail:'<rect x="3.5" y="5.5" width="17" height="13" rx="2"/><path d="M4 7l8 6 8-6"/>',
+  inbox:'<path d="M3.5 13.5l2.5-8h12l2.5 8v5h-17z"/><path d="M3.5 13.5h5l1 2h5l1-2h5"/>',
+  file:'<path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4"/>',
+  heart:'<path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0112 7.3 4.3 4.3 0 0119.5 10c0 5.4-7.5 10-7.5 10z"/>',
+  gear:'<circle cx="12" cy="12" r="3"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M5.6 18.4l1.8-1.8M16.6 7.4l1.8-1.8"/>',
+  star:'<path d="M12 4l2.5 5.2 5.5.8-4 3.9 1 5.6-5-2.7-5 2.7 1-5.6-4-3.9 5.5-.8z"/>',
+  circle:'<circle cx="12" cy="12" r="8"/>',
+  keyboard:'<rect x="3" y="6.5" width="18" height="11" rx="2"/><path d="M7 10.5h.01M10.5 10.5h.01M14 10.5h.01M17.5 10.5h.01M8 14h8"/>',
+  palette:'<path d="M12 3.5a8.5 8.5 0 000 17c1.2 0 1.8-.8 1.8-1.7 0-1.2-1-1.6-1-2.6 0-.9.7-1.6 1.6-1.6h2.1a4 4 0 004-4c0-4-3.8-7.1-8.5-7.1z"/><circle cx="8" cy="11" r=".6"/><circle cx="11" cy="7.8" r=".6"/><circle cx="15" cy="8.3" r=".6"/>',
+  tag:'<path d="M3.5 12.5V4.5h8l9 9-8 8z"/><circle cx="8" cy="8.5" r="1.3"/>',
+  more:'<path d="M5.5 12h.01M12 12h.01M18.5 12h.01" stroke-width="3.2"/>',
+  grip:'<path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01" stroke-width="3.2"/>',
+  up:'<path d="M6 15l6-6 6 6"/>',
+  down:'<path d="M6 9l6 6 6-6"/>',
+  filter:'<path d="M4 5h16l-6 7.5V19l-4-2v-4.5z"/>',
+  refresh:'<path d="M19.5 12a7.5 7.5 0 11-2.2-5.3M19.5 4.5v4h-4"/>',
+  button:'<rect x="3.5" y="7.5" width="17" height="9" rx="4.5"/><path d="M9 12h6"/>',
+  link:'<path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1"/>',
+  form:'<rect x="4" y="5" width="16" height="5" rx="1.5"/><rect x="4" y="14" width="16" height="5" rx="1.5"/>',
+  image:'<rect x="3.5" y="5" width="17" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17l5-5 4 4 2.5-2.5L20 17"/>',
+  modal:'<rect x="3.5" y="4.5" width="17" height="15" rx="2"/><rect x="7" y="8.5" width="10" height="7" rx="1.2"/>',
+  table:'<rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="M3.5 10h17M3.5 14.5h17M10 5v14"/>',
+  menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',
+  play:'<rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="M10.5 9.5v5l4-2.5z"/>',
+  code:'<path d="M8.5 7L3.5 12l5 5M15.5 7l5 5-5 5"/>',
+  compass:'<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
+  wifioff:'<path d="M3 3l18 18M8.5 16.3a5 5 0 016.2-.6M5 12.6a10 10 0 014.6-2.6M19 12.6a10 10 0 00-2.4-1.8M2 8.8a15 15 0 014-2.5M22 8.8A15 15 0 0011.5 5M12 20h.01"/>'
+};
+const ic=(n,cls='')=>`<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="ic ${cls}">${P[n]}</svg>`;
+
+/* ---------- Toasts ---------- */
+const toastBox=$('#toasts');
+let activeUndo=null;
+function announce(text,assertive){
+  const r=$(assertive?'#live-assert':'#live-polite');
+  r.textContent='';
+  setTimeout(()=>{r.textContent=text},60);
+}
+function toast({msg,type='info',action,duration}){
+  duration=duration??(action?8000:5000);
+  const t=document.createElement('div');
+  t.className='toast toast-'+type;
+  t.innerHTML=`<span class="toast-ic">${ic(type==='success'?'ok':type==='error'?'alert':'info')}</span><p class="toast-msg"></p>`;
+  $('.toast-msg',t).textContent=msg;
+  let actionBtn=null;
+  if(action){
+    actionBtn=document.createElement('button');
+    actionBtn.type='button';actionBtn.className='toast-action';actionBtn.textContent=action.label;
+    t.append(actionBtn);
+  }
+  const closeBtn=document.createElement('button');
+  closeBtn.type='button';closeBtn.className='icon-btn';closeBtn.setAttribute('aria-label','Meldung schließen');closeBtn.innerHTML=ic('x');
+  t.append(closeBtn);
+  const timer=document.createElement('span');
+  timer.className='toast-timer';timer.style.animationDuration=duration+'ms';
+  t.append(timer);
+  toastBox.append(t);
+  while(toastBox.children.length>3) toastBox.firstElementChild.remove();
+
+  let remaining=duration,start=Date.now(),id=setTimeout(close,remaining),closed=false;
+  function pause(){clearTimeout(id);remaining-=Date.now()-start}
+  function resume(){start=Date.now();clearTimeout(id);id=setTimeout(close,Math.max(remaining,1200))}
+  function close(){
+    if(closed)return;closed=true;clearTimeout(id);
+    if(activeUndo&&activeUndo.toast===t) activeUndo=null;
+    const hadFocus=t.contains(document.activeElement);
+    const done=()=>{t.remove();if(hadFocus) focusMainHeading()};
+    if(reducedMotion()) done(); else {t.classList.add('leaving');setTimeout(done,170)}
+  }
+  t.addEventListener('mouseenter',pause);
+  t.addEventListener('mouseleave',()=>{if(!t.contains(document.activeElement))resume()});
+  t.addEventListener('focusin',pause);
+  t.addEventListener('focusout',e=>{if(!t.contains(e.relatedTarget)&&!t.matches(':hover'))resume()});
+  closeBtn.addEventListener('click',close);
+  if(action){
+    const run=()=>{action.fn();close()};
+    actionBtn.addEventListener('click',run);
+    activeUndo={toast:t,run};
+  }
+  announce(msg+(action?` ${action.label} mit Strg plus Z.`:''),type==='error');
+  return close;
+}
+function focusMainHeading(){const h=$('#lesson-title');if(h)h.focus({preventScroll:true})}
+
+/* ---------- CSS-Atlas ---------- */
+const CA_CATS=[
+ {id:'layout',title:'Layout & Position',intro:'Wie Elemente im Fluss stehen, wie man sie herausnimmt und übereinanderstapelt.'},
+ {id:'flex',title:'Flexbox',intro:'Eine Achse, flexible Größen: für Leisten, Zeilen, Button-Gruppen und alles, was in einer Reihe steht.'},
+ {id:'grid',title:'Grid',intro:'Zwei Achsen gleichzeitig: für Seitenlayouts, Kartenraster und alles mit Zeilen und Spalten.'},
+ {id:'box',title:'Box & Größe',intro:'Jedes Element ist ein Kasten. Wie groß er ist und welchen Abstand er hält.'},
+ {id:'type',title:'Typografie',intro:'Größe, Gewicht, Zeilenabstand – und was passiert, wenn Text nicht passt.'},
+ {id:'look',title:'Rahmen & Effekte',intro:'Ecken, Schatten, Rahmen, Filter – und die vier Arten, etwas zu verstecken.'},
+ {id:'motion',title:'Transform & Transition',intro:'Bewegung, die das Layout nicht anfasst – und wie man sie sanft macht.'},
+ {id:'interact',title:'Interaktion',intro:'Mauszeiger, Klick-Durchlässigkeit, Markieren, Einrasten und Formularfarben.'},
+ {id:'sel',title:'Selektoren',intro:'Wie CSS die Elemente findet: Beziehungen, Positionen, Zustände, Attribute – und welche Regel gewinnt.'}
+];
+const cI=(n,t)=>`<div class="ca-i ca-t${(n-1)%4+1} ca-n${n}">${t??n}</div>`;
+const cN=n=>Array.from({length:n},(_,i)=>cI(i+1)).join('');
+const cC=(inner,cls='')=>`<div class="ca-c${cls?' '+cls:''}">${inner}</div>`;
+const FLEX=[['.ca-c','.container',{display:'flex',gap:'8px'}]];
+const GRID=[['.ca-c','.container',{display:'grid',gap:'8px'}]];
+const W1412='<a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#wcag-kriterien/1.3.2">WCAG 1.3.2</a>';
+/* Eintrag: t = [DOM-Selektor in der Vorschau, Selektor im Code]. vals: [Label, Wert oder {Eigenschaft: Wert}, Tailwind, Hinweis].
+   mode 'sel': vals = [Selektor, Tailwind-Variante, Hinweis]; mode 'css': vals = [Label, Regel mit & als Vorschau-Wurzel, Tailwind, Hinweis]. */
+const CSSA=[
+/* Layout */
+{id:'display',cat:'layout',name:'display',sub:'Wie ein Element im Fluss steht',mdn:'display',
+ desc:'<code>inline</code> fließt im Text mit und ignoriert Breite und Höhe. <code>inline-block</code> fließt mit, nimmt aber Maße an. <code>block</code> beginnt eine neue Zeile und nimmt die volle Breite. <code>flex</code> und <code>grid</code> machen das Element zum Layout-Container – dafür gibt es eigene Kapitel.',
+ stage:`<p class="ca-flow">Text davor <span class="ca-i ca-t1">1</span> <span class="ca-i ca-t2">2</span> <span class="ca-i ca-t3">3</span> und Text danach, damit man sieht, wie die Elemente im Textfluss stehen.</p>`,
+ t:['.ca-i','span'],vals:[['inline','inline','inline'],['inline-block','inline-block','inline-block'],['block','block','block'],['none','none','hidden']],
+ tip:'<code>display: none</code> entfernt das Element auch für Screenreader. Nur optisch verstecken: siehe „Verstecken“ unter Rahmen &amp; Effekte.'},
+{id:'position',cat:'layout',name:'position',sub:'Aus dem Fluss nehmen – ganz, teilweise oder gar nicht',mdn:'position',
+ desc:'<code>position</code> legt fest, ob und wie <code>top</code>, <code>right</code>, <code>bottom</code> und <code>left</code> ein Element verschieben. Scroll im Kasten, um <code>sticky</code> zu sehen.',
+ stage:`<div class="ca-scroll" tabindex="0" role="region" aria-label="Scrollbereich zu position"><p>static ist der Normalzustand: Das Element steht, wo es im HTML steht.</p><div class="ca-i ca-t2 ca-pos">Ziel</div><p>relative verschiebt es optisch, der ursprüngliche Platz bleibt aber reserviert – die Lücke siehst du.</p><p>absolute nimmt es ganz aus dem Fluss und richtet es am nächsten positionierten Vorfahren aus, hier am Scroll-Kasten.</p><p>sticky verhält sich normal, bis es beim Scrollen die Kante erreicht – dann klebt es dort.</p><p>Noch etwas Text, damit es etwas zu scrollen gibt.</p><p>Und noch ein Absatz zum Scrollen.</p></div>`,
+ base:[['.ca-scroll','.eltern',{position:'relative'}]],t:['.ca-pos','.ziel'],
+ vals:[['static',{position:'static'},'static'],['relative',{position:'relative',top:'12px',left:'24px'},'relative top-3 left-6'],['absolute',{position:'absolute',top:'8px',right:'8px'},'absolute top-2 right-2'],['sticky',{position:'sticky',top:'0'},'sticky top-0']],
+ tip:'<code>fixed</code> fehlt hier absichtlich: Es hängt am Viewport und würde aus dem Kasten ausbrechen. <code>sticky</code> braucht ein <code>top</code> und scheitert, wenn ein Vorfahre <code>overflow: hidden</code> hat.'},
+{id:'containing-block',cat:'layout',name:'position: absolute',sub:'Woran richtet es sich aus?',mdn:'Containing_block',
+ desc:'Ein absolut positioniertes Element sucht den nächsten Vorfahren, der selbst positioniert ist – alles außer <code>static</code>. Dessen Kasten heißt Containing Block, daran messen sich <code>top</code>, <code>right</code>, <code>bottom</code> und <code>left</code>.',
+ stage:`<div class="ca-outer"><span class="ca-lbl">Vorschau-Kasten (position: relative)</span><div class="ca-parent"><span class="ca-lbl">Eltern-Element</span><div class="ca-i ca-t3 ca-abs">Kind</div></div></div>`,
+ base:[['.ca-abs','.kind',{position:'absolute',right:'8px',bottom:'8px'}]],t:['.ca-parent','.eltern'],
+ vals:[['static',{position:'static'},'static'],['relative',{position:'relative'},'relative'],['transform',{transform:'translateZ(0)'},'transform-gpu']],
+ tip:'Springt ein Element „irgendwohin“, fehlt dem gewünschten Eltern-Element <code>position: relative</code>. Auch <code>transform</code>, <code>filter</code> und <code>contain</code> erzeugen einen Containing Block – darum scrollen <code>fixed</code>-Elemente in animierten Containern plötzlich mit.'},
+{id:'z-index',cat:'layout',name:'z-index',sub:'Was liegt oben?',mdn:'z-index',
+ desc:'<code>z-index</code> ordnet übereinanderliegende positionierte Elemente: Der höhere Wert liegt oben. Ohne Angabe gilt die Reihenfolge im DOM – das spätere Element liegt oben.',
+ stage:`<div class="ca-stack"><div class="ca-i ca-t1 ca-z1">1</div><div class="ca-i ca-t2 ca-z2">2</div><div class="ca-i ca-t3 ca-z3">3</div></div>`,
+ base:[['.ca-z2','.karte-2',{position:'absolute'}]],t:['.ca-z2','.karte-2'],
+ vals:[['auto','auto','z-auto'],['10','10','z-10'],['-1','-1','-z-1']],
+ tip:'<code>z-index</code> wirkt nur innerhalb desselben Stacking Context. <code>opacity</code> unter 1, <code>transform</code> oder <code>isolation: isolate</code> erzeugen einen neuen – dann hilft auch <code>z-index: 9999</code> nicht gegen ein Element außerhalb. Diese Vorschau hat <code>isolation: isolate</code>, sonst würde −1 hinter ihrem Hintergrund verschwinden.'},
+{id:'overflow',cat:'layout',name:'overflow',sub:'Wenn der Inhalt größer ist als der Kasten',mdn:'overflow',
+ desc:'Der gestrichelte Kasten ist 90 px hoch, der Text länger. <code>overflow</code> entscheidet, was mit dem Rest passiert.',
+ stage:`<div class="ca-ovf" tabindex="0" role="region" aria-label="Kasten mit zu viel Text"><p>Dieser Text ist länger, als der Kasten hoch ist. visible lässt ihn einfach herausragen, hidden schneidet ihn ab, auto zeigt eine Scrollleiste nur bei Bedarf und scroll immer. Abgeschnittener Text ist für alle weg, die ihn brauchen.</p></div>`,
+ t:['.ca-ovf','.kasten'],vals:[['visible','visible','overflow-visible'],['hidden','hidden','overflow-hidden'],['auto','auto','overflow-auto'],['scroll','scroll','overflow-scroll']],
+ tip:'Scrollbare Bereiche brauchen <code>tabindex="0"</code> und einen Namen, sonst kommt man per Tastatur nicht hinein. Und <code>overflow: hidden</code> an einem Vorfahren bricht <code>position: sticky</code>.'},
+{id:'box-sizing',cat:'layout',name:'box-sizing',sub:'Was width eigentlich meint',mdn:'box-sizing',
+ desc:'Bei <code>content-box</code> (Standard) meint <code>width</code> nur den Inhalt – Padding und Rahmen kommen dazu. Bei <code>border-box</code> ist alles in der Breite enthalten.',
+ stage:`<div class="ca-i ca-t4 ca-bs">width: 200px</div>`,
+ base:[['.ca-bs','.box',{width:'200px',padding:'20px',border:'6px solid #FCD34D'}]],t:['.ca-bs','.box'],
+ vals:[['content-box','content-box','box-content'],['border-box','border-box','box-border']],
+ measure:st=>`Gemessene Breite: ${$('.ca-bs',st).offsetWidth} px`,
+ tip:'Fast jedes Projekt setzt global <code>*, *::before, *::after { box-sizing: border-box }</code> – Tailwind und diese App auch. Dann heißt 200 px wirklich 200 px.'},
+/* Flexbox */
+{id:'flex-direction',cat:'flex',name:'flex-direction',sub:'Welche Achse ist die Hauptachse?',mdn:'flex-direction',
+ desc:'<code>flex-direction</code> legt die Hauptachse fest: waagrecht (<code>row</code>) oder senkrecht (<code>column</code>). <code>justify-content</code> arbeitet immer entlang der Hauptachse, <code>align-items</code> quer dazu.',
+ stage:cC(cN(3)),base:FLEX,t:['.ca-c','.container'],
+ vals:[['row','row','flex-row'],['row-reverse','row-reverse','flex-row-reverse'],['column','column','flex-col'],['column-reverse','column-reverse','flex-col-reverse']],
+ tip:`<code>-reverse</code> dreht nur die Optik. Tab-Taste und Screenreader folgen weiter dem DOM – das verletzt schnell ${W1412}.`},
+{id:'justify-content',cat:'flex',name:'justify-content',sub:'Verteilung entlang der Hauptachse',mdn:'justify-content',
+ desc:'<code>justify-content</code> verteilt den freien Platz entlang der Hauptachse: alles an den Anfang, in die Mitte, ans Ende – oder als Abstand zwischen die Elemente.',
+ stage:cC(cN(3)),base:FLEX,t:['.ca-c','.container'],
+ vals:[['flex-start','flex-start','justify-start'],['center','center','justify-center'],['flex-end','flex-end','justify-end'],['space-between','space-between','justify-between'],['space-around','space-around','justify-around'],['space-evenly','space-evenly','justify-evenly']],
+ tip:'Wirkt nur, wenn Platz übrig ist. Hat ein Element <code>flex: 1</code>, frisst es den ganzen Platz, und <code>justify-content</code> ändert sichtbar nichts.'},
+{id:'align-items',cat:'flex',name:'align-items',sub:'Ausrichtung quer zur Hauptachse',mdn:'align-items',
+ desc:'<code>align-items</code> richtet die Elemente quer zur Hauptachse aus. <code>stretch</code> (Standard) zieht sie auf die volle Höhe, <code>baseline</code> richtet die Textgrundlinien aneinander aus.',
+ stage:cC(`${cI(1)}<div class="ca-i ca-t2 ca-n2" style="padding:26px 14px">2</div><div class="ca-i ca-t3 ca-n3" style="font-size:1.5rem">3</div>`),
+ base:[['.ca-c','.container',{display:'flex',gap:'8px','min-height':'150px'}]],t:['.ca-c','.container'],
+ vals:[['stretch','stretch','items-stretch'],['flex-start','flex-start','items-start'],['center','center','items-center'],['flex-end','flex-end','items-end'],['baseline','baseline','items-baseline']],
+ tip:'Das klassische „senkrecht zentrieren“ ist <code>display: flex; align-items: center</code>. Eine feste Höhe am Element schaltet <code>stretch</code> ab.'},
+{id:'flex-wrap',cat:'flex',name:'flex-wrap',sub:'Umbrechen oder quetschen',mdn:'flex-wrap',
+ desc:'Standardmäßig bleibt alles in einer Zeile. Mit <code>flex-wrap: wrap</code> brechen Elemente in die nächste Zeile um, sobald der Platz nicht reicht.',
+ stage:cC(cN(8)),base:[...FLEX,['.ca-i','.item',{width:'72px','flex-shrink':'0'}]],t:['.ca-c','.container'],
+ vals:[['nowrap','nowrap','flex-nowrap'],['wrap','wrap','flex-wrap'],['wrap-reverse','wrap-reverse','flex-wrap-reverse']],
+ tip:'Ohne <code>wrap</code> laufen Inhalte auf schmalen Bildschirmen aus dem Container – ein häufiger Grund für seitliches Scrollen (<a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#wcag-kriterien/1.4.10">WCAG 1.4.10</a>).'},
+{id:'gap',cat:'flex',name:'gap',sub:'Abstand zwischen den Elementen',mdn:'gap',
+ desc:'<code>gap</code> setzt den Abstand zwischen den Elementen – nur dazwischen, nie außen herum. Funktioniert in Flexbox und Grid.',
+ stage:cC(cN(6)),base:[['.ca-c','.container',{display:'flex','flex-wrap':'wrap'}]],t:['.ca-c','.container'],
+ vals:[['0','0','gap-0'],['8px','8px','gap-2'],['16px','16px','gap-4'],['32px','32px','gap-8']],def:2,
+ tip:'Früher brauchte man dafür <code>margin</code> an jedem Element und eine negative Margin am Container. Heute nicht mehr. <code>row-gap</code> und <code>column-gap</code> trennen die Richtungen.'},
+{id:'flex',cat:'flex',name:'flex',sub:'Wachsen, schrumpfen, Ausgangsgröße',mdn:'flex',
+ desc:'<code>flex</code> ist die Kurzform für <code>flex-grow</code>, <code>flex-shrink</code> und <code>flex-basis</code>: Wie stark darf ein Element wachsen, wie stark schrumpfen – und von welcher Größe aus?',
+ stage:cC(`${cI(1,'Kurz')}${cI(2,'Ein deutlich längerer Text')}${cI(3,'Mittel')}`),base:FLEX,t:['.ca-i','.item'],
+ vals:[['initial','0 1 auto','flex-initial'],['1','1 1 0%','flex-1'],['auto','1 1 auto','flex-auto'],['none','none','flex-none']],
+ tip:'<code>flex: 1</code> startet bei Breite 0 und verteilt den Platz gleichmäßig – alle Spalten werden gleich breit, egal wie viel Text drinsteht. <code>flex: auto</code> startet bei der Inhaltsbreite: Längerer Text bekommt mehr.'},
+{id:'min-width-0',cat:'flex',name:'min-width: 0',sub:'Warum Text in Flexbox nicht kürzt',mdn:'min-width',
+ desc:'Flex-Elemente schrumpfen standardmäßig nicht unter die Breite ihres Inhalts – <code>min-width</code> steht dort auf <code>auto</code>. Ein langer Dateiname sprengt dann den Container, statt mit … gekürzt zu werden.',
+ stage:cC(`${cI(1,'PDF')}<div class="ca-mw"><p class="ca-trunc">Rechnung_2026_Kunde_Maier_Jänner_final_v2.pdf</p><p class="ca-small">vor 3 Tagen</p></div>`,'ca-narrow'),
+ base:[['.ca-c','.zeile',{display:'flex',gap:'8px','align-items':'center'}]],t:['.ca-mw','.text-spalte'],
+ vals:[['auto',{'min-width':'auto'},'min-w-auto'],['0',{'min-width':'0'},'min-w-0']],
+ tip:'Die Lösung gehört ans Flex-Element, das den Text enthält – nicht an den Text selbst. In Grid gilt dasselbe: <code>minmax(0, 1fr)</code> statt <code>1fr</code>.'},
+{id:'align-self',cat:'flex',name:'align-self',sub:'Ein Element tanzt aus der Reihe',mdn:'align-self',
+ desc:'<code>align-self</code> überschreibt <code>align-items</code> für ein einzelnes Element – hier für Nummer 2.',
+ stage:cC(cN(3)),base:[['.ca-c','.container',{display:'flex',gap:'8px','align-items':'flex-start','min-height':'150px'}]],t:['.ca-n2','.item-2'],
+ vals:[['auto','auto','self-auto'],['flex-start','flex-start','self-start'],['center','center','self-center'],['flex-end','flex-end','self-end'],['stretch','stretch','self-stretch']],
+ tip:'Bei <code>stretch</code> darf das Element keine feste Höhe haben, sonst passiert nichts.'},
+{id:'order',cat:'flex',name:'order',sub:'Reihenfolge nur für das Auge',mdn:'order',
+ desc:'<code>order</code> ändert die Reihenfolge der Darstellung, ohne das HTML anzufassen. Kleinere Werte kommen zuerst, Standard ist 0. Hier gilt es für Nummer 3.',
+ stage:cC(cN(4)),base:FLEX,t:['.ca-n3','.item-3'],
+ vals:[['0','0','order-none'],['-1','-1','-order-1'],['9999','9999','order-last']],
+ tip:`Nur die Optik ändert sich: Tab-Taste und Screenreader folgen weiter dem DOM. Wer so die Reihenfolge wirklich umbaut, verletzt ${W1412} – besser das HTML umsortieren.`},
+/* Grid */
+{id:'grid-template-columns',cat:'grid',name:'grid-template-columns',sub:'Die Spalten festlegen',mdn:'grid-template-columns',
+ desc:'<code>grid-template-columns</code> legt die Spalten fest. <code>fr</code> ist ein Anteil am freien Platz: <code>1fr 2fr</code> heißt, die zweite Spalte bekommt doppelt so viel.',
+ stage:cC(cN(6)),base:GRID,t:['.ca-c','.container'],
+ vals:[['repeat(2, 1fr)','repeat(2, 1fr)','grid-cols-2'],['repeat(3, 1fr)','repeat(3, 1fr)','grid-cols-3'],['200px 1fr','200px 1fr','grid-cols-[200px_1fr]'],['1fr 2fr','1fr 2fr','grid-cols-[1fr_2fr]'],['repeat(auto-fit, minmax(90px, 1fr))','repeat(auto-fit, minmax(90px, 1fr))','grid-cols-[repeat(auto-fit,minmax(90px,1fr))]']],
+ tip:'<code>repeat(auto-fit, minmax(90px, 1fr))</code> ist der Responsive-Klassiker: so viele Spalten, wie mit mindestens 90 px hineinpassen – ganz ohne Media Query. Zieh das Fenster schmaler.'},
+{id:'grid-column',cat:'grid',name:'grid-column',sub:'Über mehrere Spalten reichen',mdn:'grid-column',
+ desc:'<code>grid-column</code> legt fest, über wie viele Spalten ein Element reicht – hier Nummer 1 in einem Raster mit drei Spalten.',
+ stage:cC(cN(6)),base:[['.ca-c','.container',{display:'grid',gap:'8px','grid-template-columns':'repeat(3, 1fr)'}]],t:['.ca-n1','.item-1'],
+ vals:[['auto','auto','col-auto'],['span 2','span 2','col-span-2'],['span 3','span 3','col-span-3'],['1 / -1','1 / -1','col-span-full']],
+ tip:'<code>1 / -1</code> heißt „von der ersten bis zur letzten Linie“: volle Breite, auch wenn sich die Spaltenzahl ändert. Negative Linien zählen von hinten.'},
+{id:'auto-fill-fit',cat:'grid',name:'auto-fill vs. auto-fit',sub:'Leere Spalten behalten oder weglassen',mdn:'repeat',
+ desc:'Beide erzeugen so viele Spalten, wie hineinpassen. Der Unterschied zeigt sich erst, wenn es weniger Elemente als Spalten gibt: <code>auto-fill</code> behält die leeren Spalten, bei <code>auto-fit</code> fallen sie weg und die vorhandenen Elemente wachsen.',
+ stage:cC(cN(3)),base:GRID,t:['.ca-c','.container'],
+ vals:[['auto-fill',{'grid-template-columns':'repeat(auto-fill, minmax(80px, 1fr))'},'grid-cols-[repeat(auto-fill,minmax(80px,1fr))]'],['auto-fit',{'grid-template-columns':'repeat(auto-fit, minmax(80px, 1fr))'},'grid-cols-[repeat(auto-fit,minmax(80px,1fr))]']],
+ tip:'Für Kartenraster meist <code>auto-fit</code>. <code>auto-fill</code>, wenn wenige Karten nicht riesig werden sollen.'},
+{id:'place-items',cat:'grid',name:'place-items',sub:'Wo sitzt das Element in seiner Zelle?',mdn:'place-items',
+ desc:'<code>place-items</code> ist die Kurzform für <code>align-items</code> und <code>justify-items</code>: wo ein Element innerhalb seiner Zelle sitzt, senkrecht und waagrecht.',
+ stage:cC(cN(3)),base:[['.ca-c','.container',{display:'grid',gap:'8px','grid-template-columns':'repeat(3, 1fr)','grid-auto-rows':'100px'}]],t:['.ca-c','.container'],
+ vals:[['stretch','stretch','place-items-stretch'],['start','start','place-items-start'],['center','center','place-items-center'],['end','end','place-items-end']],
+ tip:'<code>display: grid; place-items: center</code> ist die kürzeste Art, etwas in die Mitte zu setzen.'},
+{id:'grid-template-areas',cat:'grid',name:'grid-template-areas',sub:'Layout als ASCII-Bild',mdn:'grid-template-areas',
+ desc:'Jedes Kind bekommt mit <code>grid-area</code> einen Namen, der Container zeichnet das Layout mit diesen Namen wie ein kleines Bild.',
+ stage:cC(['head','nav','main','foot'].map((a,i)=>`<div class="ca-i ca-t${i+1}" style="grid-area:${a}">${a}</div>`).join('')),
+ base:[['.ca-c','.container',{display:'grid',gap:'8px','min-height':'200px'}]],t:['.ca-c','.container'],
+ vals:[['Desktop',{'grid-template-columns':'110px 1fr','grid-template-areas':'"head head" "nav main" "foot foot"'},'grid-cols-[110px_1fr] [grid-template-areas:…]'],['Mobil',{'grid-template-columns':'1fr','grid-template-areas':'"head" "main" "nav" "foot"'},'grid-cols-1 [grid-template-areas:…]'],['Seitenleiste',{'grid-template-columns':'110px 1fr','grid-template-areas':'"nav head" "nav main" "nav foot"'},'grid-cols-[110px_1fr] [grid-template-areas:…]']],
+ tip:`Tailwind hat dafür keine eigene Utility, nur den Umweg über eckige Klammern. Und Vorsicht: In „Mobil“ steht main vor nav, der DOM bleibt aber gleich – ${W1412} im Blick behalten.`},
+/* Box */
+{id:'box-model',cat:'box',name:'Box Model',sub:'Inhalt, Padding, Rahmen, Margin',mdn:'CSS_box_model/Introduction_to_the_CSS_box_model',
+ desc:'Jedes Element ist ein Kasten aus vier Schichten: Inhalt, Padding (Innenabstand, trägt die Hintergrundfarbe), Border (Rahmen) und Margin (Außenabstand, immer durchsichtig). Die Farben entsprechen denen der Browser-DevTools.',
+ stage:`<div class="ca-bm-wrap"><div class="ca-bm"><div class="ca-bm-c">Inhalt</div></div></div><ul class="ca-legend" aria-label="Legende"><li><i style="background:#8CB6C0"></i>Inhalt</li><li><i style="background:#C3D08B"></i>Padding</li><li><i style="background:#E8C46A"></i>Border</li><li><i class="ca-hatch"></i>Margin</li></ul>`,
+ t:['.ca-bm','.box'],
+ vals:[['nur Inhalt',{padding:'0',border:'0 solid #E8C46A',margin:'0'},'p-0'],['+ padding',{padding:'20px',border:'0 solid #E8C46A',margin:'0'},'p-5'],['+ border',{padding:'20px',border:'8px solid #E8C46A',margin:'0'},'p-5 border-8'],['+ margin',{padding:'20px',border:'8px solid #E8C46A',margin:'24px'},'p-5 border-8 m-6']],
+ tip:'Padding gehört zum Element: Es ist klickbar und hat Hintergrund. Margin ist Abstand zu den Nachbarn. Für Abstände zwischen Geschwistern ist <code>gap</code> am Eltern-Element meist die bessere Wahl.'},
+{id:'margin-collapse',cat:'box',name:'Margin Collapsing',sub:'Warum 24 + 24 nicht 48 ergibt',mdn:'CSS_box_model/Mastering_margin_collapsing',
+ desc:'Senkrechte Margins zweier Blöcke untereinander addieren sich nicht, sie fallen zusammen: Es gilt die größere. In Flex- und Grid-Containern passiert das nicht.',
+ stage:`<div class="ca-mc">${cI(1,'margin-bottom: 24px')}${cI(2,'margin-top: 24px')}</div>`,
+ base:[['.ca-n1','.oben',{'margin-bottom':'24px'}],['.ca-n2','.unten',{'margin-top':'24px'}]],t:['.ca-mc','.container'],
+ vals:[['block',{display:'block'},'block'],['flex (Spalte)',{display:'flex','flex-direction':'column'},'flex flex-col'],['grid',{display:'grid'},'grid']],
+ measure:st=>{const a=$('.ca-n1',st).getBoundingClientRect(),b=$('.ca-n2',st).getBoundingClientRect();return `Abstand zwischen den beiden: ${Math.round(b.top-a.bottom)} px`},
+ tip:'Auch die Margin eines ersten Kindes kann durch das Eltern-Element „durchfallen“ und außen landen. Abhilfe: Padding am Eltern-Element, <code>display: flow-root</code> – oder gleich <code>gap</code> statt Margin.'},
+{id:'width',cat:'box',name:'width & max-width',sub:'Feste, relative und begrenzte Breite',mdn:'width',
+ desc:'<code>width</code> setzt eine feste oder relative Breite. Block-Elemente sind ohne Angabe (<code>auto</code>) so breit wie ihr Eltern-Element. <code>max-width</code> setzt eine Obergrenze.',
+ stage:`<div class="ca-c">${cI(1,'Element')}</div>`,t:['.ca-n1','.box'],
+ vals:[['auto',{width:'auto'},'w-auto'],['50%',{width:'50%'},'w-1/2'],['480px',{width:'480px'},'w-[480px]'],['100% + max 480px',{width:'100%','max-width':'480px'},'w-full max-w-[480px]']],
+ measure:st=>`Gemessene Breite: ${$('.ca-n1',st).offsetWidth} px`,
+ tip:'Feste Breiten brechen auf schmalen Bildschirmen aus dem Layout – zieh das Fenster schmal und vergleiche <code>480px</code> mit „100 % + max 480px“. Das Zweite ist fast immer, was man will.'},
+{id:'aspect-ratio',cat:'box',name:'aspect-ratio',sub:'Höhe aus der Breite',mdn:'aspect-ratio',
+ desc:'<code>aspect-ratio</code> legt das Seitenverhältnis fest: Die Höhe ergibt sich aus der Breite.',
+ stage:`<div class="ca-c">${cI(1,'50 % breit')}</div>`,base:[['.ca-n1','.box',{width:'50%'}]],t:['.ca-n1','.box'],
+ vals:[['auto','auto','aspect-auto'],['1 / 1','1 / 1','aspect-square'],['16 / 9','16 / 9','aspect-video'],['4 / 3','4 / 3','aspect-[4/3]']],
+ measure:st=>{const e=$('.ca-n1',st);return `${e.offsetWidth} × ${e.offsetHeight} px`},
+ tip:'Für Bilder und Videos, die erst nachladen, reserviert <code>aspect-ratio</code> den Platz vorab – kein Layout Shift. Bei <code>&lt;img&gt;</code> reichen dafür die Attribute <code>width</code> und <code>height</code>.'},
+/* Typografie */
+{id:'font-size',cat:'type',name:'font-size',sub:'Schriftgröße',mdn:'font-size',
+ desc:'<code>rem</code> bezieht sich auf die Grundgröße des Browsers, meist 16 px – und wächst mit, wenn jemand sie in den Einstellungen erhöht.',
+ stage:`<p class="ca-text">Schriftgröße</p>`,t:['.ca-text','.text'],
+ vals:[['1rem','1rem','text-base'],['1.5rem','1.5rem','text-2xl'],['2.25rem','2.25rem','text-4xl'],['clamp(1rem, 4vw, 2.5rem)','clamp(1rem, 4vw, 2.5rem)','text-[clamp(1rem,4vw,2.5rem)]']],
+ tip:'<code>px</code>-Schriftgrößen ignorieren die Schrifteinstellung im Browser (<a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#wcag-kriterien/1.4.4">WCAG 1.4.4</a>). <code>clamp(min, bevorzugt, max)</code> wächst mit der Fensterbreite, bleibt aber in Grenzen.'},
+{id:'font-weight',cat:'type',name:'font-weight',sub:'Strichstärke',mdn:'font-weight',
+ desc:'<code>font-weight</code> bestimmt, wie fett die Schrift ist. Nicht jede Schrift hat jede Stärke.',
+ stage:`<p class="ca-text" style="font-size:1.5rem">Gewicht der Schrift</p>`,t:['.ca-text','.text'],
+ vals:[['400','400','font-normal'],['500','500','font-medium'],['700','700','font-bold'],['800','800','font-extrabold']],
+ tip:'Diese App lädt Atkinson Hyperlegible nur in 400 und 700 – darum sieht 500 hier aus wie 400 und 800 wie 700. Fehlt eine fette Stärke ganz, rechnet der Browser eine unschöne Kunst-Fettung.'},
+{id:'line-height',cat:'type',name:'line-height',sub:'Zeilenabstand',mdn:'line-height',
+ desc:'<code>line-height</code> ist der Abstand von Zeile zu Zeile. Ohne Einheit ist es ein Faktor der Schriftgröße – und wird richtig vererbt.',
+ stage:`<p class="ca-text ca-w360">Zu enge Zeilen kleben aneinander, zu weite zerfallen in einzelne Streifen. Für Fließtext hat sich ein Faktor um 1,5 bewährt, große Überschriften vertragen weniger.</p>`,t:['.ca-text','.text'],
+ vals:[['1','1','leading-none'],['1.25','1.25','leading-tight'],['1.5','1.5','leading-normal'],['2','2','leading-loose']],def:2,
+ tip:'Mit Einheit (<code>line-height: 24px</code>) erben Kinder mit anderer Schriftgröße einen unpassenden Wert. <a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#wcag-kriterien/1.4.12">WCAG 1.4.12</a> testet genau mit 1,5.'},
+{id:'letter-spacing',cat:'type',name:'letter-spacing',sub:'Buchstabenabstand',mdn:'letter-spacing',
+ desc:'<code>letter-spacing</code> ändert den Abstand zwischen den Buchstaben. In <code>em</code> angegeben, wächst er mit der Schriftgröße.',
+ stage:`<p class="ca-text ca-caps">Kapitelüberschrift</p><p class="ca-text">Normaler Text in Kleinbuchstaben.</p>`,t:['.ca-text','.text'],
+ vals:[['-0.025em','-0.025em','tracking-tight'],['normal','normal','tracking-normal'],['0.05em','0.05em','tracking-wider'],['0.1em','0.1em','tracking-widest']],def:1,
+ tip:'Großbuchstaben brauchen etwas mehr Abstand, große Überschriften etwas weniger. Fließtext am besten in Ruhe lassen.'},
+{id:'text-align',cat:'type',name:'text-align',sub:'Ausrichtung im Absatz',mdn:'text-align',
+ desc:'<code>text-align</code> richtet Text innerhalb seines Kastens aus.',
+ stage:`<p class="ca-text ca-w360">Linksbündiger Text hat eine feste Kante, an der jede Zeile beginnt. Das Auge springt immer an dieselbe Stelle zurück. Das macht ihn am leichtesten lesbar.</p>`,t:['.ca-text','.text'],
+ vals:[['left','left','text-left'],['center','center','text-center'],['right','right','text-right'],['justify','justify','text-justify']],
+ tip:'<code>justify</code> reißt im Web Löcher zwischen die Wörter, weil Browser schlecht trennen. Warum Zentrieren bei Absätzen schadet, zeigt <a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#details/centered">Gut &amp; Schlecht</a>.'},
+{id:'text-overflow',cat:'type',name:'text-overflow',sub:'Kürzen mit …',mdn:'text-overflow',
+ desc:'Einzeilig kürzen braucht drei Eigenschaften zusammen: <code>overflow: hidden</code>, <code>white-space: nowrap</code> und <code>text-overflow: ellipsis</code>. Für mehrere Zeilen gibt es <code>line-clamp</code>.',
+ stage:`<p class="ca-text ca-w260">Dieser Satz ist absichtlich zu lang für eine Zeile, damit man sieht, wie gekürzt wird und was dabei verloren geht.</p>`,t:['.ca-text','.text'],
+ vals:[['normal',{},''],['truncate',{overflow:'hidden','white-space':'nowrap','text-overflow':'ellipsis'},'truncate'],['line-clamp: 2',{overflow:'hidden',display:'-webkit-box','-webkit-box-orient':'vertical','-webkit-line-clamp':'2'},'line-clamp-2']],
+ tip:'Was abgeschnitten ist, ist weg – auch für Menschen, die es brauchen. Den vollen Text anbieten oder lieber umbrechen lassen, siehe <a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#details/truncation">Gut &amp; Schlecht</a>.'},
+{id:'white-space',cat:'type',name:'white-space',sub:'Leerzeichen und Umbrüche aus dem Quelltext',mdn:'white-space',
+ desc:'<code>white-space</code> bestimmt, was mit mehrfachen Leerzeichen und Zeilenumbrüchen im Quelltext passiert – und ob der Browser umbrechen darf.',
+ stage:`<p class="ca-text ca-w260">Drei    Leerzeichen   hier.
+Und ein Zeilenumbruch im Quelltext, gefolgt von einem Satz, der zu lang für eine Zeile ist.</p>`,t:['.ca-text','.text'],
+ vals:[['normal','normal','whitespace-normal'],['nowrap','nowrap','whitespace-nowrap'],['pre','pre','whitespace-pre'],['pre-wrap','pre-wrap','whitespace-pre-wrap']],
+ tip:'<code>pre-wrap</code> passt für Text, den Nutzer eingegeben haben, etwa Kommentare: Ihre Umbrüche bleiben erhalten, lange Zeilen brechen trotzdem um.'},
+{id:'overflow-wrap',cat:'type',name:'overflow-wrap',sub:'Lange Wörter umbrechen',mdn:'overflow-wrap',
+ desc:'Lange Wörter ohne Leerzeichen – URLs, Dateinamen, deutsche Komposita – laufen sonst aus ihrem Kasten.',
+ stage:`<p class="ca-text ca-w160" lang="de">https://example.org/ein/sehr/langer/pfad und die Donaudampfschifffahrtsgesellschaft</p>`,t:['.ca-text','.text'],
+ vals:[['normal',{},''],['overflow-wrap: anywhere',{'overflow-wrap':'anywhere'},'wrap-anywhere'],['word-break: break-all',{'word-break':'break-all'},'break-all'],['hyphens: auto',{hyphens:'auto'},'hyphens-auto']],
+ tip:'<code>anywhere</code> bricht nur, wenn es nötig ist. <code>break-all</code> bricht überall, auch mitten in kurzen Wörtern. <code>hyphens: auto</code> trennt korrekt mit Bindestrich, braucht aber ein <code>lang</code>-Attribut.'},
+/* Rahmen & Effekte */
+{id:'border-radius',cat:'look',name:'border-radius',sub:'Ecken abrunden',mdn:'border-radius',
+ desc:'<code>border-radius</code> rundet die Ecken ab. Ein sehr großer Wert macht aus einem Rechteck eine Pille, aus einem Quadrat einen Kreis.',
+ stage:`<div class="ca-i ca-t2 ca-sq">Ecke</div>`,t:['.ca-sq','.box'],
+ vals:[['0','0','rounded-none'],['6px','6px','rounded-md'],['12px','12px','rounded-xl'],['9999px','9999px','rounded-full']],
+ tip:'Innerer Radius = äußerer Radius minus Abstand, sonst wirken verschachtelte Karten an den Ecken dick. In White-Label-Apps ist der Radius ein Design Token – wechsle oben die Marke und schau dir die Buttons an.'},
+{id:'box-shadow',cat:'look',name:'box-shadow',sub:'Schatten und Höhe',mdn:'box-shadow',
+ desc:'<code>box-shadow</code> wirft einen Schatten: Versatz x, Versatz y, Unschärfe, Ausdehnung, Farbe. Mehrere Schatten, mit Komma getrennt, wirken natürlicher.',
+ stage:`<div class="ca-card">Karte</div>`,t:['.ca-card','.karte'],
+ vals:[['none','none','shadow-none'],['sm','0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)','shadow-sm'],['md','0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)','shadow-md'],['xl','0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)','shadow-xl'],['inset','inset 0 2px 6px rgb(0 0 0 / 0.2)','shadow-[inset_0_2px_6px_rgb(0_0_0/0.2)]']],def:2,
+ tip:'Schatten zeigen Höhe: Je höher ein Element schwebt – Dropdown, Dialog –, desto größer und weicher. Im Dark Mode sieht man Schatten kaum, dort helfen hellere Flächen.'},
+{id:'border-outline',cat:'look',name:'border vs. outline',sub:'Warum Fokusringe outline nutzen',mdn:'outline',
+ desc:'<code>border</code> gehört zum Box Model und braucht Platz – die Nachbarn rücken zur Seite. <code>outline</code> wird außen darübergezeichnet und verschiebt nichts. Hier für Nummer 2.',
+ stage:cC(cN(3)),base:[['.ca-c','.container',{display:'flex',gap:'8px','align-items':'flex-start'}]],t:['.ca-n2','.item-2'],
+ vals:[['nichts',{},''],['border: 4px',{border:'4px solid #F59E0B'},'border-4 border-amber-500'],['outline: 4px',{outline:'4px solid #F59E0B'},'outline-4 outline-amber-500'],['outline + offset',{outline:'4px solid #F59E0B','outline-offset':'4px'},'outline-4 outline-offset-4']],
+ tip:'Darum nimmt man für Fokusringe <code>outline</code>: Beim Fokussieren springt nichts. Und nie <code>outline: none</code> ohne Ersatz (<a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#wcag-kriterien/2.4.7">WCAG 2.4.7</a>).'},
+{id:'hide',cat:'look',name:'Verstecken',sub:'opacity, visibility, display, sr-only',mdn:'visibility',
+ desc:'Vier Arten, etwas zu verstecken – sie unterscheiden sich darin, ob Platz, Klickbarkeit und Screenreader erhalten bleiben. Nummer 2 ist ein Button: Klick auf die Stelle, wo er war.',
+ stage:cC(`${cI(1)}<button type="button" class="ca-i ca-t2 ca-n2 ca-btn">2</button>${cI(3)}`),base:FLEX,t:['.ca-n2','.button'],
+ vals:[['sichtbar',{},'','Normalzustand.'],['opacity: 0',{opacity:'0'},'opacity-0','Platz bleibt · trotzdem klickbar und per Tab erreichbar · Screenreader lesen ihn vor. Die gefährlichste Variante.'],['visibility: hidden',{visibility:'hidden'},'invisible','Platz bleibt · nicht klickbar · für Screenreader weg.'],['display: none',{display:'none'},'hidden','Platz verschwindet · nicht klickbar · für Screenreader weg.'],['sr-only',{position:'absolute',width:'1px',height:'1px',padding:'0',margin:'-1px',overflow:'hidden',clip:'rect(0, 0, 0, 0)','white-space':'nowrap','border-width':'0'},'sr-only','Unsichtbar und ohne Platz – aber Screenreader lesen ihn vor. Für Zusatztext wie „(öffnet in neuem Tab)“.']],
+ init(st){$('.ca-btn',st).addEventListener('click',()=>toast({msg:'Button 2 wurde geklickt.',duration:2500}))}},
+{id:'filter',cat:'look',name:'filter',sub:'Bildbearbeitung per CSS',mdn:'filter',
+ desc:'<code>filter</code> verändert die Darstellung wie ein Bildprogramm: Unschärfe, Graustufen, Helligkeit, Schatten.',
+ stage:`<div class="ca-row"><div class="ca-photo ca-f" role="img" aria-label="Bunte Fläche"></div><svg class="ca-f ca-shape" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.8 5.8 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 3 1.1-6.2L3 9.7l6.2-.9z"/></svg></div>`,t:['.ca-f','.bild'],
+ vals:[['none','none','filter-none'],['blur(4px)','blur(4px)','blur-xs'],['grayscale(1)','grayscale(1)','grayscale'],['brightness(1.25)','brightness(1.25)','brightness-125'],['drop-shadow',{filter:'drop-shadow(0 6px 6px rgb(0 0 0 / 0.4))'},'drop-shadow-[0_6px_6px_rgb(0_0_0/0.4)]']],
+ tip:'<code>drop-shadow</code> folgt der echten Form – beim Stern sieht man es –, <code>box-shadow</code> immer dem Rechteck. <code>grayscale(1)</code> auf <code>html</code> ist ein schneller Test, ob Farbe allein Bedeutung trägt.'},
+{id:'backdrop-filter',cat:'look',name:'backdrop-filter',sub:'Milchglas',mdn:'backdrop-filter',
+ desc:'<code>backdrop-filter</code> wendet einen Filter auf das an, was <em>hinter</em> dem Element liegt – der bekannte Milchglas-Effekt.',
+ stage:`<div class="ca-photo ca-bd"><div class="ca-glass">Milchglas</div></div>`,t:['.ca-glass','.panel'],
+ vals:[['none','none','backdrop-blur-none'],['blur(4px)','blur(4px)','backdrop-blur-xs'],['blur(8px)','blur(8px)','backdrop-blur-sm'],['blur(16px)','blur(16px)','backdrop-blur-lg']],
+ tip:'Wirkt nur mit halbtransparentem Hintergrund. Kontrast prüfen: Je nach Motiv dahinter wird Text auf Milchglas schnell unlesbar.'},
+/* Transform & Transition */
+{id:'transform',cat:'motion',name:'transform',sub:'Verschieben, drehen, skalieren',mdn:'transform',
+ desc:'<code>transform</code> verschiebt, dreht, skaliert oder verzerrt ein Element – rein optisch. Hier Nummer 2.',
+ stage:cC(cN(3)),base:FLEX,t:['.ca-n2','.item-2'],
+ vals:[['none','none','transform-none'],['translateX(24px)','translateX(24px)','translate-x-6'],['rotate(12deg)','rotate(12deg)','rotate-12'],['scale(1.25)','scale(1.25)','scale-125'],['skewX(12deg)','skewX(12deg)','skew-x-12']],
+ tip:'Die Nachbarn bleiben, wo sie sind: <code>transform</code> ändert das Layout nicht. Darum laufen Animationen mit <code>transform</code> flüssig, während <code>width</code>, <code>top</code> oder <code>margin</code> ruckeln – die zwingen den Browser, das Layout neu zu berechnen.'},
+{id:'transform-origin',cat:'motion',name:'transform-origin',sub:'Um welchen Punkt gedreht wird',mdn:'transform-origin',
+ desc:'<code>transform-origin</code> legt den Punkt fest, um den gedreht und skaliert wird. Standard ist die Mitte. Der gestrichelte Rahmen zeigt die Ausgangslage.',
+ stage:`<div class="ca-orig"><div class="ca-ghost"></div><div class="ca-i ca-t3 ca-sq ca-rot">Drehpunkt</div></div>`,
+ base:[['.ca-rot','.box',{transform:'rotate(25deg)'}]],t:['.ca-rot','.box'],
+ vals:[['center','center','origin-center'],['top left','top left','origin-top-left'],['bottom right','bottom right','origin-bottom-right']],
+ tip:'Ein Dropdown, das aus seinem Button herauswachsen soll, braucht <code>transform-origin: top</code> – sonst wächst es aus der Mitte.'},
+{id:'transition',cat:'motion',name:'transition',sub:'Den Wechsel animieren',mdn:'transition',
+ desc:'<code>transition</code> animiert den Wechsel zwischen zwei Zuständen: welche Eigenschaft, wie lange, mit welcher Kurve. Wähl einen Wert und drück „Bewegen“.',
+ stage:`<div class="ca-track"><div class="ca-i ca-t2 ca-ball" aria-hidden="true"></div></div><button type="button" class="btn btn-secondary ca-go">Bewegen</button>`,t:['.ca-ball','.ball'],
+ vals:[['none','none','transition-none'],['150ms ease-out','transform 150ms ease-out','transition-transform duration-150 ease-out'],['400ms ease-in-out','transform 400ms ease-in-out','transition-transform duration-400 ease-in-out'],['1s linear','transform 1s linear','transition-transform duration-1000 ease-linear']],def:1,
+ init(st){let on=false;const b=$('.ca-ball',st),tr=$('.ca-track',st);$('.ca-go',st).addEventListener('click',()=>{on=!on;b.style.transform=on?`translateX(${tr.clientWidth-b.offsetWidth-16}px)`:''})},
+ tip:'Kleine Elemente 100–200 ms, <code>ease-out</code> beim Hereinkommen; <code>linear</code> wirkt mechanisch. Ist in deinem System „Bewegung reduzieren“ an, springt die Kugel sofort – so soll es sein.'},
+/* Interaktion */
+{id:'cursor',cat:'interact',name:'cursor',sub:'Der Mauszeiger',mdn:'cursor',
+ desc:'<code>cursor</code> legt fest, welchen Mauszeiger man über dem Element sieht. Fahr mit der Maus über den Kasten.',
+ stage:`<div class="ca-cur">Fahr mit der Maus hier drüber</div>`,t:['.ca-cur','.element'],
+ vals:[['default','default','cursor-default'],['pointer','pointer','cursor-pointer'],['text','text','cursor-text'],['move','move','cursor-move'],['grab','grab','cursor-grab'],['not-allowed','not-allowed','cursor-not-allowed'],['help','help','cursor-help']],
+ tip:'Die Hand (<code>pointer</code>) zeigen Browser nur bei Links; ob Buttons sie bekommen, ist Geschmackssache – siehe <a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#details/clickable-card">Gut &amp; Schlecht</a>. <code>not-allowed</code> ersetzt keine Erklärung, warum etwas nicht geht.'},
+{id:'pointer-events',cat:'interact',name:'pointer-events',sub:'Klicks durchlassen',mdn:'pointer-events',
+ desc:'<code>pointer-events: none</code> macht ein Element für Maus und Touch durchlässig – Klicks gehen an das, was darunter liegt. Das gestreifte Overlay liegt über dem Button.',
+ stage:`<div class="ca-pe"><button type="button" class="btn btn-primary ca-pe-btn">Klick mich</button><div class="ca-pe-over">Overlay</div></div>`,t:['.ca-pe-over','.overlay'],
+ vals:[['auto','auto','pointer-events-auto'],['none','none','pointer-events-none']],
+ init(st){$('.ca-pe-btn',st).addEventListener('click',()=>toast({msg:'Der Button wurde geklickt.',type:'success',duration:2500}));$('.ca-pe-over',st).addEventListener('click',()=>toast({msg:'Das Overlay hat den Klick abgefangen.',duration:2500}))},
+ tip:'Praktisch für dekorative Overlays, Verläufe und Icons in Eingabefeldern. Tastatur-Fokus und Screenreader betrifft es aber nicht – als „deaktiviert“ taugt es nicht.'},
+{id:'user-select',cat:'interact',name:'user-select',sub:'Markieren erlauben oder erleichtern',mdn:'user-select',
+ desc:'<code>user-select</code> steuert, ob und wie sich Text markieren lässt. Versuch, die beiden Zeilen zu markieren – oder klick einmal hinein.',
+ stage:`<p class="ca-text ca-us">Ein Satz zum Markieren mit der Maus.</p><p class="ca-mono ca-us">npm install daumenregel</p>`,t:['.ca-us','.text'],
+ vals:[['auto','auto','select-auto'],['none','none','select-none'],['all','all','select-all'],['text','text','select-text']],
+ tip:'<code>all</code> ist praktisch für Befehle und Codes zum Kopieren: Ein Klick markiert alles. <code>none</code> nur für Bedienelemente – nie für Inhalt, den jemand kopieren will.'},
+{id:'scroll-snap',cat:'interact',name:'scroll-snap-type',sub:'Einrasten beim Scrollen',mdn:'CSS_scroll_snap',
+ desc:'<code>scroll-snap</code> lässt einen Scroll-Container an bestimmten Punkten einrasten – wie ein Karussell, nur ohne JavaScript. Scroll im Kasten seitwärts.',
+ stage:`<div class="ca-snap" tabindex="0" role="region" aria-label="Seitwärts scrollende Karten">${[1,2,3,4,5,6].map(n=>`<div class="ca-i ca-t${(n-1)%4+1} ca-snapi">Karte ${n}</div>`).join('')}</div>`,
+ base:[['.ca-snapi','.karte',{'scroll-snap-align':'start'}]],t:['.ca-snap','.container'],
+ vals:[['none','none','snap-none'],['x mandatory','x mandatory','snap-x snap-mandatory'],['x proximity','x proximity','snap-x snap-proximity']],def:1,
+ tip:'<code>mandatory</code> rastet immer ein, <code>proximity</code> nur in der Nähe eines Punkts. Die Kinder brauchen <code>scroll-snap-align</code>. Mit der Tastatur: erst in den Kasten tabben, dann Pfeiltasten.'},
+{id:'accent-color',cat:'interact',name:'accent-color',sub:'Native Formularelemente einfärben',mdn:'accent-color',
+ desc:'<code>accent-color</code> färbt Checkbox, Radio, Regler und Fortschrittsbalken mit einer Zeile ein.',
+ stage:`<div class="ca-form"><label><input type="checkbox" checked> Checkbox</label><label><input type="radio" name="ca-acc" checked> Radio</label><input type="range" value="60" aria-label="Regler"><progress value="60" max="100">60 %</progress></div>`,t:['.ca-form','.formular'],
+ vals:[['auto','auto','accent-auto'],['#BE185D','#BE185D','accent-[#BE185D]'],['#047857','#047857','accent-[#047857]'],['#0369A1','#0369A1','accent-[#0369A1]']],def:1,
+ tip:'Der Browser passt die Farbe des Häkchens selbst an, damit der Kontrast stimmt. Für die meisten Formulare reicht das, statt Checkboxen nachzubauen.'},
+/* Selektoren */
+{id:'combinators',cat:'sel',name:'Kombinatoren',sub:'Leerzeichen, >, + und ~',mode:'sel',mdn:'Child_combinator',
+ desc:'Kombinatoren verbinden zwei Selektoren und beschreiben die Beziehung im DOM: Nachkomme, Kind oder Geschwister.',
+ stage:`<div class="box"><h4>Überschrift</h4><p>Absatz 1 – Kind von .box</p><p>Absatz 2 – Kind von .box</p><section><p>Absatz 3 – steckt in einer section</p></section><p>Absatz 4 – Kind von .box</p></div>`,
+ vals:[['.box p','[&_p]:','Leerzeichen: alle Nachkommen, egal wie tief – auch Absatz 3.'],['.box > p','[&>p]:','>: nur direkte Kinder – Absatz 3 nicht.'],['h4 + p','','+: nur das direkt folgende Geschwister.'],['h4 ~ p','','~: alle folgenden Geschwister auf derselben Ebene.']]},
+{id:'nth-child',cat:'sel',name:':nth-child',sub:'Nach Position auswählen',mode:'sel',mdn:':nth-child',
+ desc:'<code>:nth-child</code> wählt Elemente nach ihrer Position unter den Geschwistern – für Zebrastreifen, das erste oder „jedes dritte“.',
+ stage:`<ol class="liste">${[1,2,3,4,5,6,7].map(n=>`<li>Eintrag ${n}</li>`).join('')}</ol>`,
+ vals:[['li:first-child','first:'],['li:nth-child(2)','nth-2:'],['li:nth-child(odd)','odd:','odd = 1, 3, 5 … – even wären die geraden.'],['li:nth-child(3n)','nth-[3n]:','3n = jedes dritte: 3, 6, 9 …'],['li:last-child','last:'],['li:nth-last-child(2)','nth-last-2:','Von hinten gezählt.']],
+ tip:'<code>:nth-child</code> zählt alle Geschwister, auch andere Tags. Steht eine Überschrift zwischen den <code>li</code>, verschiebt sie die Zählung. Dann hilft <code>:nth-of-type</code> oder <code>:nth-child(odd of li)</code>.'},
+{id:'has',cat:'sel',name:':has()',sub:'Der Eltern-Selektor',mode:'sel',mdn:':has',
+ desc:'<code>:has()</code> wählt ein Element danach aus, was in ihm steckt. Hak die Karten an – die Markierung folgt live.',
+ stage:`<div class="karten"><label class="karte"><input type="checkbox"> Tarif S</label><label class="karte"><input type="checkbox" checked> Tarif M <span class="badge">Beliebt</span></label><label class="karte"><input type="checkbox"> Tarif L</label></div>`,
+ vals:[['.karte:has(input:checked)','has-checked:','Die Karte, deren Checkbox an ist.'],['.karte:has(.badge)','has-[.badge]:','Die Karte, die ein Badge enthält.'],['.karten:has(input:checked) .karte:not(:has(input:checked))','','Alle anderen – sobald irgendeine gewählt ist.']],
+ tip:'Damit geht ohne JavaScript, wofür man früher Klassen umschalten musste. In dieser App färbt <code>.seg label:has(input:checked)</code> die Segmented Controls.'},
+{id:'states',cat:'sel',name:':hover, :focus & Co.',sub:'Zustände, die der Nutzer auslöst',mode:'sel',noCount:true,mdn:':focus-visible',
+ desc:'Pseudoklassen beschreiben einen Zustand: Maus darüber, gedrückt, fokussiert. Wähl einen aus und probier ihn am Button oder am Feld aus.',
+ stage:`<div class="ca-states"><button type="button" class="knopf btn btn-secondary">Button</button><div class="gruppe"><label for="ca-states-in">Name</label><input class="feld input" id="ca-states-in"></div></div>`,
+ vals:[['.knopf:hover','hover:','Mit der Maus drüberfahren.'],['.knopf:active','active:','Klicken und gedrückt halten.'],['.knopf:focus','focus:','Anklicken – und dann per Tab hinspringen. Beide Male markiert.'],['.knopf:focus-visible','focus-visible:','Anklicken: keine Markierung. Per Tab: Markierung. Der Browser zeigt sie nur, wenn sie gebraucht wird.'],['.gruppe:focus-within','focus-within:','Ins Feld klicken: Die ganze Gruppe wird markiert.']],
+ tip:'Für Fokusringe <code>:focus-visible</code> statt <code>:focus</code>: Nach einem Mausklick kein Ring, mit der Tastatur immer. <code>:hover</code> allein reicht nie – Touch und Tastatur kennen es nicht.'},
+{id:'pseudo-elements',cat:'sel',name:'::before & ::after',sub:'Pseudo-Elemente',mode:'css',mdn:'::before',
+ desc:'<code>::before</code> und <code>::after</code> erzeugen ein zusätzliches Element vor oder nach dem Inhalt – nur mit CSS. <code>::marker</code> gestaltet Listenpunkte, <code>::selection</code> markierten Text.',
+ stage:`<a class="link" href="#">Mehr erfahren</a><p class="hinweis">Das ist ein Hinweis zum Markieren.</p><ul class="punkte"><li>Erster Punkt</li><li>Zweiter Punkt</li></ul>`,
+ vals:[['ohne','',''],['::after','& .link::after { content: " →"; }',"after:content-['_→']"],['::before','& .hinweis::before { content: "⚠ "; color: #B45309; }',''],['::marker','& .punkte li::marker { content: "✓  "; color: #047857; }','marker:text-emerald-700'],['::selection','& .hinweis::selection { background: #FDE047; color: #000; }','selection:bg-yellow-300','Markier den Hinweis-Text mit der Maus.']],
+ tip:'Text aus <code>content</code> lesen die meisten Screenreader mit. Rein Dekoratives bekommt einen leeren Alternativtext: <code>content: "→" / ""</code>.'},
+{id:'attribute',cat:'sel',name:'Attribut-Selektoren',sub:'[href], ^=, $=, data-*',mode:'sel',mdn:'Attribute_selectors',
+ desc:'Attribut-Selektoren wählen Elemente nach ihren Attributen und deren Werten – ohne zusätzliche Klassen.',
+ stage:`<div class="ca-attrs"><a href="https://example.org">Extern</a><a href="/intern">Intern</a><a href="bericht.pdf">Bericht (PDF)</a><a>ohne href</a><button type="button" data-state="open" class="btn btn-secondary">Menü (offen)</button><button type="button" data-state="closed" class="btn btn-secondary">Suche (zu)</button></div>`,
+ vals:[['a[href]','','Alle Links mit href.'],['a[href^="https"]','','^= beginnt mit.'],['a[href$=".pdf"]','','$= endet mit – etwa für ein PDF-Symbol.'],['[data-state="open"]','data-[state=open]:','Zustand als data-Attribut, typisch für Komponentenbibliotheken.'],['a:not([href])','','Ein a ohne href ist kein Link: nicht fokussierbar, keine Rolle.']],
+ tip:'<code>[aria-expanded="true"]</code> oder <code>[aria-current="page"]</code> als Styling-Haken koppeln Optik und Barrierefreiheit: Stimmt das Attribut nicht, sieht man es sofort. Diese App stylt den aktiven Eintrag der Seitenleiste genau so.'},
+{id:'specificity',cat:'sel',name:'Spezifität',sub:'Welche Regel gewinnt?',mode:'css',mdn:'Specificity',
+ desc:'Treffen mehrere Regeln dasselbe Element, gewinnt die spezifischere – erst bei Gleichstand die spätere. Gezählt wird (IDs, Klassen/Attribute/Pseudoklassen, Elemente).',
+ stage:`<div class="box"><p class="note" id="ca-x">Welche Farbe gewinnt?</p></div>`,
+ vals:[['Element vs. Klasse','& p { color: #0369A1; }\n& .note { color: #047857; }','','.note (0,1,0) schlägt p (0,0,1): grün.'],
+  ['Mehr Teile','& .box p { color: #BE185D; }\n& .note { color: #047857; }','','.box p (0,1,1) schlägt .note (0,1,0): pink – obwohl .note später steht.'],
+  [':where()','& :where(.box) p { color: #BE185D; }\n& .note { color: #047857; }','',':where() zählt null, bleibt also (0,0,1): grün. So bauen Resets Regeln, die man leicht überschreibt.'],
+  ['ID','& #ca-x { color: #6D28D9; }\n& .box p.note { color: #047857; }','','Eine ID (1,0,0) schlägt jede Menge Klassen: violett.'],
+  ['!important','& .note { color: #047857 !important; }\n& #ca-x { color: #6D28D9; }','','!important sticht jede Spezifität: grün. Danach hilft nur noch ein weiteres !important.']],
+ tip:'Hohe Spezifität ist schwer zu überschreiben. Design-Systeme bleiben darum bei flachen Klassen, Tailwind erzeugt fast nur einzelne Klassen – alle mit derselben Spezifität.'}
+];
+const CA_BY=Object.fromEntries(CSSA.map(e=>[e.id,e]));
+const CAT_BY=Object.fromEntries(CA_CATS.map(c=>[c.id,c]));
+const caMdn=p=>'https://developer.mozilla.org/en-US/docs/Web/CSS/'+p;
+function caVal(e,v){
+  if(!Array.isArray(v))v=[v];
+  if(e.mode==='sel')return {label:v[0],val:v[0],tw:v[1]||'',note:v[2]||''};
+  const [label,val=label,tw='',note='']=v;
+  return {label,val:!e.mode&&typeof val==='string'?{[e.name]:val}:val,tw,note};
+}
+function caApply(e,art,i){
+  const st=$('.ca-stage',art),sid='#'+st.id,v=caVal(e,e.vals[i]);
+  let code;
+  if(e.mode==='sel'){
+    $('style',art).textContent=`${sid} ${v.val}{outline:3px solid var(--ca-hl);outline-offset:2px;background:var(--ca-hl-bg)}`;
+    code=`<span class="ca-hl">${esc(v.val)}</span> {\n  /* … */\n}`;
+  }else if(e.mode==='css'){
+    $('style',art).textContent=v.val.replaceAll('&',sid);
+    code=v.val?esc(v.val.replaceAll('& ','')):'/* keine Regel */';
+  }else{
+    const keys=[...new Set(e.vals.flatMap(x=>Object.keys(caVal(e,x).val)))];
+    $$(e.t[0],st).forEach(el=>{keys.forEach(k=>el.style.removeProperty(k));Object.entries(v.val).forEach(([k,x])=>{if(x!=='')el.style.setProperty(k,x)})});
+    const blocks=new Map();
+    const add=(sel,obj,hl)=>{const b=blocks.get(sel)||new Map();Object.entries(obj).forEach(([k,x])=>{if(x!=='')b.set(k,[x,hl])});blocks.set(sel,b)};
+    (e.base||[]).forEach(([,sel,obj])=>add(sel,obj,false));
+    add(e.t[1],v.val,true);
+    code=[...blocks].map(([sel,b])=>`${sel} {\n${b.size?[...b].map(([k,[x,hl]])=>{const l=esc(`  ${k}: ${x};`);return hl?`<span class="ca-hl">${l}</span>`:l}).join('\n'):'  /* Standardwerte */'}\n}`).join('\n\n');
+  }
+  $('.ca-pre code',art).innerHTML=code;
+  const tw=$('.ca-tw',art);tw.hidden=!v.tw;$('code',tw).textContent=v.tw;
+  const note=$('.ca-note',art);note.hidden=!v.note;note.textContent=v.note;
+  const m=$('.ca-meas',art);let txt='';
+  if(e.measure)txt=e.measure(st);
+  else if(e.mode==='sel'&&!e.noCount){try{const n=$$(v.val,st).length;txt=n===1?'Trifft 1 Element.':`Trifft ${n} Elemente.`}catch(err){}}
+  m.hidden=!txt;m.textContent=txt;
+}
+const caEntryHTML=e=>`<article class="ca-entry" id="ca-${e.id}" data-id="${e.id}" aria-labelledby="ca-${e.id}-h">
+  <h2 id="ca-${e.id}-h" tabindex="-1"><code>${esc(e.name)}</code><span class="ca-sub">${e.sub}</span></h2>
+  <p class="ca-desc">${e.desc}</p>
+  <fieldset class="ca-vals"><legend class="sr-only">Wert für ${esc(e.name)} wählen</legend>${e.vals.map((v,i)=>`<label><input type="radio" name="ca-${e.id}" value="${i}"${i===(e.def||0)?' checked':''}><code>${esc(caVal(e,v).label)}</code></label>`).join('')}</fieldset>
+  <div class="ca-stage" id="ca-st-${e.id}">${e.stage}</div>
+  <p class="ca-meas" role="status" hidden></p><p class="ca-note" hidden></p>
+  <div class="ca-codebox"><pre class="code ca-pre" tabindex="0" role="region" aria-label="CSS zu ${esc(e.name)}"><code></code></pre><p class="ca-tw" hidden>${e.mode==='sel'?'Tailwind-Variante':'Tailwind'}: <code></code></p></div>
+  ${e.tip?`<p class="ca-tip"><b>Stolperfalle:</b> ${e.tip}</p>`:''}
+  <p class="ca-links"><a href="${caMdn(e.mdn)}">MDN: ${esc(e.name)} (englisch)</a> · <a href="#${e.cat}/${e.id}">Link zu diesem Eintrag</a></p>
+  <style></style>
+</article>`;
+function caCatHTML(cat){
+  const c=CAT_BY[cat],i=CA_CATS.indexOf(c),prev=CA_CATS[i-1],next=CA_CATS[i+1],es=CSSA.filter(e=>e.cat===cat);
+  return `<article class="lesson" aria-labelledby="lesson-title">
+  <p class="eyebrow">Kapitel ${i+1} von ${CA_CATS.length}</p>
+  <h1 id="lesson-title" tabindex="-1">${c.title}</h1>
+  <p class="rule">${c.intro}</p>
+  <nav aria-label="Einträge in ${c.title}" class="ca-toc"><ul class="chips">${es.map(e=>`<li><a href="#${cat}/${e.id}"><code>${esc(e.name)}</code></a></li>`).join('')}</ul></nav>
+  ${es.map(caEntryHTML).join('')}
+  <nav class="pager" aria-label="Weitere Kapitel">${prev?`<a class="prev" href="#${prev.id}"><small>← Voriges Kapitel</small>${prev.title}</a>`:`<a class="prev" href="#start"><small>← Zurück zum</small>Überblick</a>`}${next?`<a class="next" href="#${next.id}"><small>Nächstes Kapitel →</small>${next.title}</a>`:`<a class="next" href="#start"><small>Zurück zum</small>Überblick</a>`}</nav>
+</article>`;
+}
+function caCatInit(root,sub){
+  $$('.ca-entry',root).forEach(art=>{
+    const e=CA_BY[art.dataset.id],st=$('.ca-stage',art);
+    (e.base||[]).forEach(([dom,,obj])=>$$(dom,st).forEach(el=>Object.entries(obj).forEach(([k,v])=>el.style.setProperty(k,v))));
+    art.addEventListener('change',ev=>{if(ev.target.name===`ca-${e.id}`)caApply(e,art,+ev.target.value);else if(e.mode==='sel')caApply(e,art,+$(`input[name="ca-${e.id}"]:checked`,art).value)});
+    st.addEventListener('click',ev=>{if(ev.target.closest('a'))ev.preventDefault()});
+    e.init?.(st);
+    caApply(e,art,e.def||0);
+  });
+  const hit=CA_BY[sub]&&$('#ca-'+sub,root);
+  if(hit){hit.classList.add('ca-hit');requestAnimationFrame(()=>hit.scrollIntoView({block:'start'}))}
+}
+function caStartHTML(){
+  return `<article class="lesson" aria-labelledby="lesson-title">
+  <p class="eyebrow">Überblick</p>
+  <h1 id="lesson-title" tabindex="-1">CSS zum Anfassen</h1>
+  <p class="rule">${CSSA.length} Eigenschaften und Selektoren, jede mit einer Live-Vorschau: Wert anklicken, Wirkung sehen, CSS und Tailwind-Klasse ablesen. Wie die Tailwind-Doku – nur für das CSS darunter.</p>
+  <div class="start-grid">${CA_CATS.map(c=>`<div class="tile"><h3>${c.title}</h3><p>${c.intro}</p><a class="btn btn-secondary" href="#${c.id}">${CSSA.filter(e=>e.cat===c.id).length} Einträge<span class="sr-only"> in ${c.title}</span></a></div>`).join('')}</div>
+  <h2>Alle Einträge</h2>
+  <div class="field ca-find"><label for="ca-q">Eigenschaft suchen <span class="opt">Name oder Stichwort</span></label><input class="input" id="ca-q" type="search" autocomplete="off" spellcheck="false"></div>
+  <p class="count" id="ca-count" role="status"></p>
+  <div class="table-wrap" tabindex="0" role="region" aria-label="Alle Einträge im CSS-Atlas"><table class="table ca-index"><caption class="sr-only">Alle Einträge im CSS-Atlas</caption><thead><tr><th scope="col">Eigenschaft</th><th scope="col">Was sie tut</th><th scope="col">Kapitel</th></tr></thead><tbody>${CSSA.map(e=>`<tr data-q="${esc(norm(`${e.name} ${e.sub} ${CAT_BY[e.cat].title} ${e.desc.replace(/<[^>]+>/g,'')}`))}"><td><a href="#${e.cat}/${e.id}"><code>${esc(e.name)}</code></a></td><td>${e.sub}</td><td>${CAT_BY[e.cat].title}</td></tr>`).join('')}</tbody></table></div>
+  <nav class="pager" aria-label="Weiter"><a class="next" href="#${CA_CATS[0].id}"><small>Erstes Kapitel →</small>${CA_CATS[0].title}</a></nav>
+</article>`;
+}
+function caStartInit(root){
+  const q=$('#ca-q',root),rows=$$('tbody tr',root),count=$('#ca-count',root);let t;
+  const upd=typed=>{const s=norm(q.value.trim());let n=0;rows.forEach(r=>{const ok=!s||r.dataset.q.includes(s);r.hidden=!ok;if(ok)n++});
+    clearTimeout(t);t=setTimeout(()=>{count.textContent=s?`${n} von ${CSSA.length} Einträgen`:`${CSSA.length} Einträge`},typed?400:0)};
+  q.addEventListener('input',()=>upd(true));upd(false);
+  return ()=>clearTimeout(t);
+}
+
+/* ---------- Seitenleiste ---------- */
+const listEl=$('#list'),search=$('#q'),qStatus=$('#q-status');
+let current=null,statusTimer=null;
+function renderList(){
+  const q=norm(search.value.trim());
+  const hit=e=>!q||norm(`${e.name} ${e.sub} ${CAT_BY[e.cat].title}`).includes(q);
+  let html=q?'':`<ul class="items"><li><a class="item item-page" href="#start" data-id="start"><span class="item-title">Überblick</span><span class="item-short">Alle Kapitel und eine Tabelle aller Einträge.</span></a></li></ul>`,count=0;
+  CA_CATS.forEach(c=>{
+    const es=CSSA.filter(e=>e.cat===c.id&&hit(e));if(!es.length)return;count+=es.length;
+    html+=`<a class="grp" id="grp-${c.id}" href="#${c.id}" data-id="${c.id}">${c.title}</a><ul class="items" aria-labelledby="grp-${c.id}">${es.map(e=>`<li><a class="item" href="#${c.id}/${e.id}" data-id="${c.id}/${e.id}"><code>${esc(e.name)}</code></a></li>`).join('')}</ul>`;
+  });
+  if(q&&!count)html=`<div class="list-empty">${ic('search')}<p class="le-title">Nichts zu „${esc(search.value.trim())}“</p><p class="hint">Probier eine Eigenschaft wie „gap“, „z-index“ oder ein Stichwort wie „Schatten“.</p><button type="button" class="btn btn-secondary" id="q-reset">Suche zurücksetzen</button></div>`;
+  listEl.innerHTML=html;
+  markActive(current,false);
+  clearTimeout(statusTimer);
+  statusTimer=setTimeout(()=>{qStatus.textContent=q?(count===1?'1 Treffer':`${count} Treffer`):`${CSSA.length} Einträge in ${CA_CATS.length} Kapiteln`},q?450:0);
+}
+function markActive(id,reveal){
+  $$('[data-id]',listEl).forEach(a=>{
+    if(a.dataset.id===id){a.setAttribute('aria-current','page');if(reveal)a.scrollIntoView({block:'nearest'})}
+    else a.removeAttribute('aria-current');
+  });
+}
+search.addEventListener('input',renderList);
+listEl.addEventListener('click',e=>{if(e.target.closest('#q-reset')){search.value='';renderList();search.focus()}});
+
+/* ---------- Detailansicht ---------- */
+const view=$('#view'),master=$('#master'),detail=$('#hauptinhalt'),shell=$('#shell');
+let cleanup=null;
+function notFoundHTML(id){
+  return `<article class="lesson" aria-labelledby="lesson-title"><div class="empty">${ic('search')}
+  <h1 id="lesson-title" tabindex="-1">Diese Seite gibt es nicht</h1>
+  <p style="margin:0;max-width:60ch">Unter <code>#${esc(id)}</code> steht kein Eintrag. Vielleicht hat der Link einen Tippfehler.</p>
+  <div class="btn-row"><a class="btn btn-primary" href="#start">Zum Überblick</a><button type="button" class="btn btn-secondary" id="nf-search">Eintrag suchen</button></div>
+  </div></article>`;
+}
+function updateTitle(base,sub){
+  const c=CAT_BY[base],e=CA_BY[sub];
+  document.title=c?(e?`${e.name} · ${c.title} · CSS-Atlas`:`${c.title} · CSS-Atlas`):base==='start'?'CSS-Atlas – CSS zum Anfassen':'Nicht gefunden · CSS-Atlas';
+}
+let masterScroll=0,lastId=null;
+function route(fromUser){
+  if(cleanup){try{cleanup()}catch(e){}cleanup=null}
+  if(shell.dataset.view==='master')masterScroll=master.scrollTop;
+  const id=decodeURIComponent(location.hash.slice(1));
+  const overview=id===''||id==='uebersicht';
+  let [base,sub='']=id.split(/\/(.*)/);
+  // Kurzform #gap springt zum Eintrag im richtigen Kapitel
+  if(!CAT_BY[base]&&CA_BY[base]){location.replace(`#${CA_BY[base].cat}/${base}`);return}
+  shell.dataset.view=overview?'master':'detail';
+  let focusEl=null;
+  if(overview||base==='start'){base='start';sub='';view.innerHTML=caStartHTML();cleanup=caStartInit(view)}
+  else if(CAT_BY[base]){
+    if(CA_BY[sub]?.cat!==base)sub='';
+    view.innerHTML=caCatHTML(base);caCatInit(view,sub);
+    focusEl=sub&&$('#ca-'+sub+'-h',view);
+  }
+  else{base=null;sub='';view.innerHTML=notFoundHTML(id)}
+  current=base&&sub?`${base}/${sub}`:base;
+  markActive(current,true);updateTitle(base,sub);
+  if(!fromUser)return;
+  if(overview&&isNarrow()){
+    master.scrollTop=masterScroll;
+    const a=lastId&&$(`[data-id="${lastId}"]`,listEl);
+    (a||search).focus({preventScroll:!!a});
+  }else{
+    if(!sub)detail.scrollTop=0;
+    if(focusEl)focusEl.focus({preventScroll:true});else $('#lesson-title').focus({preventScroll:true});
+  }
+  if(!overview&&current)lastId=current;
+}
+window.addEventListener('hashchange',()=>route(true));
+
+/* ---------- Globale Ereignisse ---------- */
+document.addEventListener('click',e=>{if(e.target.closest('#nf-search'))focusSearch()});
+$('#skip').addEventListener('click',e=>{e.preventDefault();if(isNarrow()&&shell.dataset.view==='master'){search.focus();return}($('#lesson-title')||detail).focus()});
+function focusSearch(){
+  if(isNarrow()&&shell.dataset.view!=='master'){location.hash='uebersicht';setTimeout(()=>search.focus(),0)}
+  else search.focus();
+}
+// Strg+K statt eines einzelnen Buchstabens: Tastenkürzel mit Modifier kollidieren nicht mit Sprachsteuerung (WCAG 2.1.4)
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&!e.altKey&&e.key.toLowerCase()==='k'){e.preventDefault();focusSearch()}
+});
+
+/* ---------- Start ---------- */
+renderList();
+route(false);
+})();
+</script>
+</body>
+</html>
