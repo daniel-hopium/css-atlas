@@ -32,6 +32,9 @@ Kategorien: **Neu** (neue Funktionen), **Verbessert** (bestehendes Verhalten), *
   echtem Code üblich.
 
 ### Behoben
+- Auf schmalen Bildschirmen ist die Kopfleiste wieder so breit wie das Display: Das Symbol für
+  externe Links am Daumenregel-Link ließ „CSS-Atlas“ umbrechen und die Seite 14 px seitlich
+  überstehen. Unter 480 px entfällt das Symbol dort; „(andere App)“ bleibt für Screenreader.
 - Fachliche Durchsicht aller 53 Einträge: Hinweise, die noch aus der Daumenregel stammten
   (Markenwechsel, `.seg`), `scroll-snap-type` statt `scroll-snap`, eine gültige
   `:nth-child`-Stolperfalle, fehlende Farbe bei einer Outline-Klasse und der MDN-Link zu den
