@@ -306,41 +306,43 @@ a.grp[aria-current="page"]{color:var(--brand)}
 .ca-stage h4{margin:0 0 6px;font-size:1rem}
 .ca-stage .box p,.ca-stage .box section{margin:6px 0;padding:4px 8px}
 .ca-stage .box section{border:1px dashed var(--line-strong);border-radius:6px}
-.ca-stage .liste{margin:0;padding-left:1.6em;display:grid;gap:4px}
-.ca-stage .liste li{padding:2px 8px;border-radius:4px}
-.ca-stage .karten{display:flex;flex-wrap:wrap;gap:10px}
-.ca-stage .karte{display:flex;align-items:center;gap:8px;padding:12px 14px;border:1.5px solid var(--line-strong);border-radius:10px;background:var(--surface);font-weight:700;cursor:pointer}
-.ca-stage .karte input{width:20px;height:20px;margin:0}
+.ca-stage .list{margin:0;padding-left:1.6em;display:grid;gap:4px}
+.ca-stage .list li{padding:2px 8px;border-radius:4px}
+.ca-stage .cards{display:flex;flex-wrap:wrap;gap:10px}
+.ca-stage .card{display:flex;align-items:center;gap:8px;padding:12px 14px;border:1.5px solid var(--line-strong);border-radius:10px;background:var(--surface);font-weight:700;cursor:pointer}
+.ca-stage .card input{width:20px;height:20px;margin:0}
 .ca-stage .badge{font-size:.75rem;padding:2px 8px;border-radius:999px;background:#FDE047;color:#1B1B1B}
 .ca-states{display:flex;flex-wrap:wrap;gap:16px;align-items:end}
-.ca-states .gruppe{display:grid;gap:6px;padding:10px;border-radius:8px;min-width:200px}
-.ca-stage .hinweis{margin:12px 0}
-.ca-stage .punkte{margin:0;padding-left:1.6em}
+.ca-states .group{display:grid;gap:6px;padding:10px;border-radius:8px;min-width:200px}
+.ca-stage .notice{margin:12px 0}
+.ca-stage .bullets{margin:0;padding-left:1.6em}
 .ca-attrs{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
 .ca-attrs a{padding:4px 6px;border-radius:4px}
 #ca-x{margin:0;font-size:1.375rem;font-weight:800}
 a.logo{color:inherit;text-decoration:none;border-radius:var(--radius-sm);padding:2px 8px 2px 2px;margin-left:-2px}
 a.logo:hover{background:var(--surface-2)}
 .logo-name{display:block}
+@media (max-width:479px){.logo-sub{display:none}}
 </style>
 </head>
 <body>
 
 <div class="app">
-  <a class="skip" href="#hauptinhalt" id="skip">Zum Inhalt springen</a>
+  <a class="skip" href="#hauptinhalt" id="skip" data-en="Skip to content">Zum Inhalt springen</a>
   <header class="appbar">
     <a class="logo" href="#start">
       <span class="logo-mark" aria-hidden="true">{}</span>
-      <span class="logo-name">CSS-Atlas<span class="logo-sub">CSS zum Anfassen</span></span><span class="sr-only">, Überblick</span>
+      <span class="logo-name">CSS-Atlas<span class="logo-sub" data-en="CSS you can touch">CSS zum Anfassen</span></span><span class="sr-only" data-en=", overview">, Überblick</span>
     </a>
-    <a class="hdr-link" href="https://daniel-hopium.github.io/pattern-library/"><span class="hdr-long">UI-Regeln: </span>Daumenregel<span class="sr-only"> (andere App)</span></a>
+    <a class="hdr-link" href="https://daniel-hopium.github.io/pattern-library/"><span class="hdr-long" data-en="UI rules: ">UI-Regeln: </span>Daumenregel<span class="sr-only" data-en=" (other app)"> (andere App)</span></a>
+    <a class="hdr-link" id="lang-link" href="?lang=en" hreflang="en" lang="en">English</a>
   </header>
 
   <div class="shell" id="shell" data-view="master">
     <div class="master" id="master">
       <div class="master-top">
         <div class="search">
-          <label for="q">Eintrag suchen <kbd aria-label="Tastenkürzel Strg K">Strg K</kbd></label>
+          <label for="q"><span data-en="Search entries">Eintrag suchen</span> <kbd aria-label="Tastenkürzel Strg K" data-en-label="Keyboard shortcut Ctrl K" data-en="Ctrl K">Strg K</kbd></label>
           <div class="search-box">
             <svg viewBox="0 0 24 24" aria-hidden="true" class="ic"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
             <input class="input" id="q" type="search" autocomplete="off" spellcheck="false" aria-describedby="q-status">
@@ -348,11 +350,11 @@ a.logo:hover{background:var(--surface-2)}
         </div>
         <p class="q-status" id="q-status" aria-live="polite"></p>
       </div>
-      <nav class="side-nav" aria-label="Einträge" id="list"></nav>
+      <nav class="side-nav" aria-label="Einträge" data-en-label="Entries" id="list"></nav>
     </div>
 
     <main class="detail" id="hauptinhalt" tabindex="-1">
-      <div class="detail-top"><a class="back" href="#uebersicht"><svg viewBox="0 0 24 24" aria-hidden="true" class="ic"><path d="M15 5l-7 7 7 7"/></svg>Alle Einträge</a></div>
+      <div class="detail-top"><a class="back" href="#uebersicht"><svg viewBox="0 0 24 24" aria-hidden="true" class="ic"><path d="M15 5l-7 7 7 7"/></svg><span data-en="All entries">Alle Einträge</span></a></div>
       <div id="view"></div>
     </main>
   </div>
@@ -371,6 +373,31 @@ const reducedMotion=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 const isNarrow=()=>matchMedia('(max-width: 799px)').matches;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const norm=s=>s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+const store={
+  get(k,d){try{const v=localStorage.getItem('css-atlas:'+k);return v===null?d:JSON.parse(v)}catch(e){return d}},
+  set(k,v){try{localStorage.setItem('css-atlas:'+k,JSON.stringify(v))}catch(e){}}
+};
+
+/* ---------- Sprache ----------
+   Die Sprache gilt für den ganzen Seitenaufruf, der Umschalter lädt neu. Darum darf tx() auch in Daten
+   stehen, die beim Start einmal ausgewertet werden. Reihenfolge: ?lang=, gespeicherte Wahl, Browsersprache. */
+const LANG=(()=>{
+  const q=new URLSearchParams(location.search).get('lang');
+  if(q==='de'||q==='en'){store.set('lang',q);return q}
+  const s=store.get('lang',null);
+  return s==='de'||s==='en'?s:/^de\b/i.test(navigator.language||'')?'de':'en';
+})();
+const tx=(de,en)=>LANG==='en'?en:de;
+const LOCALE=tx('de-AT','en-US');
+document.documentElement.lang=LANG;
+const langHref=l=>{const u=new URL(location.href);u.searchParams.set('lang',l);return u.href};
+/* Statische Texte der Hülle: data-en ersetzt den Text, data-en-label das aria-label */
+if(LANG==='en')$$('[data-en],[data-en-label]').forEach(el=>{
+  if(el.dataset.en)el.textContent=el.dataset.en;
+  if(el.dataset.enLabel)el.setAttribute('aria-label',el.dataset.enLabel);
+});
+/* Links zur Schwester-App tragen die Sprache mit */
+const withLang=root=>$$('a[href^="https://daniel-hopium.github.io/pattern-library/"]',root).forEach(a=>{const u=new URL(a.href);u.searchParams.set('lang',LANG);a.href=u.href});
 
 const P={
   check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
@@ -439,7 +466,7 @@ function toast({msg,type='info',action,duration}){
     t.append(actionBtn);
   }
   const closeBtn=document.createElement('button');
-  closeBtn.type='button';closeBtn.className='icon-btn';closeBtn.setAttribute('aria-label','Meldung schließen');closeBtn.innerHTML=ic('x');
+  closeBtn.type='button';closeBtn.className='icon-btn';closeBtn.setAttribute('aria-label',tx('Meldung schließen','Close message'));closeBtn.innerHTML=ic('x');
   t.append(closeBtn);
   const timer=document.createElement('span');
   timer.className='toast-timer';timer.style.animationDuration=duration+'ms';
@@ -467,22 +494,22 @@ function toast({msg,type='info',action,duration}){
     actionBtn.addEventListener('click',run);
     activeUndo={toast:t,run};
   }
-  announce(msg+(action?` ${action.label} mit Strg plus Z.`:''),type==='error');
+  announce(msg+(action?` ${action.label} ${tx('mit Strg plus Z','with Ctrl plus Z')}.`:''),type==='error');
   return close;
 }
 function focusMainHeading(){const h=$('#lesson-title');if(h)h.focus({preventScroll:true})}
 
 /* ---------- CSS-Atlas ---------- */
 const CA_CATS=[
- {id:'layout',title:'Layout & Position',intro:'Wie Elemente im Fluss stehen, wie man sie herausnimmt und übereinanderstapelt.'},
- {id:'flex',title:'Flexbox',intro:'Eine Achse, flexible Größen: für Leisten, Zeilen, Button-Gruppen und alles, was in einer Reihe steht.'},
- {id:'grid',title:'Grid',intro:'Zwei Achsen gleichzeitig: für Seitenlayouts, Kartenraster und alles mit Zeilen und Spalten.'},
- {id:'box',title:'Box & Größe',intro:'Jedes Element ist ein Kasten. Wie groß er ist und welchen Abstand er hält.'},
- {id:'type',title:'Typografie',intro:'Größe, Gewicht, Zeilenabstand – und was passiert, wenn Text nicht passt.'},
- {id:'look',title:'Rahmen & Effekte',intro:'Ecken, Schatten, Rahmen, Filter – und die vier Arten, etwas zu verstecken.'},
- {id:'motion',title:'Transform & Transition',intro:'Bewegung, die das Layout nicht anfasst – und wie man sie sanft macht.'},
- {id:'interact',title:'Interaktion',intro:'Mauszeiger, Klick-Durchlässigkeit, Markieren, Einrasten und Formularfarben.'},
- {id:'sel',title:'Selektoren',intro:'Wie CSS die Elemente findet: Beziehungen, Positionen, Zustände, Attribute – und welche Regel gewinnt.'}
+ {id:'layout',title:tx('Layout & Position','Layout & position'),intro:tx('Wie Elemente im Fluss stehen, wie man sie herausnimmt und übereinanderstapelt.','How elements sit in the flow, how you take them out of it and stack them on top of each other.')},
+ {id:'flex',title:'Flexbox',intro:tx('Eine Achse, flexible Größen: für Leisten, Zeilen, Button-Gruppen und alles, was in einer Reihe steht.','One axis, flexible sizes: for bars, rows, button groups and anything that sits in a line.')},
+ {id:'grid',title:'Grid',intro:tx('Zwei Achsen gleichzeitig: für Seitenlayouts, Kartenraster und alles mit Zeilen und Spalten.','Two axes at once: for page layouts, card grids and anything with rows and columns.')},
+ {id:'box',title:tx('Box & Größe','Box & sizing'),intro:tx('Jedes Element ist ein Kasten. Wie groß er ist und welchen Abstand er hält.','Every element is a box. How big it is and how much space it keeps around it.')},
+ {id:'type',title:tx('Typografie','Typography'),intro:tx('Größe, Gewicht, Zeilenabstand – und was passiert, wenn Text nicht passt.','Size, weight, line height – and what happens when text doesn’t fit.')},
+ {id:'look',title:tx('Rahmen & Effekte','Borders & effects'),intro:tx('Ecken, Schatten, Rahmen, Filter – und die vier Arten, etwas zu verstecken.','Corners, shadows, borders, filters – and the four ways to hide something.')},
+ {id:'motion',title:tx('Transform & Transition','Transform & transition'),intro:tx('Bewegung, die das Layout nicht anfasst – und wie man sie sanft macht.','Motion that doesn’t touch the layout – and how to make it smooth.')},
+ {id:'interact',title:tx('Interaktion','Interaction'),intro:tx('Mauszeiger, Klick-Durchlässigkeit, Markieren, Einrasten und Formularfarben.','Cursors, click-through, text selection, scroll snapping and form colors.')},
+ {id:'sel',title:tx('Selektoren','Selectors'),intro:tx('Wie CSS die Elemente findet: Beziehungen, Positionen, Zustände, Attribute – und welche Regel gewinnt.','How CSS finds elements: relationships, positions, states, attributes – and which rule wins.')}
 ];
 const cI=(n,t)=>`<div class="ca-i ca-t${(n-1)%4+1} ca-n${n}">${t??n}</div>`;
 const cN=n=>Array.from({length:n},(_,i)=>cI(i+1)).join('');
@@ -494,301 +521,308 @@ const W1412='<a class="xlink" href="https://daniel-hopium.github.io/pattern-libr
    mode 'sel': vals = [Selektor, Tailwind-Variante, Hinweis]; mode 'css': vals = [Label, Regel mit & als Vorschau-Wurzel, Tailwind, Hinweis]. */
 const CSSA=[
 /* Layout */
-{id:'display',cat:'layout',name:'display',sub:'Wie ein Element im Fluss steht',mdn:'display',
- desc:'<code>inline</code> fließt im Text mit und ignoriert Breite und Höhe. <code>inline-block</code> fließt mit, nimmt aber Maße an. <code>block</code> beginnt eine neue Zeile und nimmt die volle Breite. <code>flex</code> und <code>grid</code> machen das Element zum Layout-Container – dafür gibt es eigene Kapitel.',
- stage:`<p class="ca-flow">Text davor <span class="ca-i ca-t1">1</span> <span class="ca-i ca-t2">2</span> <span class="ca-i ca-t3">3</span> und Text danach, damit man sieht, wie die Elemente im Textfluss stehen.</p>`,
+{id:'display',cat:'layout',name:'display',sub:tx('Wie ein Element im Fluss steht','How an element sits in the flow'),mdn:'display',
+ desc:tx('<code>inline</code> fließt im Text mit und ignoriert Breite und Höhe. <code>inline-block</code> fließt mit, nimmt aber Maße an. <code>block</code> beginnt eine neue Zeile und nimmt die volle Breite. <code>flex</code> und <code>grid</code> machen das Element zum Layout-Container – dafür gibt es eigene Kapitel.','<code>inline</code> flows along with the text and ignores width and height. <code>inline-block</code> flows along too but accepts dimensions. <code>block</code> starts a new line and takes the full width. <code>flex</code> and <code>grid</code> turn the element into a layout container – they have their own chapters.'),
+ stage:`<p class="ca-flow">${tx('Text davor','Text before')} <span class="ca-i ca-t1">1</span> <span class="ca-i ca-t2">2</span> <span class="ca-i ca-t3">3</span> ${tx('und Text danach, damit man sieht, wie die Elemente im Textfluss stehen.','and text after, so you can see how the elements sit in the text flow.')}</p>`,
  t:['.ca-i','span'],vals:[['inline','inline','inline'],['inline-block','inline-block','inline-block'],['block','block','block'],['none','none','hidden']],
- tip:'<code>display: none</code> entfernt das Element auch für Screenreader. Nur optisch verstecken: siehe „Verstecken“ unter Rahmen &amp; Effekte.'},
-{id:'position',cat:'layout',name:'position',sub:'Aus dem Fluss nehmen – ganz, teilweise oder gar nicht',mdn:'position',
- desc:'<code>position</code> legt fest, ob und wie <code>top</code>, <code>right</code>, <code>bottom</code> und <code>left</code> ein Element verschieben. Scroll im Kasten, um <code>sticky</code> zu sehen.',
- stage:`<div class="ca-scroll" tabindex="0" role="region" aria-label="Scrollbereich zu position"><p>static ist der Normalzustand: Das Element steht, wo es im HTML steht.</p><div class="ca-i ca-t2 ca-pos">Ziel</div><p>relative verschiebt es optisch, der ursprüngliche Platz bleibt aber reserviert – die Lücke siehst du.</p><p>absolute nimmt es ganz aus dem Fluss und richtet es am nächsten positionierten Vorfahren aus, hier am Scroll-Kasten.</p><p>sticky verhält sich normal, bis es beim Scrollen die Kante erreicht – dann klebt es dort.</p><p>Noch etwas Text, damit es etwas zu scrollen gibt.</p><p>Und noch ein Absatz zum Scrollen.</p></div>`,
- base:[['.ca-scroll','.eltern',{position:'relative'}]],t:['.ca-pos','.ziel'],
+ tip:tx('<code>display: none</code> entfernt das Element auch für Screenreader. Nur optisch verstecken: siehe „Verstecken“ unter Rahmen &amp; Effekte.','<code>display: none</code> removes the element for screen readers too. To hide it visually only, see “Hiding” under Borders &amp; effects.')},
+{id:'position',cat:'layout',name:'position',sub:tx('Aus dem Fluss nehmen – ganz, teilweise oder gar nicht','Taking it out of the flow – fully, partly or not at all'),mdn:'position',
+ desc:tx('<code>position</code> legt fest, ob und wie <code>top</code>, <code>right</code>, <code>bottom</code> und <code>left</code> ein Element verschieben. Scroll im Kasten, um <code>sticky</code> zu sehen.','<code>position</code> decides whether and how <code>top</code>, <code>right</code>, <code>bottom</code> and <code>left</code> move an element. Scroll inside the box to see <code>sticky</code>.'),
+ stage:`<div class="ca-scroll" tabindex="0" role="region" aria-label="${tx('Scrollbereich zu position','Scroll area for position')}"><p>${tx('static ist der Normalzustand: Das Element steht, wo es im HTML steht.','static is the default: the element sits where it is in the HTML.')}</p><div class="ca-i ca-t2 ca-pos">${tx('Ziel','Target')}</div><p>${tx('relative verschiebt es optisch, der ursprüngliche Platz bleibt aber reserviert – die Lücke siehst du.','relative shifts it visually, but its original space stays reserved – you can see the gap.')}</p><p>${tx('absolute nimmt es ganz aus dem Fluss und richtet es am nächsten positionierten Vorfahren aus, hier am Scroll-Kasten.','absolute takes it out of the flow entirely and positions it relative to the nearest positioned ancestor, here the scroll box.')}</p><p>${tx('sticky verhält sich normal, bis es beim Scrollen die Kante erreicht – dann klebt es dort.','sticky behaves normally until it reaches the edge while you scroll – then it sticks there.')}</p><p>${tx('Noch etwas Text, damit es etwas zu scrollen gibt.','Some more text so there’s something to scroll.')}</p><p>${tx('Und noch ein Absatz zum Scrollen.','And one more paragraph to scroll.')}</p></div>`,
+ base:[['.ca-scroll','.parent',{position:'relative'}]],t:['.ca-pos','.target'],
  vals:[['static',{position:'static'},'static'],['relative',{position:'relative',top:'12px',left:'24px'},'relative top-3 left-6'],['absolute',{position:'absolute',top:'8px',right:'8px'},'absolute top-2 right-2'],['sticky',{position:'sticky',top:'0'},'sticky top-0']],
- tip:'<code>fixed</code> fehlt hier absichtlich: Es hängt am Viewport und würde aus dem Kasten ausbrechen. <code>sticky</code> braucht ein <code>top</code> und scheitert, wenn ein Vorfahre <code>overflow: hidden</code> hat.'},
-{id:'containing-block',cat:'layout',name:'position: absolute',sub:'Woran richtet es sich aus?',mdn:'Containing_block',
- desc:'Ein absolut positioniertes Element sucht den nächsten Vorfahren, der selbst positioniert ist – alles außer <code>static</code>. Dessen Kasten heißt Containing Block, daran messen sich <code>top</code>, <code>right</code>, <code>bottom</code> und <code>left</code>.',
- stage:`<div class="ca-outer"><span class="ca-lbl">Vorschau-Kasten (position: relative)</span><div class="ca-parent"><span class="ca-lbl">Eltern-Element</span><div class="ca-i ca-t3 ca-abs">Kind</div></div></div>`,
- base:[['.ca-abs','.kind',{position:'absolute',right:'8px',bottom:'8px'}]],t:['.ca-parent','.eltern'],
+ tip:tx('<code>fixed</code> fehlt hier absichtlich: Es hängt am Viewport und würde aus dem Kasten ausbrechen. <code>sticky</code> braucht ein <code>top</code> und scheitert, wenn ein Vorfahre <code>overflow: hidden</code> hat.','<code>fixed</code> is left out on purpose: it’s tied to the viewport and would break out of the box. <code>sticky</code> needs a <code>top</code> and fails if an ancestor has <code>overflow: hidden</code>.')},
+{id:'containing-block',cat:'layout',name:'position: absolute',sub:tx('Woran richtet es sich aus?','What is it positioned against?'),mdn:'Containing_block',
+ desc:tx('Ein absolut positioniertes Element sucht den nächsten Vorfahren, der selbst positioniert ist – alles außer <code>static</code>. Dessen Kasten heißt Containing Block, daran messen sich <code>top</code>, <code>right</code>, <code>bottom</code> und <code>left</code>.','An absolutely positioned element looks for the nearest ancestor that is positioned itself – anything but <code>static</code>. That ancestor’s box is called the containing block, and <code>top</code>, <code>right</code>, <code>bottom</code> and <code>left</code> are measured from it.'),
+ stage:`<div class="ca-outer"><span class="ca-lbl">${tx('Vorschau-Kasten (position: relative)','Preview box (position: relative)')}</span><div class="ca-parent"><span class="ca-lbl">${tx('Eltern-Element','Parent element')}</span><div class="ca-i ca-t3 ca-abs">${tx('Kind','Child')}</div></div></div>`,
+ base:[['.ca-abs','.child',{position:'absolute',right:'8px',bottom:'8px'}]],t:['.ca-parent','.parent'],
  vals:[['static',{position:'static'},'static'],['relative',{position:'relative'},'relative'],['transform',{transform:'translateZ(0)'},'transform-gpu']],
- tip:'Springt ein Element „irgendwohin“, fehlt dem gewünschten Eltern-Element <code>position: relative</code>. Auch <code>transform</code>, <code>filter</code> und <code>contain</code> erzeugen einen Containing Block – darum scrollen <code>fixed</code>-Elemente in animierten Containern plötzlich mit.'},
-{id:'z-index',cat:'layout',name:'z-index',sub:'Was liegt oben?',mdn:'z-index',
- desc:'<code>z-index</code> ordnet übereinanderliegende positionierte Elemente: Der höhere Wert liegt oben. Ohne Angabe gilt die Reihenfolge im DOM – das spätere Element liegt oben.',
+ tip:tx('Springt ein Element „irgendwohin“, fehlt dem gewünschten Eltern-Element <code>position: relative</code>. Auch <code>transform</code>, <code>filter</code> und <code>contain</code> erzeugen einen Containing Block – darum scrollen <code>fixed</code>-Elemente in animierten Containern plötzlich mit.','If an element jumps “somewhere”, the parent you wanted is missing <code>position: relative</code>. <code>transform</code>, <code>filter</code> and <code>contain</code> create a containing block too – that’s why <code>fixed</code> elements suddenly scroll along inside animated containers.')},
+{id:'z-index',cat:'layout',name:'z-index',sub:tx('Was liegt oben?','What’s on top?'),mdn:'z-index',
+ desc:tx('<code>z-index</code> ordnet übereinanderliegende positionierte Elemente: Der höhere Wert liegt oben. Ohne Angabe gilt die Reihenfolge im DOM – das spätere Element liegt oben.','<code>z-index</code> orders overlapping positioned elements: the higher value is on top. Without it, DOM order applies – the later element is on top.'),
  stage:`<div class="ca-stack"><div class="ca-i ca-t1 ca-z1">1</div><div class="ca-i ca-t2 ca-z2">2</div><div class="ca-i ca-t3 ca-z3">3</div></div>`,
- base:[['.ca-z2','.karte-2',{position:'absolute'}]],t:['.ca-z2','.karte-2'],
+ base:[['.ca-z2','.card-2',{position:'absolute'}]],t:['.ca-z2','.card-2'],
  vals:[['auto','auto','z-auto'],['10','10','z-10'],['-1','-1','-z-1']],
- tip:'<code>z-index</code> wirkt nur innerhalb desselben Stacking Context. <code>opacity</code> unter 1, <code>transform</code> oder <code>isolation: isolate</code> erzeugen einen neuen – dann hilft auch <code>z-index: 9999</code> nicht gegen ein Element außerhalb. Diese Vorschau hat <code>isolation: isolate</code>, sonst würde −1 hinter ihrem Hintergrund verschwinden.'},
-{id:'overflow',cat:'layout',name:'overflow',sub:'Wenn der Inhalt größer ist als der Kasten',mdn:'overflow',
- desc:'Der gestrichelte Kasten ist 90 px hoch, der Text länger. <code>overflow</code> entscheidet, was mit dem Rest passiert.',
- stage:`<div class="ca-ovf" tabindex="0" role="region" aria-label="Kasten mit zu viel Text"><p>Dieser Text ist länger, als der Kasten hoch ist. visible lässt ihn einfach herausragen, hidden schneidet ihn ab, auto zeigt eine Scrollleiste nur bei Bedarf und scroll immer. Abgeschnittener Text ist für alle weg, die ihn brauchen.</p></div>`,
- t:['.ca-ovf','.kasten'],vals:[['visible','visible','overflow-visible'],['hidden','hidden','overflow-hidden'],['auto','auto','overflow-auto'],['scroll','scroll','overflow-scroll']],
- tip:'Scrollbare Bereiche brauchen <code>tabindex="0"</code> und einen Namen, sonst kommt man per Tastatur nicht hinein. Und <code>overflow: hidden</code> an einem Vorfahren bricht <code>position: sticky</code>.'},
-{id:'box-sizing',cat:'layout',name:'box-sizing',sub:'Was width eigentlich meint',mdn:'box-sizing',
- desc:'Bei <code>content-box</code> (Standard) meint <code>width</code> nur den Inhalt – Padding und Rahmen kommen dazu. Bei <code>border-box</code> ist alles in der Breite enthalten.',
+ tip:tx('<code>z-index</code> wirkt nur innerhalb desselben Stacking Context. <code>opacity</code> unter 1, <code>transform</code> oder <code>isolation: isolate</code> erzeugen einen neuen – dann hilft auch <code>z-index: 9999</code> nicht gegen ein Element außerhalb. Diese Vorschau hat <code>isolation: isolate</code>, sonst würde −1 hinter ihrem Hintergrund verschwinden.','<code>z-index</code> only works within the same stacking context. <code>opacity</code> below 1, <code>transform</code> or <code>isolation: isolate</code> create a new one – and then even <code>z-index: 9999</code> won’t beat an element outside it. This preview has <code>isolation: isolate</code>, otherwise −1 would disappear behind its background.')},
+{id:'overflow',cat:'layout',name:'overflow',sub:tx('Wenn der Inhalt größer ist als der Kasten','When the content is bigger than the box'),mdn:'overflow',
+ desc:tx('Der gestrichelte Kasten ist 90 px hoch, der Text länger. <code>overflow</code> entscheidet, was mit dem Rest passiert.','The dashed box is 90 px tall, the text is longer. <code>overflow</code> decides what happens to the rest.'),
+ stage:`<div class="ca-ovf" tabindex="0" role="region" aria-label="${tx('Kasten mit zu viel Text','Box with too much text')}"><p>${tx('Dieser Text ist länger, als der Kasten hoch ist. visible lässt ihn einfach herausragen, hidden schneidet ihn ab, auto zeigt eine Scrollleiste nur bei Bedarf und scroll immer. Abgeschnittener Text ist für alle weg, die ihn brauchen.','This text is longer than the box is tall. visible simply lets it stick out, hidden cuts it off, auto shows a scrollbar only when needed and scroll always does. Clipped text is gone for everyone who needs it.')}</p></div>`,
+ t:['.ca-ovf','.box'],vals:[['visible','visible','overflow-visible'],['hidden','hidden','overflow-hidden'],['auto','auto','overflow-auto'],['scroll','scroll','overflow-scroll']],
+ tip:tx('Scrollbare Bereiche brauchen <code>tabindex="0"</code> und einen Namen, sonst kommt man per Tastatur nicht hinein. Und <code>overflow: hidden</code> an einem Vorfahren bricht <code>position: sticky</code>.','Scrollable areas need <code>tabindex="0"</code> and a name, otherwise keyboard users can’t get in. And <code>overflow: hidden</code> on an ancestor breaks <code>position: sticky</code>.')},
+{id:'box-sizing',cat:'layout',name:'box-sizing',sub:tx('Was width eigentlich meint','What width actually means'),mdn:'box-sizing',
+ desc:tx('Bei <code>content-box</code> (Standard) meint <code>width</code> nur den Inhalt – Padding und Rahmen kommen dazu. Bei <code>border-box</code> ist alles in der Breite enthalten.','With <code>content-box</code> (the default), <code>width</code> means the content only – padding and border are added on top. With <code>border-box</code>, everything is included in the width.'),
  stage:`<div class="ca-i ca-t4 ca-bs">width: 200px</div>`,
  base:[['.ca-bs','.box',{width:'200px',padding:'20px',border:'6px solid #FCD34D'}]],t:['.ca-bs','.box'],
  vals:[['content-box','content-box','box-content'],['border-box','border-box','box-border']],
- measure:st=>`Gemessene Breite: ${$('.ca-bs',st).offsetWidth} px`,
- tip:'Fast jedes Projekt setzt global <code>*, *::before, *::after { box-sizing: border-box }</code> – Tailwind und diese App auch. Dann heißt 200 px wirklich 200 px.'},
+ measure:st=>`${tx('Gemessene Breite','Measured width')}: ${$('.ca-bs',st).offsetWidth} px`,
+ tip:tx('Fast jedes Projekt setzt global <code>*, *::before, *::after { box-sizing: border-box }</code> – Tailwind und diese App auch. Dann heißt 200 px wirklich 200 px.','Almost every project sets <code>*, *::before, *::after { box-sizing: border-box }</code> globally – Tailwind and this app do too. Then 200 px really means 200 px.')},
 /* Flexbox */
-{id:'flex-direction',cat:'flex',name:'flex-direction',sub:'Welche Achse ist die Hauptachse?',mdn:'flex-direction',
- desc:'<code>flex-direction</code> legt die Hauptachse fest: waagrecht (<code>row</code>) oder senkrecht (<code>column</code>). <code>justify-content</code> arbeitet immer entlang der Hauptachse, <code>align-items</code> quer dazu.',
+{id:'flex-direction',cat:'flex',name:'flex-direction',sub:tx('Welche Achse ist die Hauptachse?','Which axis is the main axis?'),mdn:'flex-direction',
+ desc:tx('<code>flex-direction</code> legt die Hauptachse fest: waagrecht (<code>row</code>) oder senkrecht (<code>column</code>). <code>justify-content</code> arbeitet immer entlang der Hauptachse, <code>align-items</code> quer dazu.','<code>flex-direction</code> sets the main axis: horizontal (<code>row</code>) or vertical (<code>column</code>). <code>justify-content</code> always works along the main axis, <code>align-items</code> across it.'),
  stage:cC(cN(3)),base:FLEX,t:['.ca-c','.container'],
  vals:[['row','row','flex-row'],['row-reverse','row-reverse','flex-row-reverse'],['column','column','flex-col'],['column-reverse','column-reverse','flex-col-reverse']],
- tip:`<code>-reverse</code> dreht nur die Optik. Tab-Taste und Screenreader folgen weiter dem DOM – das verletzt schnell ${W1412}.`},
-{id:'justify-content',cat:'flex',name:'justify-content',sub:'Verteilung entlang der Hauptachse',mdn:'justify-content',
- desc:'<code>justify-content</code> verteilt den freien Platz entlang der Hauptachse: alles an den Anfang, in die Mitte, ans Ende – oder als Abstand zwischen die Elemente.',
+ tip:tx(`<code>-reverse</code> dreht nur die Optik. Tab-Taste und Screenreader folgen weiter dem DOM – das verletzt schnell ${W1412}.`,`<code>-reverse</code> only flips what you see. The Tab key and screen readers still follow the DOM – that can easily violate ${W1412}.`)},
+{id:'justify-content',cat:'flex',name:'justify-content',sub:tx('Verteilung entlang der Hauptachse','Distribution along the main axis'),mdn:'justify-content',
+ desc:tx('<code>justify-content</code> verteilt den freien Platz entlang der Hauptachse: alles an den Anfang, in die Mitte, ans Ende – oder als Abstand zwischen die Elemente.','<code>justify-content</code> distributes the free space along the main axis: everything at the start, in the middle, at the end – or as spacing between the elements.'),
  stage:cC(cN(3)),base:FLEX,t:['.ca-c','.container'],
  vals:[['flex-start','flex-start','justify-start'],['center','center','justify-center'],['flex-end','flex-end','justify-end'],['space-between','space-between','justify-between'],['space-around','space-around','justify-around'],['space-evenly','space-evenly','justify-evenly']],
- tip:'Wirkt nur, wenn Platz übrig ist. Hat ein Element <code>flex: 1</code>, frisst es den ganzen Platz, und <code>justify-content</code> ändert sichtbar nichts.'},
-{id:'align-items',cat:'flex',name:'align-items',sub:'Ausrichtung quer zur Hauptachse',mdn:'align-items',
- desc:'<code>align-items</code> richtet die Elemente quer zur Hauptachse aus. <code>stretch</code> (Standard) zieht sie auf die volle Höhe, <code>baseline</code> richtet die Textgrundlinien aneinander aus.',
+ tip:tx('Wirkt nur, wenn Platz übrig ist. Hat ein Element <code>flex: 1</code>, frisst es den ganzen Platz, und <code>justify-content</code> ändert sichtbar nichts.','Only works when there’s space left over. If an element has <code>flex: 1</code>, it eats all the space and <code>justify-content</code> has no visible effect.')},
+{id:'align-items',cat:'flex',name:'align-items',sub:tx('Ausrichtung quer zur Hauptachse','Alignment across the main axis'),mdn:'align-items',
+ desc:tx('<code>align-items</code> richtet die Elemente quer zur Hauptachse aus. <code>stretch</code> (Standard) zieht sie auf die volle Höhe, <code>baseline</code> richtet die Textgrundlinien aneinander aus.','<code>align-items</code> aligns the elements across the main axis. <code>stretch</code> (the default) pulls them to full height, <code>baseline</code> lines up their text baselines.'),
  stage:cC(`${cI(1)}<div class="ca-i ca-t2 ca-n2" style="padding:26px 14px">2</div><div class="ca-i ca-t3 ca-n3" style="font-size:1.5rem">3</div>`),
  base:[['.ca-c','.container',{display:'flex',gap:'8px','min-height':'150px'}]],t:['.ca-c','.container'],
  vals:[['stretch','stretch','items-stretch'],['flex-start','flex-start','items-start'],['center','center','items-center'],['flex-end','flex-end','items-end'],['baseline','baseline','items-baseline']],
- tip:'Das klassische „senkrecht zentrieren“ ist <code>display: flex; align-items: center</code>. Eine feste Höhe am Element schaltet <code>stretch</code> ab.'},
-{id:'flex-wrap',cat:'flex',name:'flex-wrap',sub:'Umbrechen oder quetschen',mdn:'flex-wrap',
- desc:'Standardmäßig bleibt alles in einer Zeile. Mit <code>flex-wrap: wrap</code> brechen Elemente in die nächste Zeile um, sobald der Platz nicht reicht.',
+ tip:tx('Das klassische „senkrecht zentrieren“ ist <code>display: flex; align-items: center</code>. Eine feste Höhe am Element schaltet <code>stretch</code> ab.','The classic “center vertically” is <code>display: flex; align-items: center</code>. A fixed height on the element turns <code>stretch</code> off.')},
+{id:'flex-wrap',cat:'flex',name:'flex-wrap',sub:tx('Umbrechen oder quetschen','Wrap or squeeze'),mdn:'flex-wrap',
+ desc:tx('Standardmäßig bleibt alles in einer Zeile. Mit <code>flex-wrap: wrap</code> brechen Elemente in die nächste Zeile um, sobald der Platz nicht reicht.','By default everything stays on one line. With <code>flex-wrap: wrap</code>, elements wrap onto the next line as soon as there isn’t enough space.'),
  stage:cC(cN(8)),base:[...FLEX,['.ca-i','.item',{width:'72px','flex-shrink':'0'}]],t:['.ca-c','.container'],
  vals:[['nowrap','nowrap','flex-nowrap'],['wrap','wrap','flex-wrap'],['wrap-reverse','wrap-reverse','flex-wrap-reverse']],
- tip:'Ohne <code>wrap</code> laufen Inhalte auf schmalen Bildschirmen aus dem Container – ein häufiger Grund für seitliches Scrollen (<a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#wcag-kriterien/1.4.10">WCAG 1.4.10</a>).'},
-{id:'gap',cat:'flex',name:'gap',sub:'Abstand zwischen den Elementen',mdn:'gap',
- desc:'<code>gap</code> setzt den Abstand zwischen den Elementen – nur dazwischen, nie außen herum. Funktioniert in Flexbox und Grid.',
+ tip:tx('Ohne <code>wrap</code> laufen Inhalte auf schmalen Bildschirmen aus dem Container – ein häufiger Grund für seitliches Scrollen (<a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#wcag-kriterien/1.4.10">WCAG 1.4.10</a>).','Without <code>wrap</code>, content runs out of the container on narrow screens – a common cause of horizontal scrolling (<a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#wcag-kriterien/1.4.10">WCAG 1.4.10</a>).')},
+{id:'gap',cat:'flex',name:'gap',sub:tx('Abstand zwischen den Elementen','Space between the elements'),mdn:'gap',
+ desc:tx('<code>gap</code> setzt den Abstand zwischen den Elementen – nur dazwischen, nie außen herum. Funktioniert in Flexbox und Grid.','<code>gap</code> sets the space between the elements – only in between, never around the outside. Works in Flexbox and Grid.'),
  stage:cC(cN(6)),base:[['.ca-c','.container',{display:'flex','flex-wrap':'wrap'}]],t:['.ca-c','.container'],
  vals:[['0','0','gap-0'],['8px','8px','gap-2'],['16px','16px','gap-4'],['32px','32px','gap-8']],def:2,
- tip:'Früher brauchte man dafür <code>margin</code> an jedem Element und eine negative Margin am Container. Heute nicht mehr. <code>row-gap</code> und <code>column-gap</code> trennen die Richtungen.'},
-{id:'flex',cat:'flex',name:'flex',sub:'Wachsen, schrumpfen, Ausgangsgröße',mdn:'flex',
- desc:'<code>flex</code> ist die Kurzform für <code>flex-grow</code>, <code>flex-shrink</code> und <code>flex-basis</code>: Wie stark darf ein Element wachsen, wie stark schrumpfen – und von welcher Größe aus?',
- stage:cC(`${cI(1,'Kurz')}${cI(2,'Ein deutlich längerer Text')}${cI(3,'Mittel')}`),base:FLEX,t:['.ca-i','.item'],
+ tip:tx('Früher brauchte man dafür <code>margin</code> an jedem Element und eine negative Margin am Container. Heute nicht mehr. <code>row-gap</code> und <code>column-gap</code> trennen die Richtungen.','You used to need <code>margin</code> on every element plus a negative margin on the container for this. Not anymore. <code>row-gap</code> and <code>column-gap</code> handle the directions separately.')},
+{id:'flex',cat:'flex',name:'flex',sub:tx('Wachsen, schrumpfen, Ausgangsgröße','Grow, shrink, starting size'),mdn:'flex',
+ desc:tx('<code>flex</code> ist die Kurzform für <code>flex-grow</code>, <code>flex-shrink</code> und <code>flex-basis</code>: Wie stark darf ein Element wachsen, wie stark schrumpfen – und von welcher Größe aus?','<code>flex</code> is shorthand for <code>flex-grow</code>, <code>flex-shrink</code> and <code>flex-basis</code>: how much may an element grow, how much may it shrink – and from what size?'),
+ stage:cC(`${cI(1,tx('Kurz','Short'))}${cI(2,tx('Ein deutlich längerer Text','A much longer piece of text'))}${cI(3,tx('Mittel','Medium'))}`),base:FLEX,t:['.ca-i','.item'],
  vals:[['initial','0 1 auto','flex-initial'],['1','1 1 0%','flex-1'],['auto','1 1 auto','flex-auto'],['none','none','flex-none']],
- tip:'<code>flex: 1</code> startet bei Breite 0 und verteilt den Platz gleichmäßig – alle Spalten werden gleich breit, egal wie viel Text drinsteht. <code>flex: auto</code> startet bei der Inhaltsbreite: Längerer Text bekommt mehr.'},
-{id:'min-width-0',cat:'flex',name:'min-width: 0',sub:'Warum Text in Flexbox nicht kürzt',mdn:'min-width',
- desc:'Flex-Elemente schrumpfen standardmäßig nicht unter die Breite ihres Inhalts – <code>min-width</code> steht dort auf <code>auto</code>. Ein langer Dateiname sprengt dann den Container, statt mit … gekürzt zu werden.',
- stage:cC(`${cI(1,'PDF')}<div class="ca-mw"><p class="ca-trunc">Rechnung_2026_Kunde_Maier_Jänner_final_v2.pdf</p><p class="ca-small">vor 3 Tagen</p></div>`,'ca-narrow'),
- base:[['.ca-c','.zeile',{display:'flex',gap:'8px','align-items':'center'}]],t:['.ca-mw','.text-spalte'],
+ tip:tx('<code>flex: 1</code> startet bei Breite 0 und verteilt den Platz gleichmäßig – alle Spalten werden gleich breit, egal wie viel Text drinsteht. <code>flex: auto</code> startet bei der Inhaltsbreite: Längerer Text bekommt mehr.','<code>flex: 1</code> starts at width 0 and shares the space evenly – all columns get the same width, no matter how much text is in them. <code>flex: auto</code> starts at the content width: longer text gets more.')},
+{id:'min-width-0',cat:'flex',name:'min-width: 0',sub:tx('Warum Text in Flexbox nicht kürzt','Why text in Flexbox won’t truncate'),mdn:'min-width',
+ desc:tx('Flex-Elemente schrumpfen standardmäßig nicht unter die Breite ihres Inhalts – <code>min-width</code> steht dort auf <code>auto</code>. Ein langer Dateiname sprengt dann den Container, statt mit … gekürzt zu werden.','By default, flex items don’t shrink below the width of their content – their <code>min-width</code> is <code>auto</code>. A long file name then bursts the container instead of being truncated with ….'),
+ stage:cC(`${cI(1,'PDF')}<div class="ca-mw"><p class="ca-trunc">${tx('Rechnung_2026_Kunde_Maier_Jänner_final_v2.pdf','Invoice_2026_Customer_Maier_January_final_v2.pdf')}</p><p class="ca-small">${tx('vor 3 Tagen','3 days ago')}</p></div>`,'ca-narrow'),
+ base:[['.ca-c','.row',{display:'flex',gap:'8px','align-items':'center'}]],t:['.ca-mw','.text-col'],
  vals:[['auto',{'min-width':'auto'},'min-w-auto'],['0',{'min-width':'0'},'min-w-0']],
- tip:'Die Lösung gehört ans Flex-Element, das den Text enthält – nicht an den Text selbst. In Grid gilt dasselbe: <code>minmax(0, 1fr)</code> statt <code>1fr</code>.'},
-{id:'align-self',cat:'flex',name:'align-self',sub:'Ein Element tanzt aus der Reihe',mdn:'align-self',
- desc:'<code>align-self</code> überschreibt <code>align-items</code> für ein einzelnes Element – hier für Nummer 2.',
+ tip:tx('Die Lösung gehört ans Flex-Element, das den Text enthält – nicht an den Text selbst. In Grid gilt dasselbe: <code>minmax(0, 1fr)</code> statt <code>1fr</code>.','The fix belongs on the flex item that contains the text – not on the text itself. The same goes for Grid: <code>minmax(0, 1fr)</code> instead of <code>1fr</code>.')},
+{id:'align-self',cat:'flex',name:'align-self',sub:tx('Ein Element tanzt aus der Reihe','One element breaks ranks'),mdn:'align-self',
+ desc:tx('<code>align-self</code> überschreibt <code>align-items</code> für ein einzelnes Element – hier für Nummer 2.','<code>align-self</code> overrides <code>align-items</code> for a single element – here for number 2.'),
  stage:cC(cN(3)),base:[['.ca-c','.container',{display:'flex',gap:'8px','align-items':'flex-start','min-height':'150px'}]],t:['.ca-n2','.item-2'],
  vals:[['auto','auto','self-auto'],['flex-start','flex-start','self-start'],['center','center','self-center'],['flex-end','flex-end','self-end'],['stretch','stretch','self-stretch']],
- tip:'Bei <code>stretch</code> darf das Element keine feste Höhe haben, sonst passiert nichts.'},
-{id:'order',cat:'flex',name:'order',sub:'Reihenfolge nur für das Auge',mdn:'order',
- desc:'<code>order</code> ändert die Reihenfolge der Darstellung, ohne das HTML anzufassen. Kleinere Werte kommen zuerst, Standard ist 0. Hier gilt es für Nummer 3.',
+ tip:tx('Bei <code>stretch</code> darf das Element keine feste Höhe haben, sonst passiert nichts.','For <code>stretch</code>, the element must not have a fixed height, otherwise nothing happens.')},
+{id:'order',cat:'flex',name:'order',sub:tx('Reihenfolge nur für das Auge','Order for the eye only'),mdn:'order',
+ desc:tx('<code>order</code> ändert die Reihenfolge der Darstellung, ohne das HTML anzufassen. Kleinere Werte kommen zuerst, Standard ist 0. Hier gilt es für Nummer 3.','<code>order</code> changes the display order without touching the HTML. Lower values come first, the default is 0. Here it applies to number 3.'),
  stage:cC(cN(4)),base:FLEX,t:['.ca-n3','.item-3'],
  vals:[['0','0','order-none'],['-1','-1','-order-1'],['9999','9999','order-last']],
- tip:`Nur die Optik ändert sich: Tab-Taste und Screenreader folgen weiter dem DOM. Wer so die Reihenfolge wirklich umbaut, verletzt ${W1412} – besser das HTML umsortieren.`},
+ tip:tx(`Nur die Optik ändert sich: Tab-Taste und Screenreader folgen weiter dem DOM. Wer so die Reihenfolge wirklich umbaut, verletzt ${W1412} – besser das HTML umsortieren.`,`Only the visuals change: the Tab key and screen readers still follow the DOM. If you really rearrange the order this way, you violate ${W1412} – reorder the HTML instead.`)},
 /* Grid */
-{id:'grid-template-columns',cat:'grid',name:'grid-template-columns',sub:'Die Spalten festlegen',mdn:'grid-template-columns',
- desc:'<code>grid-template-columns</code> legt die Spalten fest. <code>fr</code> ist ein Anteil am freien Platz: <code>1fr 2fr</code> heißt, die zweite Spalte bekommt doppelt so viel.',
+{id:'grid-template-columns',cat:'grid',name:'grid-template-columns',sub:tx('Die Spalten festlegen','Defining the columns'),mdn:'grid-template-columns',
+ desc:tx('<code>grid-template-columns</code> legt die Spalten fest. <code>fr</code> ist ein Anteil am freien Platz: <code>1fr 2fr</code> heißt, die zweite Spalte bekommt doppelt so viel.','<code>grid-template-columns</code> defines the columns. <code>fr</code> is a share of the free space: <code>1fr 2fr</code> means the second column gets twice as much.'),
  stage:cC(cN(6)),base:GRID,t:['.ca-c','.container'],
  vals:[['repeat(2, 1fr)','repeat(2, 1fr)','grid-cols-2'],['repeat(3, 1fr)','repeat(3, 1fr)','grid-cols-3'],['200px 1fr','200px 1fr','grid-cols-[200px_1fr]'],['1fr 2fr','1fr 2fr','grid-cols-[1fr_2fr]'],['repeat(auto-fit, minmax(90px, 1fr))','repeat(auto-fit, minmax(90px, 1fr))','grid-cols-[repeat(auto-fit,minmax(90px,1fr))]']],
- tip:'<code>repeat(auto-fit, minmax(90px, 1fr))</code> ist der Responsive-Klassiker: so viele Spalten, wie mit mindestens 90 px hineinpassen – ganz ohne Media Query. Zieh das Fenster schmaler.'},
-{id:'grid-column',cat:'grid',name:'grid-column',sub:'Über mehrere Spalten reichen',mdn:'grid-column',
- desc:'<code>grid-column</code> legt fest, über wie viele Spalten ein Element reicht – hier Nummer 1 in einem Raster mit drei Spalten.',
+ tip:tx('<code>repeat(auto-fit, minmax(90px, 1fr))</code> ist der Responsive-Klassiker: so viele Spalten, wie mit mindestens 90 px hineinpassen – ganz ohne Media Query. Zieh das Fenster schmaler.','<code>repeat(auto-fit, minmax(90px, 1fr))</code> is the responsive classic: as many columns as fit at 90 px or more – no media query needed. Make the window narrower.')},
+{id:'grid-column',cat:'grid',name:'grid-column',sub:tx('Über mehrere Spalten reichen','Spanning several columns'),mdn:'grid-column',
+ desc:tx('<code>grid-column</code> legt fest, über wie viele Spalten ein Element reicht – hier Nummer 1 in einem Raster mit drei Spalten.','<code>grid-column</code> sets how many columns an element spans – here number 1 in a three-column grid.'),
  stage:cC(cN(6)),base:[['.ca-c','.container',{display:'grid',gap:'8px','grid-template-columns':'repeat(3, 1fr)'}]],t:['.ca-n1','.item-1'],
  vals:[['auto','auto','col-auto'],['span 2','span 2','col-span-2'],['span 3','span 3','col-span-3'],['1 / -1','1 / -1','col-span-full']],
- tip:'<code>1 / -1</code> heißt „von der ersten bis zur letzten Linie“: volle Breite, auch wenn sich die Spaltenzahl ändert. Negative Linien zählen von hinten.'},
-{id:'auto-fill-fit',cat:'grid',name:'auto-fill vs. auto-fit',sub:'Leere Spalten behalten oder weglassen',mdn:'repeat',
- desc:'Beide erzeugen so viele Spalten, wie hineinpassen. Der Unterschied zeigt sich erst, wenn es weniger Elemente als Spalten gibt: <code>auto-fill</code> behält die leeren Spalten, bei <code>auto-fit</code> fallen sie weg und die vorhandenen Elemente wachsen.',
+ tip:tx('<code>1 / -1</code> heißt „von der ersten bis zur letzten Linie“: volle Breite, auch wenn sich die Spaltenzahl ändert. Negative Linien zählen von hinten.','<code>1 / -1</code> means “from the first to the last line”: full width, even if the number of columns changes. Negative lines count from the end.')},
+{id:'auto-fill-fit',cat:'grid',name:'auto-fill vs. auto-fit',sub:tx('Leere Spalten behalten oder weglassen','Keep or drop empty columns'),mdn:'repeat',
+ desc:tx('Beide erzeugen so viele Spalten, wie hineinpassen. Der Unterschied zeigt sich erst, wenn es weniger Elemente als Spalten gibt: <code>auto-fill</code> behält die leeren Spalten, bei <code>auto-fit</code> fallen sie weg und die vorhandenen Elemente wachsen.','Both create as many columns as fit. The difference only shows when there are fewer elements than columns: <code>auto-fill</code> keeps the empty columns, with <code>auto-fit</code> they collapse and the existing elements grow.'),
  stage:cC(cN(3)),base:GRID,t:['.ca-c','.container'],
  vals:[['auto-fill',{'grid-template-columns':'repeat(auto-fill, minmax(80px, 1fr))'},'grid-cols-[repeat(auto-fill,minmax(80px,1fr))]'],['auto-fit',{'grid-template-columns':'repeat(auto-fit, minmax(80px, 1fr))'},'grid-cols-[repeat(auto-fit,minmax(80px,1fr))]']],
- tip:'Für Kartenraster meist <code>auto-fit</code>. <code>auto-fill</code>, wenn wenige Karten nicht riesig werden sollen.'},
-{id:'place-items',cat:'grid',name:'place-items',sub:'Wo sitzt das Element in seiner Zelle?',mdn:'place-items',
- desc:'<code>place-items</code> ist die Kurzform für <code>align-items</code> und <code>justify-items</code>: wo ein Element innerhalb seiner Zelle sitzt, senkrecht und waagrecht.',
+ tip:tx('Für Kartenraster meist <code>auto-fit</code>. <code>auto-fill</code>, wenn wenige Karten nicht riesig werden sollen.','For card grids, usually <code>auto-fit</code>. <code>auto-fill</code> if a few cards shouldn’t become huge.')},
+{id:'place-items',cat:'grid',name:'place-items',sub:tx('Wo sitzt das Element in seiner Zelle?','Where does the element sit in its cell?'),mdn:'place-items',
+ desc:tx('<code>place-items</code> ist die Kurzform für <code>align-items</code> und <code>justify-items</code>: wo ein Element innerhalb seiner Zelle sitzt, senkrecht und waagrecht.','<code>place-items</code> is shorthand for <code>align-items</code> and <code>justify-items</code>: where an element sits inside its cell, vertically and horizontally.'),
  stage:cC(cN(3)),base:[['.ca-c','.container',{display:'grid',gap:'8px','grid-template-columns':'repeat(3, 1fr)','grid-auto-rows':'100px'}]],t:['.ca-c','.container'],
  vals:[['stretch','stretch','place-items-stretch'],['start','start','place-items-start'],['center','center','place-items-center'],['end','end','place-items-end']],
- tip:'<code>display: grid; place-items: center</code> ist die kürzeste Art, etwas in die Mitte zu setzen.'},
-{id:'grid-template-areas',cat:'grid',name:'grid-template-areas',sub:'Layout als ASCII-Bild',mdn:'grid-template-areas',
- desc:'Jedes Kind bekommt mit <code>grid-area</code> einen Namen, der Container zeichnet das Layout mit diesen Namen wie ein kleines Bild.',
+ tip:tx('<code>display: grid; place-items: center</code> ist die kürzeste Art, etwas in die Mitte zu setzen.','<code>display: grid; place-items: center</code> is the shortest way to center something.')},
+{id:'grid-template-areas',cat:'grid',name:'grid-template-areas',sub:tx('Layout als ASCII-Bild','Layout as ASCII art'),mdn:'grid-template-areas',
+ desc:tx('Jedes Kind bekommt mit <code>grid-area</code> einen Namen, der Container zeichnet das Layout mit diesen Namen wie ein kleines Bild.','Each child gets a name via <code>grid-area</code>, and the container draws the layout with those names like a little picture.'),
  stage:cC(['head','nav','main','foot'].map((a,i)=>`<div class="ca-i ca-t${i+1}" style="grid-area:${a}">${a}</div>`).join('')),
  base:[['.ca-c','.container',{display:'grid',gap:'8px','min-height':'200px'}]],t:['.ca-c','.container'],
- vals:[['Desktop',{'grid-template-columns':'110px 1fr','grid-template-areas':'"head head" "nav main" "foot foot"'},'grid-cols-[110px_1fr] [grid-template-areas:…]'],['Mobil',{'grid-template-columns':'1fr','grid-template-areas':'"head" "main" "nav" "foot"'},'grid-cols-1 [grid-template-areas:…]'],['Seitenleiste',{'grid-template-columns':'110px 1fr','grid-template-areas':'"nav head" "nav main" "nav foot"'},'grid-cols-[110px_1fr] [grid-template-areas:…]']],
- tip:`Tailwind hat dafür keine eigene Utility, nur den Umweg über eckige Klammern. Und Vorsicht: In „Mobil“ steht main vor nav, der DOM bleibt aber gleich – ${W1412} im Blick behalten.`},
+ vals:[['Desktop',{'grid-template-columns':'110px 1fr','grid-template-areas':'"head head" "nav main" "foot foot"'},'grid-cols-[110px_1fr] [grid-template-areas:…]'],[tx('Mobil','Mobile'),{'grid-template-columns':'1fr','grid-template-areas':'"head" "main" "nav" "foot"'},'grid-cols-1 [grid-template-areas:…]'],[tx('Seitenleiste','Sidebar'),{'grid-template-columns':'110px 1fr','grid-template-areas':'"nav head" "nav main" "nav foot"'},'grid-cols-[110px_1fr] [grid-template-areas:…]']],
+ tip:tx(`Tailwind hat dafür keine eigene Utility, nur den Umweg über eckige Klammern. Und Vorsicht: In „Mobil“ steht main vor nav, der DOM bleibt aber gleich – ${W1412} im Blick behalten.`,`Tailwind has no dedicated utility for this, only the detour via square brackets. And careful: in “Mobile”, main comes before nav, but the DOM stays the same – keep ${W1412} in mind.`)},
 /* Box */
-{id:'box-model',cat:'box',name:'Box Model',sub:'Inhalt, Padding, Rahmen, Margin',mdn:'CSS_box_model/Introduction_to_the_CSS_box_model',
- desc:'Jedes Element ist ein Kasten aus vier Schichten: Inhalt, Padding (Innenabstand, trägt die Hintergrundfarbe), Border (Rahmen) und Margin (Außenabstand, immer durchsichtig). Die Farben entsprechen denen der Browser-DevTools.',
- stage:`<div class="ca-bm-wrap"><div class="ca-bm"><div class="ca-bm-c">Inhalt</div></div></div><ul class="ca-legend" aria-label="Legende"><li><i style="background:#8CB6C0"></i>Inhalt</li><li><i style="background:#C3D08B"></i>Padding</li><li><i style="background:#E8C46A"></i>Border</li><li><i class="ca-hatch"></i>Margin</li></ul>`,
+{id:'box-model',cat:'box',name:'Box Model',sub:tx('Inhalt, Padding, Rahmen, Margin','Content, padding, border, margin'),mdn:'CSS_box_model/Introduction_to_the_CSS_box_model',
+ desc:tx('Jedes Element ist ein Kasten aus vier Schichten: Inhalt, Padding (Innenabstand, trägt die Hintergrundfarbe), Border (Rahmen) und Margin (Außenabstand, immer durchsichtig). Die Farben entsprechen denen der Browser-DevTools.','Every element is a box made of four layers: content, padding (inner spacing, carries the background color), border and margin (outer spacing, always transparent). The colors match those in the browser DevTools.'),
+ stage:`<div class="ca-bm-wrap"><div class="ca-bm"><div class="ca-bm-c">${tx('Inhalt','Content')}</div></div></div><ul class="ca-legend" aria-label="${tx('Legende','Legend')}"><li><i style="background:#8CB6C0"></i>${tx('Inhalt','Content')}</li><li><i style="background:#C3D08B"></i>Padding</li><li><i style="background:#E8C46A"></i>Border</li><li><i class="ca-hatch"></i>Margin</li></ul>`,
  t:['.ca-bm','.box'],
- vals:[['nur Inhalt',{padding:'0',border:'0 solid #E8C46A',margin:'0'},'p-0'],['+ padding',{padding:'20px',border:'0 solid #E8C46A',margin:'0'},'p-5'],['+ border',{padding:'20px',border:'8px solid #E8C46A',margin:'0'},'p-5 border-8'],['+ margin',{padding:'20px',border:'8px solid #E8C46A',margin:'24px'},'p-5 border-8 m-6']],
- tip:'Padding gehört zum Element: Es ist klickbar und hat Hintergrund. Margin ist Abstand zu den Nachbarn. Für Abstände zwischen Geschwistern ist <code>gap</code> am Eltern-Element meist die bessere Wahl.'},
-{id:'margin-collapse',cat:'box',name:'Margin Collapsing',sub:'Warum 24 + 24 nicht 48 ergibt',mdn:'CSS_box_model/Mastering_margin_collapsing',
- desc:'Senkrechte Margins zweier Blöcke untereinander addieren sich nicht, sie fallen zusammen: Es gilt die größere. In Flex- und Grid-Containern passiert das nicht.',
+ vals:[[tx('nur Inhalt','content only'),{padding:'0',border:'0 solid #E8C46A',margin:'0'},'p-0'],['+ padding',{padding:'20px',border:'0 solid #E8C46A',margin:'0'},'p-5'],['+ border',{padding:'20px',border:'8px solid #E8C46A',margin:'0'},'p-5 border-8'],['+ margin',{padding:'20px',border:'8px solid #E8C46A',margin:'24px'},'p-5 border-8 m-6']],
+ tip:tx('Padding gehört zum Element: Es ist klickbar und hat Hintergrund. Margin ist Abstand zu den Nachbarn. Für Abstände zwischen Geschwistern ist <code>gap</code> am Eltern-Element meist die bessere Wahl.','Padding belongs to the element: it’s clickable and has a background. Margin is the distance to the neighbors. For spacing between siblings, <code>gap</code> on the parent is usually the better choice.')},
+{id:'margin-collapse',cat:'box',name:'Margin Collapsing',sub:tx('Warum 24 + 24 nicht 48 ergibt','Why 24 + 24 doesn’t make 48'),mdn:'CSS_box_model/Mastering_margin_collapsing',
+ desc:tx('Senkrechte Margins zweier Blöcke untereinander addieren sich nicht, sie fallen zusammen: Es gilt die größere. In Flex- und Grid-Containern passiert das nicht.','The vertical margins of two stacked blocks don’t add up, they collapse: the larger one wins. This doesn’t happen in flex and grid containers.'),
  stage:`<div class="ca-mc">${cI(1,'margin-bottom: 24px')}${cI(2,'margin-top: 24px')}</div>`,
- base:[['.ca-n1','.oben',{'margin-bottom':'24px'}],['.ca-n2','.unten',{'margin-top':'24px'}]],t:['.ca-mc','.container'],
- vals:[['block',{display:'block'},'block'],['flex (Spalte)',{display:'flex','flex-direction':'column'},'flex flex-col'],['grid',{display:'grid'},'grid']],
- measure:st=>{const a=$('.ca-n1',st).getBoundingClientRect(),b=$('.ca-n2',st).getBoundingClientRect();return `Abstand zwischen den beiden: ${Math.round(b.top-a.bottom)} px`},
- tip:'Auch die Margin eines ersten Kindes kann durch das Eltern-Element „durchfallen“ und außen landen. Abhilfe: Padding am Eltern-Element, <code>display: flow-root</code> – oder gleich <code>gap</code> statt Margin.'},
-{id:'width',cat:'box',name:'width & max-width',sub:'Feste, relative und begrenzte Breite',mdn:'width',
- desc:'<code>width</code> setzt eine feste oder relative Breite. Block-Elemente sind ohne Angabe (<code>auto</code>) so breit wie ihr Eltern-Element. <code>max-width</code> setzt eine Obergrenze.',
+ base:[['.ca-n1','.upper',{'margin-bottom':'24px'}],['.ca-n2','.lower',{'margin-top':'24px'}]],t:['.ca-mc','.container'],
+ vals:[['block',{display:'block'},'block'],[tx('flex (Spalte)','flex (column)'),{display:'flex','flex-direction':'column'},'flex flex-col'],['grid',{display:'grid'},'grid']],
+ measure:st=>{const a=$('.ca-n1',st).getBoundingClientRect(),b=$('.ca-n2',st).getBoundingClientRect();return `${tx('Abstand zwischen den beiden','Gap between the two')}: ${Math.round(b.top-a.bottom)} px`},
+ tip:tx('Auch die Margin eines ersten Kindes kann durch das Eltern-Element „durchfallen“ und außen landen. Abhilfe: Padding am Eltern-Element, <code>display: flow-root</code> – oder gleich <code>gap</code> statt Margin.','A first child’s margin can also “fall through” the parent and end up outside it. The fix: padding on the parent, <code>display: flow-root</code> – or just use <code>gap</code> instead of margin.')},
+{id:'width',cat:'box',name:'width & max-width',sub:tx('Feste, relative und begrenzte Breite','Fixed, relative and capped width'),mdn:'width',
+ desc:tx('<code>width</code> setzt eine feste oder relative Breite. Block-Elemente sind ohne Angabe (<code>auto</code>) so breit wie ihr Eltern-Element. <code>max-width</code> setzt eine Obergrenze.','<code>width</code> sets a fixed or relative width. Without it (<code>auto</code>), block elements are as wide as their parent. <code>max-width</code> sets an upper limit.'),
  stage:`<div class="ca-c">${cI(1,'Element')}</div>`,t:['.ca-n1','.box'],
  vals:[['auto',{width:'auto'},'w-auto'],['50%',{width:'50%'},'w-1/2'],['480px',{width:'480px'},'w-[480px]'],['100% + max 480px',{width:'100%','max-width':'480px'},'w-full max-w-[480px]']],
- measure:st=>`Gemessene Breite: ${$('.ca-n1',st).offsetWidth} px`,
- tip:'Feste Breiten brechen auf schmalen Bildschirmen aus dem Layout – zieh das Fenster schmal und vergleiche <code>480px</code> mit „100 % + max 480px“. Das Zweite ist fast immer, was man will.'},
-{id:'aspect-ratio',cat:'box',name:'aspect-ratio',sub:'Höhe aus der Breite',mdn:'aspect-ratio',
- desc:'<code>aspect-ratio</code> legt das Seitenverhältnis fest: Die Höhe ergibt sich aus der Breite.',
- stage:`<div class="ca-c">${cI(1,'50 % breit')}</div>`,base:[['.ca-n1','.box',{width:'50%'}]],t:['.ca-n1','.box'],
+ measure:st=>`${tx('Gemessene Breite','Measured width')}: ${$('.ca-n1',st).offsetWidth} px`,
+ tip:tx('Feste Breiten brechen auf schmalen Bildschirmen aus dem Layout – zieh das Fenster schmal und vergleiche <code>480px</code> mit „100 % + max 480px“. Das Zweite ist fast immer, was man will.','Fixed widths break out of the layout on narrow screens – make the window narrow and compare <code>480px</code> with “100% + max 480px”. The second is almost always what you want.')},
+{id:'aspect-ratio',cat:'box',name:'aspect-ratio',sub:tx('Höhe aus der Breite','Height from width'),mdn:'aspect-ratio',
+ desc:tx('<code>aspect-ratio</code> legt das Seitenverhältnis fest: Die Höhe ergibt sich aus der Breite.','<code>aspect-ratio</code> sets the aspect ratio: the height follows from the width.'),
+ stage:`<div class="ca-c">${cI(1,tx('50 % breit','50% wide'))}</div>`,base:[['.ca-n1','.box',{width:'50%'}]],t:['.ca-n1','.box'],
  vals:[['auto','auto','aspect-auto'],['1 / 1','1 / 1','aspect-square'],['16 / 9','16 / 9','aspect-video'],['4 / 3','4 / 3','aspect-[4/3]']],
  measure:st=>{const e=$('.ca-n1',st);return `${e.offsetWidth} × ${e.offsetHeight} px`},
- tip:'Für Bilder und Videos, die erst nachladen, reserviert <code>aspect-ratio</code> den Platz vorab – kein Layout Shift. Bei <code>&lt;img&gt;</code> reichen dafür die Attribute <code>width</code> und <code>height</code>.'},
+ tip:tx('Für Bilder und Videos, die erst nachladen, reserviert <code>aspect-ratio</code> den Platz vorab – kein Layout Shift. Bei <code>&lt;img&gt;</code> reichen dafür die Attribute <code>width</code> und <code>height</code>.','For images and videos that load later, <code>aspect-ratio</code> reserves the space in advance – no layout shift. For <code>&lt;img&gt;</code>, the <code>width</code> and <code>height</code> attributes are enough.')},
+
 /* Typografie */
-{id:'font-size',cat:'type',name:'font-size',sub:'Schriftgröße',mdn:'font-size',
- desc:'<code>rem</code> bezieht sich auf die Grundgröße des Browsers, meist 16 px – und wächst mit, wenn jemand sie in den Einstellungen erhöht.',
- stage:`<p class="ca-text">Schriftgröße</p>`,t:['.ca-text','.text'],
+{id:'font-size',cat:'type',name:'font-size',sub:tx('Schriftgröße','Font size'),mdn:'font-size',
+ desc:tx('<code>rem</code> bezieht sich auf die Grundgröße des Browsers, meist 16 px – und wächst mit, wenn jemand sie in den Einstellungen erhöht.','<code>rem</code> is relative to the browser’s base size, usually 16px – and it grows when someone increases that size in their settings.'),
+ stage:`<p class="ca-text">${tx('Schriftgröße','Font size')}</p>`,t:['.ca-text','.text'],
  vals:[['1rem','1rem','text-base'],['1.5rem','1.5rem','text-2xl'],['2.25rem','2.25rem','text-4xl'],['clamp(1rem, 4vw, 2.5rem)','clamp(1rem, 4vw, 2.5rem)','text-[clamp(1rem,4vw,2.5rem)]']],
- tip:'<code>px</code>-Schriftgrößen ignorieren die Schrifteinstellung im Browser (<a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#wcag-kriterien/1.4.4">WCAG 1.4.4</a>). <code>clamp(min, bevorzugt, max)</code> wächst mit der Fensterbreite, bleibt aber in Grenzen.'},
-{id:'font-weight',cat:'type',name:'font-weight',sub:'Strichstärke',mdn:'font-weight',
- desc:'<code>font-weight</code> bestimmt, wie fett die Schrift ist. Nicht jede Schrift hat jede Stärke.',
- stage:`<p class="ca-text" style="font-size:1.5rem">Gewicht der Schrift</p>`,t:['.ca-text','.text'],
+ tip:tx('<code>px</code>-Schriftgrößen ignorieren die Schrifteinstellung im Browser (<a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#wcag-kriterien/1.4.4">WCAG 1.4.4</a>). <code>clamp(min, bevorzugt, max)</code> wächst mit der Fensterbreite, bleibt aber in Grenzen.','<code>px</code> font sizes ignore the browser’s font size setting (<a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#wcag-kriterien/1.4.4">WCAG 1.4.4</a>). <code>clamp(min, preferred, max)</code> grows with the window width but stays within bounds.')},
+{id:'font-weight',cat:'type',name:'font-weight',sub:tx('Strichstärke','Stroke weight'),mdn:'font-weight',
+ desc:tx('<code>font-weight</code> bestimmt, wie fett die Schrift ist. Nicht jede Schrift hat jede Stärke.','<code>font-weight</code> sets how bold the text is. Not every font comes in every weight.'),
+ stage:`<p class="ca-text" style="font-size:1.5rem">${tx('Gewicht der Schrift','The weight of the type')}</p>`,t:['.ca-text','.text'],
  vals:[['400','400','font-normal'],['500','500','font-medium'],['700','700','font-bold'],['800','800','font-extrabold']],
- tip:'Diese App lädt Atkinson Hyperlegible nur in 400 und 700 – darum sieht 500 hier aus wie 400 und 800 wie 700. Fehlt eine fette Stärke ganz, rechnet der Browser eine unschöne Kunst-Fettung.'},
-{id:'line-height',cat:'type',name:'line-height',sub:'Zeilenabstand',mdn:'line-height',
- desc:'<code>line-height</code> ist der Abstand von Zeile zu Zeile. Ohne Einheit ist es ein Faktor der Schriftgröße – und wird richtig vererbt.',
- stage:`<p class="ca-text ca-w360">Zu enge Zeilen kleben aneinander, zu weite zerfallen in einzelne Streifen. Für Fließtext hat sich ein Faktor um 1,5 bewährt, große Überschriften vertragen weniger.</p>`,t:['.ca-text','.text'],
+ tip:tx('Diese App lädt Atkinson Hyperlegible nur in 400 und 700 – darum sieht 500 hier aus wie 400 und 800 wie 700. Fehlt eine fette Stärke ganz, rechnet der Browser eine unschöne Kunst-Fettung.','This app loads Atkinson Hyperlegible only in 400 and 700 – that’s why 500 looks like 400 here and 800 like 700. If a bold weight is missing entirely, the browser computes an ugly faux bold.')},
+{id:'line-height',cat:'type',name:'line-height',sub:tx('Zeilenabstand','Line spacing'),mdn:'line-height',
+ desc:tx('<code>line-height</code> ist der Abstand von Zeile zu Zeile. Ohne Einheit ist es ein Faktor der Schriftgröße – und wird richtig vererbt.','<code>line-height</code> is the distance from one line to the next. Without a unit it’s a factor of the font size – and it’s inherited correctly.'),
+ stage:`<p class="ca-text ca-w360">${tx('Zu enge Zeilen kleben aneinander, zu weite zerfallen in einzelne Streifen. Für Fließtext hat sich ein Faktor um 1,5 bewährt, große Überschriften vertragen weniger.','Lines that are too tight stick together, lines that are too loose fall apart into separate strips. For body text a factor around 1.5 has proven itself; large headings can take less.')}</p>`,t:['.ca-text','.text'],
  vals:[['1','1','leading-none'],['1.25','1.25','leading-tight'],['1.5','1.5','leading-normal'],['2','2','leading-loose']],def:2,
- tip:'Mit Einheit (<code>line-height: 24px</code>) erben Kinder mit anderer Schriftgröße einen unpassenden Wert. <a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#wcag-kriterien/1.4.12">WCAG 1.4.12</a> testet genau mit 1,5.'},
-{id:'letter-spacing',cat:'type',name:'letter-spacing',sub:'Buchstabenabstand',mdn:'letter-spacing',
- desc:'<code>letter-spacing</code> ändert den Abstand zwischen den Buchstaben. In <code>em</code> angegeben, wächst er mit der Schriftgröße.',
- stage:`<p class="ca-text ca-caps">Kapitelüberschrift</p><p class="ca-text">Normaler Text in Kleinbuchstaben.</p>`,t:['.ca-text','.text'],
+ tip:tx('Mit Einheit (<code>line-height: 24px</code>) erben Kinder mit anderer Schriftgröße einen unpassenden Wert. <a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#wcag-kriterien/1.4.12">WCAG 1.4.12</a> testet genau mit 1,5.','With a unit (<code>line-height: 24px</code>), children with a different font size inherit a value that doesn’t fit. <a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#wcag-kriterien/1.4.12">WCAG 1.4.12</a> tests with exactly 1.5.')},
+{id:'letter-spacing',cat:'type',name:'letter-spacing',sub:tx('Buchstabenabstand','Letter spacing'),mdn:'letter-spacing',
+ desc:tx('<code>letter-spacing</code> ändert den Abstand zwischen den Buchstaben. In <code>em</code> angegeben, wächst er mit der Schriftgröße.','<code>letter-spacing</code> changes the space between letters. Given in <code>em</code>, it grows with the font size.'),
+ stage:`<p class="ca-text ca-caps">${tx('Kapitelüberschrift','Chapter heading')}</p><p class="ca-text">${tx('Normaler Text in Kleinbuchstaben.','Normal text in lowercase letters.')}</p>`,t:['.ca-text','.text'],
  vals:[['-0.025em','-0.025em','tracking-tight'],['normal','normal','tracking-normal'],['0.05em','0.05em','tracking-wider'],['0.1em','0.1em','tracking-widest']],def:1,
- tip:'Großbuchstaben brauchen etwas mehr Abstand, große Überschriften etwas weniger. Fließtext am besten in Ruhe lassen.'},
-{id:'text-align',cat:'type',name:'text-align',sub:'Ausrichtung im Absatz',mdn:'text-align',
- desc:'<code>text-align</code> richtet Text innerhalb seines Kastens aus.',
- stage:`<p class="ca-text ca-w360">Linksbündiger Text hat eine feste Kante, an der jede Zeile beginnt. Das Auge springt immer an dieselbe Stelle zurück. Das macht ihn am leichtesten lesbar.</p>`,t:['.ca-text','.text'],
+ tip:tx('Großbuchstaben brauchen etwas mehr Abstand, große Überschriften etwas weniger. Fließtext am besten in Ruhe lassen.','Uppercase letters need a little more spacing, large headings a little less. Best leave body text alone.')},
+{id:'text-align',cat:'type',name:'text-align',sub:tx('Ausrichtung im Absatz','Alignment within the paragraph'),mdn:'text-align',
+ desc:tx('<code>text-align</code> richtet Text innerhalb seines Kastens aus.','<code>text-align</code> aligns text inside its box.'),
+ stage:`<p class="ca-text ca-w360">${tx('Linksbündiger Text hat eine feste Kante, an der jede Zeile beginnt. Das Auge springt immer an dieselbe Stelle zurück. Das macht ihn am leichtesten lesbar.','Left-aligned text has a fixed edge where every line starts. The eye always jumps back to the same spot. That makes it the easiest to read.')}</p>`,t:['.ca-text','.text'],
  vals:[['left','left','text-left'],['center','center','text-center'],['right','right','text-right'],['justify','justify','text-justify']],
- tip:'<code>justify</code> reißt im Web Löcher zwischen die Wörter, weil Browser schlecht trennen. Warum Zentrieren bei Absätzen schadet, zeigt <a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#details/centered">Gut &amp; Schlecht</a>.'},
-{id:'text-overflow',cat:'type',name:'text-overflow',sub:'Kürzen mit …',mdn:'text-overflow',
- desc:'Einzeilig kürzen braucht drei Eigenschaften zusammen: <code>overflow: hidden</code>, <code>white-space: nowrap</code> und <code>text-overflow: ellipsis</code>. Für mehrere Zeilen gibt es <code>line-clamp</code>.',
- stage:`<p class="ca-text ca-w260">Dieser Satz ist absichtlich zu lang für eine Zeile, damit man sieht, wie gekürzt wird und was dabei verloren geht.</p>`,t:['.ca-text','.text'],
+ tip:tx('<code>justify</code> reißt im Web Löcher zwischen die Wörter, weil Browser schlecht trennen. Warum Zentrieren bei Absätzen schadet, zeigt <a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#details/centered">Gut &amp; Schlecht</a>.','On the web, <code>justify</code> tears holes between words because browsers hyphenate poorly. Why centering paragraphs hurts is shown in <a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#details/centered">Good &amp; Bad</a>.')},
+{id:'text-overflow',cat:'type',name:'text-overflow',sub:tx('Kürzen mit …','Truncating with …'),mdn:'text-overflow',
+ desc:tx('Einzeilig kürzen braucht drei Eigenschaften zusammen: <code>overflow: hidden</code>, <code>white-space: nowrap</code> und <code>text-overflow: ellipsis</code>. Für mehrere Zeilen gibt es <code>line-clamp</code>.','Truncating a single line takes three properties together: <code>overflow: hidden</code>, <code>white-space: nowrap</code> and <code>text-overflow: ellipsis</code>. For multiple lines there’s <code>line-clamp</code>.'),
+ stage:`<p class="ca-text ca-w260">${tx('Dieser Satz ist absichtlich zu lang für eine Zeile, damit man sieht, wie gekürzt wird und was dabei verloren geht.','This sentence is deliberately too long for one line, so you can see how it gets truncated and what gets lost along the way.')}</p>`,t:['.ca-text','.text'],
  vals:[['normal',{},''],['truncate',{overflow:'hidden','white-space':'nowrap','text-overflow':'ellipsis'},'truncate'],['line-clamp: 2',{overflow:'hidden',display:'-webkit-box','-webkit-box-orient':'vertical','-webkit-line-clamp':'2'},'line-clamp-2']],
- tip:'Was abgeschnitten ist, ist weg – auch für Menschen, die es brauchen. Den vollen Text anbieten oder lieber umbrechen lassen, siehe <a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#details/truncation">Gut &amp; Schlecht</a>.'},
-{id:'white-space',cat:'type',name:'white-space',sub:'Leerzeichen und Umbrüche aus dem Quelltext',mdn:'white-space',
- desc:'<code>white-space</code> bestimmt, was mit mehrfachen Leerzeichen und Zeilenumbrüchen im Quelltext passiert – und ob der Browser umbrechen darf.',
- stage:`<p class="ca-text ca-w260">Drei    Leerzeichen   hier.
-Und ein Zeilenumbruch im Quelltext, gefolgt von einem Satz, der zu lang für eine Zeile ist.</p>`,t:['.ca-text','.text'],
+ tip:tx('Was abgeschnitten ist, ist weg – auch für Menschen, die es brauchen. Den vollen Text anbieten oder lieber umbrechen lassen, siehe <a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#details/truncation">Gut &amp; Schlecht</a>.','What’s cut off is gone – including for people who need it. Offer the full text or let it wrap instead, see <a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#details/truncation">Good &amp; Bad</a>.')},
+{id:'white-space',cat:'type',name:'white-space',sub:tx('Leerzeichen und Umbrüche aus dem Quelltext','Spaces and line breaks from the source'),mdn:'white-space',
+ desc:tx('<code>white-space</code> bestimmt, was mit mehrfachen Leerzeichen und Zeilenumbrüchen im Quelltext passiert – und ob der Browser umbrechen darf.','<code>white-space</code> determines what happens to multiple spaces and line breaks in the source – and whether the browser may wrap.'),
+ stage:`<p class="ca-text ca-w260">${tx(`Drei    Leerzeichen   hier.
+Und ein Zeilenumbruch im Quelltext, gefolgt von einem Satz, der zu lang für eine Zeile ist.`,`Three    spaces   here.
+And a line break in the source, followed by a sentence that is too long for one line.`)}</p>`,t:['.ca-text','.text'],
  vals:[['normal','normal','whitespace-normal'],['nowrap','nowrap','whitespace-nowrap'],['pre','pre','whitespace-pre'],['pre-wrap','pre-wrap','whitespace-pre-wrap']],
- tip:'<code>pre-wrap</code> passt für Text, den Nutzer eingegeben haben, etwa Kommentare: Ihre Umbrüche bleiben erhalten, lange Zeilen brechen trotzdem um.'},
-{id:'overflow-wrap',cat:'type',name:'overflow-wrap',sub:'Lange Wörter umbrechen',mdn:'overflow-wrap',
- desc:'Lange Wörter ohne Leerzeichen – URLs, Dateinamen, deutsche Komposita – laufen sonst aus ihrem Kasten.',
- stage:`<p class="ca-text ca-w160" lang="de">https://example.org/ein/sehr/langer/pfad und die Donaudampfschifffahrtsgesellschaft</p>`,t:['.ca-text','.text'],
+ tip:tx('<code>pre-wrap</code> passt für Text, den Nutzer eingegeben haben, etwa Kommentare: Ihre Umbrüche bleiben erhalten, lange Zeilen brechen trotzdem um.','<code>pre-wrap</code> suits text that users typed, such as comments: their line breaks are kept, and long lines still wrap.')},
+{id:'overflow-wrap',cat:'type',name:'overflow-wrap',sub:tx('Lange Wörter umbrechen','Wrapping long words'),mdn:'overflow-wrap',
+ desc:tx('Lange Wörter ohne Leerzeichen – URLs, Dateinamen, deutsche Komposita – laufen sonst aus ihrem Kasten.','Long words without spaces – URLs, file names, German compound nouns – otherwise run out of their box.'),
+ stage:tx(`<p class="ca-text ca-w160" lang="de">https://example.org/ein/sehr/langer/pfad und die Donaudampfschifffahrtsgesellschaft</p>`,`<p class="ca-text ca-w160" lang="en">https://example.org/a/very/long/path and the German word <span lang="de">Donaudampfschifffahrtsgesellschaft</span></p>`),t:['.ca-text','.text'],
  vals:[['normal',{},''],['overflow-wrap: anywhere',{'overflow-wrap':'anywhere'},'wrap-anywhere'],['word-break: break-all',{'word-break':'break-all'},'break-all'],['hyphens: auto',{hyphens:'auto'},'hyphens-auto']],
- tip:'<code>anywhere</code> bricht nur, wenn es nötig ist. <code>break-all</code> bricht überall, auch mitten in kurzen Wörtern. <code>hyphens: auto</code> trennt korrekt mit Bindestrich, braucht aber ein <code>lang</code>-Attribut.'},
+ tip:tx('<code>anywhere</code> bricht nur, wenn es nötig ist. <code>break-all</code> bricht überall, auch mitten in kurzen Wörtern. <code>hyphens: auto</code> trennt korrekt mit Bindestrich, braucht aber ein <code>lang</code>-Attribut.','<code>anywhere</code> only breaks when necessary. <code>break-all</code> breaks everywhere, even in the middle of short words. <code>hyphens: auto</code> hyphenates correctly with a hyphen, but needs a <code>lang</code> attribute.')},
 /* Rahmen & Effekte */
-{id:'border-radius',cat:'look',name:'border-radius',sub:'Ecken abrunden',mdn:'border-radius',
- desc:'<code>border-radius</code> rundet die Ecken ab. Ein sehr großer Wert macht aus einem Rechteck eine Pille, aus einem Quadrat einen Kreis.',
- stage:`<div class="ca-i ca-t2 ca-sq">Ecke</div>`,t:['.ca-sq','.box'],
+{id:'border-radius',cat:'look',name:'border-radius',sub:tx('Ecken abrunden','Rounding corners'),mdn:'border-radius',
+ desc:tx('<code>border-radius</code> rundet die Ecken ab. Ein sehr großer Wert macht aus einem Rechteck eine Pille, aus einem Quadrat einen Kreis.','<code>border-radius</code> rounds the corners. A very large value turns a rectangle into a pill and a square into a circle.'),
+ stage:`<div class="ca-i ca-t2 ca-sq">${tx('Ecke','Corner')}</div>`,t:['.ca-sq','.box'],
  vals:[['0','0','rounded-none'],['6px','6px','rounded-md'],['12px','12px','rounded-xl'],['9999px','9999px','rounded-full']],
- tip:'Innerer Radius = äußerer Radius minus Abstand, sonst wirken verschachtelte Karten an den Ecken dick. In White-Label-Apps ist der Radius ein Design Token – wechsle oben die Marke und schau dir die Buttons an.'},
-{id:'box-shadow',cat:'look',name:'box-shadow',sub:'Schatten und Höhe',mdn:'box-shadow',
- desc:'<code>box-shadow</code> wirft einen Schatten: Versatz x, Versatz y, Unschärfe, Ausdehnung, Farbe. Mehrere Schatten, mit Komma getrennt, wirken natürlicher.',
- stage:`<div class="ca-card">Karte</div>`,t:['.ca-card','.karte'],
+ tip:tx('Innerer Radius = äußerer Radius minus Abstand, sonst wirken verschachtelte Karten an den Ecken dick. In White-Label-Apps ist der Radius ein Design Token – wechsle oben die Marke und schau dir die Buttons an.','Inner radius = outer radius minus padding, otherwise nested cards look thick at the corners. In white-label apps the radius is a design token – switch the brand at the top and look at the buttons.')},
+{id:'box-shadow',cat:'look',name:'box-shadow',sub:tx('Schatten und Höhe','Shadows and elevation'),mdn:'box-shadow',
+ desc:tx('<code>box-shadow</code> wirft einen Schatten: Versatz x, Versatz y, Unschärfe, Ausdehnung, Farbe. Mehrere Schatten, mit Komma getrennt, wirken natürlicher.','<code>box-shadow</code> casts a shadow: x offset, y offset, blur, spread, color. Several shadows, separated by commas, look more natural.'),
+ stage:`<div class="ca-card">${tx('Karte','Card')}</div>`,t:['.ca-card','.card'],
  vals:[['none','none','shadow-none'],['sm','0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)','shadow-sm'],['md','0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)','shadow-md'],['xl','0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)','shadow-xl'],['inset','inset 0 2px 6px rgb(0 0 0 / 0.2)','shadow-[inset_0_2px_6px_rgb(0_0_0/0.2)]']],def:2,
- tip:'Schatten zeigen Höhe: Je höher ein Element schwebt – Dropdown, Dialog –, desto größer und weicher. Im Dark Mode sieht man Schatten kaum, dort helfen hellere Flächen.'},
-{id:'border-outline',cat:'look',name:'border vs. outline',sub:'Warum Fokusringe outline nutzen',mdn:'outline',
- desc:'<code>border</code> gehört zum Box Model und braucht Platz – die Nachbarn rücken zur Seite. <code>outline</code> wird außen darübergezeichnet und verschiebt nichts. Hier für Nummer 2.',
+ tip:tx('Schatten zeigen Höhe: Je höher ein Element schwebt – Dropdown, Dialog –, desto größer und weicher. Im Dark Mode sieht man Schatten kaum, dort helfen hellere Flächen.','Shadows show elevation: the higher an element floats – dropdown, dialog –, the larger and softer the shadow. In dark mode shadows are hard to see; lighter surfaces help there.')},
+{id:'border-outline',cat:'look',name:'border vs. outline',sub:tx('Warum Fokusringe outline nutzen','Why focus rings use outline'),mdn:'outline',
+ desc:tx('<code>border</code> gehört zum Box Model und braucht Platz – die Nachbarn rücken zur Seite. <code>outline</code> wird außen darübergezeichnet und verschiebt nichts. Hier für Nummer 2.','<code>border</code> is part of the box model and takes up space – the neighbors move aside. <code>outline</code> is drawn on top, on the outside, and shifts nothing. Here for item 2.'),
  stage:cC(cN(3)),base:[['.ca-c','.container',{display:'flex',gap:'8px','align-items':'flex-start'}]],t:['.ca-n2','.item-2'],
- vals:[['nichts',{},''],['border: 4px',{border:'4px solid #F59E0B'},'border-4 border-amber-500'],['outline: 4px',{outline:'4px solid #F59E0B'},'outline-4 outline-amber-500'],['outline + offset',{outline:'4px solid #F59E0B','outline-offset':'4px'},'outline-4 outline-offset-4']],
- tip:'Darum nimmt man für Fokusringe <code>outline</code>: Beim Fokussieren springt nichts. Und nie <code>outline: none</code> ohne Ersatz (<a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#wcag-kriterien/2.4.7">WCAG 2.4.7</a>).'},
-{id:'hide',cat:'look',name:'Verstecken',sub:'opacity, visibility, display, sr-only',mdn:'visibility',
- desc:'Vier Arten, etwas zu verstecken – sie unterscheiden sich darin, ob Platz, Klickbarkeit und Screenreader erhalten bleiben. Nummer 2 ist ein Button: Klick auf die Stelle, wo er war.',
+ vals:[[tx('nichts','nothing'),{},''],['border: 4px',{border:'4px solid #F59E0B'},'border-4 border-amber-500'],['outline: 4px',{outline:'4px solid #F59E0B'},'outline-4 outline-amber-500'],['outline + offset',{outline:'4px solid #F59E0B','outline-offset':'4px'},'outline-4 outline-offset-4']],
+ tip:tx('Darum nimmt man für Fokusringe <code>outline</code>: Beim Fokussieren springt nichts. Und nie <code>outline: none</code> ohne Ersatz (<a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#wcag-kriterien/2.4.7">WCAG 2.4.7</a>).','That’s why focus rings use <code>outline</code>: nothing jumps when an element gets focus. And never <code>outline: none</code> without a replacement (<a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#wcag-kriterien/2.4.7">WCAG 2.4.7</a>).')},
+{id:'hide',cat:'look',name:tx('Verstecken','Hiding'),sub:'opacity, visibility, display, sr-only',mdn:'visibility',
+ desc:tx('Vier Arten, etwas zu verstecken – sie unterscheiden sich darin, ob Platz, Klickbarkeit und Screenreader erhalten bleiben. Nummer 2 ist ein Button: Klick auf die Stelle, wo er war.','Four ways to hide something – they differ in whether the space, clickability and screen reader access are kept. Item 2 is a button: click the spot where it was.'),
  stage:cC(`${cI(1)}<button type="button" class="ca-i ca-t2 ca-n2 ca-btn">2</button>${cI(3)}`),base:FLEX,t:['.ca-n2','.button'],
- vals:[['sichtbar',{},'','Normalzustand.'],['opacity: 0',{opacity:'0'},'opacity-0','Platz bleibt · trotzdem klickbar und per Tab erreichbar · Screenreader lesen ihn vor. Die gefährlichste Variante.'],['visibility: hidden',{visibility:'hidden'},'invisible','Platz bleibt · nicht klickbar · für Screenreader weg.'],['display: none',{display:'none'},'hidden','Platz verschwindet · nicht klickbar · für Screenreader weg.'],['sr-only',{position:'absolute',width:'1px',height:'1px',padding:'0',margin:'-1px',overflow:'hidden',clip:'rect(0, 0, 0, 0)','white-space':'nowrap','border-width':'0'},'sr-only','Unsichtbar und ohne Platz – aber Screenreader lesen ihn vor. Für Zusatztext wie „(öffnet in neuem Tab)“.']],
- init(st){$('.ca-btn',st).addEventListener('click',()=>toast({msg:'Button 2 wurde geklickt.',duration:2500}))}},
-{id:'filter',cat:'look',name:'filter',sub:'Bildbearbeitung per CSS',mdn:'filter',
- desc:'<code>filter</code> verändert die Darstellung wie ein Bildprogramm: Unschärfe, Graustufen, Helligkeit, Schatten.',
- stage:`<div class="ca-row"><div class="ca-photo ca-f" role="img" aria-label="Bunte Fläche"></div><svg class="ca-f ca-shape" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.8 5.8 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 3 1.1-6.2L3 9.7l6.2-.9z"/></svg></div>`,t:['.ca-f','.bild'],
+ vals:[[tx('sichtbar','visible'),{},'',tx('Normalzustand.','Normal state.')],
+  ['opacity: 0',{opacity:'0'},'opacity-0',tx('Platz bleibt · trotzdem klickbar und per Tab erreichbar · Screenreader lesen ihn vor. Die gefährlichste Variante.','Space stays · still clickable and reachable with Tab · screen readers read it out. The most dangerous option.')],
+  ['visibility: hidden',{visibility:'hidden'},'invisible',tx('Platz bleibt · nicht klickbar · für Screenreader weg.','Space stays · not clickable · gone for screen readers.')],
+  ['display: none',{display:'none'},'hidden',tx('Platz verschwindet · nicht klickbar · für Screenreader weg.','Space disappears · not clickable · gone for screen readers.')],
+  ['sr-only',{position:'absolute',width:'1px',height:'1px',padding:'0',margin:'-1px',overflow:'hidden',clip:'rect(0, 0, 0, 0)','white-space':'nowrap','border-width':'0'},'sr-only',tx('Unsichtbar und ohne Platz – aber Screenreader lesen ihn vor. Für Zusatztext wie „(öffnet in neuem Tab)“.','Invisible and takes no space – but screen readers read it out. For extra text like “(opens in new tab)”.')]],
+ init(st){$('.ca-btn',st).addEventListener('click',()=>toast({msg:tx('Button 2 wurde geklickt.','Button 2 was clicked.'),duration:2500}))}},
+{id:'filter',cat:'look',name:'filter',sub:tx('Bildbearbeitung per CSS','Image editing with CSS'),mdn:'filter',
+ desc:tx('<code>filter</code> verändert die Darstellung wie ein Bildprogramm: Unschärfe, Graustufen, Helligkeit, Schatten.','<code>filter</code> changes the rendering like an image editor: blur, grayscale, brightness, shadow.'),
+ stage:`<div class="ca-row"><div class="ca-photo ca-f" role="img" aria-label="${tx('Bunte Fläche','Colorful area')}"></div><svg class="ca-f ca-shape" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.8 5.8 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 3 1.1-6.2L3 9.7l6.2-.9z"/></svg></div>`,t:['.ca-f','.image'],
  vals:[['none','none','filter-none'],['blur(4px)','blur(4px)','blur-xs'],['grayscale(1)','grayscale(1)','grayscale'],['brightness(1.25)','brightness(1.25)','brightness-125'],['drop-shadow',{filter:'drop-shadow(0 6px 6px rgb(0 0 0 / 0.4))'},'drop-shadow-[0_6px_6px_rgb(0_0_0/0.4)]']],
- tip:'<code>drop-shadow</code> folgt der echten Form – beim Stern sieht man es –, <code>box-shadow</code> immer dem Rechteck. <code>grayscale(1)</code> auf <code>html</code> ist ein schneller Test, ob Farbe allein Bedeutung trägt.'},
-{id:'backdrop-filter',cat:'look',name:'backdrop-filter',sub:'Milchglas',mdn:'backdrop-filter',
- desc:'<code>backdrop-filter</code> wendet einen Filter auf das an, was <em>hinter</em> dem Element liegt – der bekannte Milchglas-Effekt.',
- stage:`<div class="ca-photo ca-bd"><div class="ca-glass">Milchglas</div></div>`,t:['.ca-glass','.panel'],
+ tip:tx('<code>drop-shadow</code> folgt der echten Form – beim Stern sieht man es –, <code>box-shadow</code> immer dem Rechteck. <code>grayscale(1)</code> auf <code>html</code> ist ein schneller Test, ob Farbe allein Bedeutung trägt.','<code>drop-shadow</code> follows the real shape – you can see it on the star –, <code>box-shadow</code> always follows the rectangle. <code>grayscale(1)</code> on <code>html</code> is a quick test of whether color alone carries meaning.')},
+{id:'backdrop-filter',cat:'look',name:'backdrop-filter',sub:tx('Milchglas','Frosted glass'),mdn:'backdrop-filter',
+ desc:tx('<code>backdrop-filter</code> wendet einen Filter auf das an, was <em>hinter</em> dem Element liegt – der bekannte Milchglas-Effekt.','<code>backdrop-filter</code> applies a filter to whatever lies <em>behind</em> the element – the well-known frosted glass effect.'),
+ stage:`<div class="ca-photo ca-bd"><div class="ca-glass">${tx('Milchglas','Frosted glass')}</div></div>`,t:['.ca-glass','.panel'],
  vals:[['none','none','backdrop-blur-none'],['blur(4px)','blur(4px)','backdrop-blur-xs'],['blur(8px)','blur(8px)','backdrop-blur-sm'],['blur(16px)','blur(16px)','backdrop-blur-lg']],
- tip:'Wirkt nur mit halbtransparentem Hintergrund. Kontrast prüfen: Je nach Motiv dahinter wird Text auf Milchglas schnell unlesbar.'},
+ tip:tx('Wirkt nur mit halbtransparentem Hintergrund. Kontrast prüfen: Je nach Motiv dahinter wird Text auf Milchglas schnell unlesbar.','Only works with a semi-transparent background. Check the contrast: depending on what’s behind it, text on frosted glass quickly becomes unreadable.')},
 /* Transform & Transition */
-{id:'transform',cat:'motion',name:'transform',sub:'Verschieben, drehen, skalieren',mdn:'transform',
- desc:'<code>transform</code> verschiebt, dreht, skaliert oder verzerrt ein Element – rein optisch. Hier Nummer 2.',
+{id:'transform',cat:'motion',name:'transform',sub:tx('Verschieben, drehen, skalieren','Move, rotate, scale'),mdn:'transform',
+ desc:tx('<code>transform</code> verschiebt, dreht, skaliert oder verzerrt ein Element – rein optisch. Hier Nummer 2.','<code>transform</code> moves, rotates, scales or skews an element – purely visually. Here item 2.'),
  stage:cC(cN(3)),base:FLEX,t:['.ca-n2','.item-2'],
  vals:[['none','none','transform-none'],['translateX(24px)','translateX(24px)','translate-x-6'],['rotate(12deg)','rotate(12deg)','rotate-12'],['scale(1.25)','scale(1.25)','scale-125'],['skewX(12deg)','skewX(12deg)','skew-x-12']],
- tip:'Die Nachbarn bleiben, wo sie sind: <code>transform</code> ändert das Layout nicht. Darum laufen Animationen mit <code>transform</code> flüssig, während <code>width</code>, <code>top</code> oder <code>margin</code> ruckeln – die zwingen den Browser, das Layout neu zu berechnen.'},
-{id:'transform-origin',cat:'motion',name:'transform-origin',sub:'Um welchen Punkt gedreht wird',mdn:'transform-origin',
- desc:'<code>transform-origin</code> legt den Punkt fest, um den gedreht und skaliert wird. Standard ist die Mitte. Der gestrichelte Rahmen zeigt die Ausgangslage.',
- stage:`<div class="ca-orig"><div class="ca-ghost"></div><div class="ca-i ca-t3 ca-sq ca-rot">Drehpunkt</div></div>`,
+ tip:tx('Die Nachbarn bleiben, wo sie sind: <code>transform</code> ändert das Layout nicht. Darum laufen Animationen mit <code>transform</code> flüssig, während <code>width</code>, <code>top</code> oder <code>margin</code> ruckeln – die zwingen den Browser, das Layout neu zu berechnen.','The neighbors stay where they are: <code>transform</code> doesn’t change the layout. That’s why animations with <code>transform</code> run smoothly, while <code>width</code>, <code>top</code> or <code>margin</code> stutter – they force the browser to recalculate the layout.')},
+{id:'transform-origin',cat:'motion',name:'transform-origin',sub:tx('Um welchen Punkt gedreht wird','The point it rotates around'),mdn:'transform-origin',
+ desc:tx('<code>transform-origin</code> legt den Punkt fest, um den gedreht und skaliert wird. Standard ist die Mitte. Der gestrichelte Rahmen zeigt die Ausgangslage.','<code>transform-origin</code> sets the point that rotation and scaling happen around. The default is the center. The dashed frame shows the starting position.'),
+ stage:`<div class="ca-orig"><div class="ca-ghost"></div><div class="ca-i ca-t3 ca-sq ca-rot">${tx('Drehpunkt','Pivot')}</div></div>`,
  base:[['.ca-rot','.box',{transform:'rotate(25deg)'}]],t:['.ca-rot','.box'],
  vals:[['center','center','origin-center'],['top left','top left','origin-top-left'],['bottom right','bottom right','origin-bottom-right']],
- tip:'Ein Dropdown, das aus seinem Button herauswachsen soll, braucht <code>transform-origin: top</code> – sonst wächst es aus der Mitte.'},
-{id:'transition',cat:'motion',name:'transition',sub:'Den Wechsel animieren',mdn:'transition',
- desc:'<code>transition</code> animiert den Wechsel zwischen zwei Zuständen: welche Eigenschaft, wie lange, mit welcher Kurve. Wähl einen Wert und drück „Bewegen“.',
- stage:`<div class="ca-track"><div class="ca-i ca-t2 ca-ball" aria-hidden="true"></div></div><button type="button" class="btn btn-secondary ca-go">Bewegen</button>`,t:['.ca-ball','.ball'],
+ tip:tx('Ein Dropdown, das aus seinem Button herauswachsen soll, braucht <code>transform-origin: top</code> – sonst wächst es aus der Mitte.','A dropdown that should grow out of its button needs <code>transform-origin: top</code> – otherwise it grows out of the center.')},
+{id:'transition',cat:'motion',name:'transition',sub:tx('Den Wechsel animieren','Animating the change'),mdn:'transition',
+ desc:tx('<code>transition</code> animiert den Wechsel zwischen zwei Zuständen: welche Eigenschaft, wie lange, mit welcher Kurve. Wähl einen Wert und drück „Bewegen“.','<code>transition</code> animates the change between two states: which property, how long, with which curve. Pick a value and press “Move”.'),
+ stage:`<div class="ca-track"><div class="ca-i ca-t2 ca-ball" aria-hidden="true"></div></div><button type="button" class="btn btn-secondary ca-go">${tx('Bewegen','Move')}</button>`,t:['.ca-ball','.ball'],
  vals:[['none','none','transition-none'],['150ms ease-out','transform 150ms ease-out','transition-transform duration-150 ease-out'],['400ms ease-in-out','transform 400ms ease-in-out','transition-transform duration-400 ease-in-out'],['1s linear','transform 1s linear','transition-transform duration-1000 ease-linear']],def:1,
  init(st){let on=false;const b=$('.ca-ball',st),tr=$('.ca-track',st);$('.ca-go',st).addEventListener('click',()=>{on=!on;b.style.transform=on?`translateX(${tr.clientWidth-b.offsetWidth-16}px)`:''})},
- tip:'Kleine Elemente 100–200 ms, <code>ease-out</code> beim Hereinkommen; <code>linear</code> wirkt mechanisch. Ist in deinem System „Bewegung reduzieren“ an, springt die Kugel sofort – so soll es sein.'},
+ tip:tx('Kleine Elemente 100–200 ms, <code>ease-out</code> beim Hereinkommen; <code>linear</code> wirkt mechanisch. Ist in deinem System „Bewegung reduzieren“ an, springt die Kugel sofort – so soll es sein.','Small elements 100–200 ms, <code>ease-out</code> when entering; <code>linear</code> feels mechanical. If “Reduce motion” is on in your system, the ball jumps instantly – that’s how it should be.')},
 /* Interaktion */
-{id:'cursor',cat:'interact',name:'cursor',sub:'Der Mauszeiger',mdn:'cursor',
- desc:'<code>cursor</code> legt fest, welchen Mauszeiger man über dem Element sieht. Fahr mit der Maus über den Kasten.',
- stage:`<div class="ca-cur">Fahr mit der Maus hier drüber</div>`,t:['.ca-cur','.element'],
+{id:'cursor',cat:'interact',name:'cursor',sub:tx('Der Mauszeiger','The mouse pointer'),mdn:'cursor',
+ desc:tx('<code>cursor</code> legt fest, welchen Mauszeiger man über dem Element sieht. Fahr mit der Maus über den Kasten.','<code>cursor</code> sets which mouse pointer you see over the element. Move your mouse over the box.'),
+ stage:`<div class="ca-cur">${tx('Fahr mit der Maus hier drüber','Move your mouse over here')}</div>`,t:['.ca-cur','.element'],
  vals:[['default','default','cursor-default'],['pointer','pointer','cursor-pointer'],['text','text','cursor-text'],['move','move','cursor-move'],['grab','grab','cursor-grab'],['not-allowed','not-allowed','cursor-not-allowed'],['help','help','cursor-help']],
- tip:'Die Hand (<code>pointer</code>) zeigen Browser nur bei Links; ob Buttons sie bekommen, ist Geschmackssache – siehe <a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#details/clickable-card">Gut &amp; Schlecht</a>. <code>not-allowed</code> ersetzt keine Erklärung, warum etwas nicht geht.'},
-{id:'pointer-events',cat:'interact',name:'pointer-events',sub:'Klicks durchlassen',mdn:'pointer-events',
- desc:'<code>pointer-events: none</code> macht ein Element für Maus und Touch durchlässig – Klicks gehen an das, was darunter liegt. Das gestreifte Overlay liegt über dem Button.',
- stage:`<div class="ca-pe"><button type="button" class="btn btn-primary ca-pe-btn">Klick mich</button><div class="ca-pe-over">Overlay</div></div>`,t:['.ca-pe-over','.overlay'],
+ tip:tx('Die Hand (<code>pointer</code>) zeigen Browser nur bei Links; ob Buttons sie bekommen, ist Geschmackssache – siehe <a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#details/clickable-card">Gut &amp; Schlecht</a>. <code>not-allowed</code> ersetzt keine Erklärung, warum etwas nicht geht.','Browsers show the hand (<code>pointer</code>) only on links; whether buttons get it is a matter of taste – see <a class="xlink" href="https://daniel-hopium.github.io/pattern-library/#details/clickable-card">Good &amp; Bad</a>. <code>not-allowed</code> doesn’t replace an explanation of why something isn’t possible.')},
+{id:'pointer-events',cat:'interact',name:'pointer-events',sub:tx('Klicks durchlassen','Letting clicks through'),mdn:'pointer-events',
+ desc:tx('<code>pointer-events: none</code> macht ein Element für Maus und Touch durchlässig – Klicks gehen an das, was darunter liegt. Das gestreifte Overlay liegt über dem Button.','<code>pointer-events: none</code> makes an element transparent to mouse and touch – clicks go to whatever lies beneath it. The striped overlay sits on top of the button.'),
+ stage:`<div class="ca-pe"><button type="button" class="btn btn-primary ca-pe-btn">${tx('Klick mich','Click me')}</button><div class="ca-pe-over">Overlay</div></div>`,t:['.ca-pe-over','.overlay'],
  vals:[['auto','auto','pointer-events-auto'],['none','none','pointer-events-none']],
- init(st){$('.ca-pe-btn',st).addEventListener('click',()=>toast({msg:'Der Button wurde geklickt.',type:'success',duration:2500}));$('.ca-pe-over',st).addEventListener('click',()=>toast({msg:'Das Overlay hat den Klick abgefangen.',duration:2500}))},
- tip:'Praktisch für dekorative Overlays, Verläufe und Icons in Eingabefeldern. Tastatur-Fokus und Screenreader betrifft es aber nicht – als „deaktiviert“ taugt es nicht.'},
-{id:'user-select',cat:'interact',name:'user-select',sub:'Markieren erlauben oder erleichtern',mdn:'user-select',
- desc:'<code>user-select</code> steuert, ob und wie sich Text markieren lässt. Versuch, die beiden Zeilen zu markieren – oder klick einmal hinein.',
- stage:`<p class="ca-text ca-us">Ein Satz zum Markieren mit der Maus.</p><p class="ca-mono ca-us">npm install daumenregel</p>`,t:['.ca-us','.text'],
+ init(st){$('.ca-pe-btn',st).addEventListener('click',()=>toast({msg:tx('Der Button wurde geklickt.','The button was clicked.'),type:'success',duration:2500}));$('.ca-pe-over',st).addEventListener('click',()=>toast({msg:tx('Das Overlay hat den Klick abgefangen.','The overlay intercepted the click.'),duration:2500}))},
+ tip:tx('Praktisch für dekorative Overlays, Verläufe und Icons in Eingabefeldern. Tastatur-Fokus und Screenreader betrifft es aber nicht – als „deaktiviert“ taugt es nicht.','Handy for decorative overlays, gradients and icons in input fields. It doesn’t affect keyboard focus or screen readers, though – it’s no good as “disabled”.')},
+{id:'user-select',cat:'interact',name:'user-select',sub:tx('Markieren erlauben oder erleichtern','Allowing or easing text selection'),mdn:'user-select',
+ desc:tx('<code>user-select</code> steuert, ob und wie sich Text markieren lässt. Versuch, die beiden Zeilen zu markieren – oder klick einmal hinein.','<code>user-select</code> controls whether and how text can be selected. Try selecting the two lines – or click into them once.'),
+ stage:`<p class="ca-text ca-us">${tx('Ein Satz zum Markieren mit der Maus.','A sentence to select with the mouse.')}</p><p class="ca-mono ca-us">npm install daumenregel</p>`,t:['.ca-us','.text'],
  vals:[['auto','auto','select-auto'],['none','none','select-none'],['all','all','select-all'],['text','text','select-text']],
- tip:'<code>all</code> ist praktisch für Befehle und Codes zum Kopieren: Ein Klick markiert alles. <code>none</code> nur für Bedienelemente – nie für Inhalt, den jemand kopieren will.'},
-{id:'scroll-snap',cat:'interact',name:'scroll-snap-type',sub:'Einrasten beim Scrollen',mdn:'CSS_scroll_snap',
- desc:'<code>scroll-snap</code> lässt einen Scroll-Container an bestimmten Punkten einrasten – wie ein Karussell, nur ohne JavaScript. Scroll im Kasten seitwärts.',
- stage:`<div class="ca-snap" tabindex="0" role="region" aria-label="Seitwärts scrollende Karten">${[1,2,3,4,5,6].map(n=>`<div class="ca-i ca-t${(n-1)%4+1} ca-snapi">Karte ${n}</div>`).join('')}</div>`,
- base:[['.ca-snapi','.karte',{'scroll-snap-align':'start'}]],t:['.ca-snap','.container'],
+ tip:tx('<code>all</code> ist praktisch für Befehle und Codes zum Kopieren: Ein Klick markiert alles. <code>none</code> nur für Bedienelemente – nie für Inhalt, den jemand kopieren will.','<code>all</code> is handy for commands and codes to copy: one click selects everything. Use <code>none</code> only for controls – never for content someone might want to copy.')},
+{id:'scroll-snap',cat:'interact',name:'scroll-snap-type',sub:tx('Einrasten beim Scrollen','Snapping while scrolling'),mdn:'CSS_scroll_snap',
+ desc:tx('<code>scroll-snap</code> lässt einen Scroll-Container an bestimmten Punkten einrasten – wie ein Karussell, nur ohne JavaScript. Scroll im Kasten seitwärts.','<code>scroll-snap</code> makes a scroll container snap to certain points – like a carousel, just without JavaScript. Scroll sideways in the box.'),
+ stage:`<div class="ca-snap" tabindex="0" role="region" aria-label="${tx('Seitwärts scrollende Karten','Cards scrolling sideways')}">${[1,2,3,4,5,6].map(n=>`<div class="ca-i ca-t${(n-1)%4+1} ca-snapi">${tx('Karte','Card')} ${n}</div>`).join('')}</div>`,
+ base:[['.ca-snapi','.card',{'scroll-snap-align':'start'}]],t:['.ca-snap','.container'],
  vals:[['none','none','snap-none'],['x mandatory','x mandatory','snap-x snap-mandatory'],['x proximity','x proximity','snap-x snap-proximity']],def:1,
- tip:'<code>mandatory</code> rastet immer ein, <code>proximity</code> nur in der Nähe eines Punkts. Die Kinder brauchen <code>scroll-snap-align</code>. Mit der Tastatur: erst in den Kasten tabben, dann Pfeiltasten.'},
-{id:'accent-color',cat:'interact',name:'accent-color',sub:'Native Formularelemente einfärben',mdn:'accent-color',
- desc:'<code>accent-color</code> färbt Checkbox, Radio, Regler und Fortschrittsbalken mit einer Zeile ein.',
- stage:`<div class="ca-form"><label><input type="checkbox" checked> Checkbox</label><label><input type="radio" name="ca-acc" checked> Radio</label><input type="range" value="60" aria-label="Regler"><progress value="60" max="100">60 %</progress></div>`,t:['.ca-form','.formular'],
+ tip:tx('<code>mandatory</code> rastet immer ein, <code>proximity</code> nur in der Nähe eines Punkts. Die Kinder brauchen <code>scroll-snap-align</code>. Mit der Tastatur: erst in den Kasten tabben, dann Pfeiltasten.','<code>mandatory</code> always snaps, <code>proximity</code> only near a snap point. The children need <code>scroll-snap-align</code>. With the keyboard: tab into the box first, then use the arrow keys.')},
+{id:'accent-color',cat:'interact',name:'accent-color',sub:tx('Native Formularelemente einfärben','Coloring native form controls'),mdn:'accent-color',
+ desc:tx('<code>accent-color</code> färbt Checkbox, Radio, Regler und Fortschrittsbalken mit einer Zeile ein.','<code>accent-color</code> colors checkboxes, radio buttons, sliders and progress bars with a single line.'),
+ stage:`<div class="ca-form"><label><input type="checkbox" checked> Checkbox</label><label><input type="radio" name="ca-acc" checked> Radio</label><input type="range" value="60" aria-label="${tx('Regler','Slider')}"><progress value="60" max="100">${tx('60 %','60%')}</progress></div>`,t:['.ca-form','.form'],
  vals:[['auto','auto','accent-auto'],['#BE185D','#BE185D','accent-[#BE185D]'],['#047857','#047857','accent-[#047857]'],['#0369A1','#0369A1','accent-[#0369A1]']],def:1,
- tip:'Der Browser passt die Farbe des Häkchens selbst an, damit der Kontrast stimmt. Für die meisten Formulare reicht das, statt Checkboxen nachzubauen.'},
+ tip:tx('Der Browser passt die Farbe des Häkchens selbst an, damit der Kontrast stimmt. Für die meisten Formulare reicht das, statt Checkboxen nachzubauen.','The browser adjusts the checkmark color itself so the contrast holds. For most forms that’s enough – no need to rebuild checkboxes.')},
 /* Selektoren */
-{id:'combinators',cat:'sel',name:'Kombinatoren',sub:'Leerzeichen, >, + und ~',mode:'sel',mdn:'Child_combinator',
- desc:'Kombinatoren verbinden zwei Selektoren und beschreiben die Beziehung im DOM: Nachkomme, Kind oder Geschwister.',
- stage:`<div class="box"><h4>Überschrift</h4><p>Absatz 1 – Kind von .box</p><p>Absatz 2 – Kind von .box</p><section><p>Absatz 3 – steckt in einer section</p></section><p>Absatz 4 – Kind von .box</p></div>`,
- vals:[['.box p','[&_p]:','Leerzeichen: alle Nachkommen, egal wie tief – auch Absatz 3.'],['.box > p','[&>p]:','>: nur direkte Kinder – Absatz 3 nicht.'],['h4 + p','','+: nur das direkt folgende Geschwister.'],['h4 ~ p','','~: alle folgenden Geschwister auf derselben Ebene.']]},
-{id:'nth-child',cat:'sel',name:':nth-child',sub:'Nach Position auswählen',mode:'sel',mdn:':nth-child',
- desc:'<code>:nth-child</code> wählt Elemente nach ihrer Position unter den Geschwistern – für Zebrastreifen, das erste oder „jedes dritte“.',
- stage:`<ol class="liste">${[1,2,3,4,5,6,7].map(n=>`<li>Eintrag ${n}</li>`).join('')}</ol>`,
- vals:[['li:first-child','first:'],['li:nth-child(2)','nth-2:'],['li:nth-child(odd)','odd:','odd = 1, 3, 5 … – even wären die geraden.'],['li:nth-child(3n)','nth-[3n]:','3n = jedes dritte: 3, 6, 9 …'],['li:last-child','last:'],['li:nth-last-child(2)','nth-last-2:','Von hinten gezählt.']],
- tip:'<code>:nth-child</code> zählt alle Geschwister, auch andere Tags. Steht eine Überschrift zwischen den <code>li</code>, verschiebt sie die Zählung. Dann hilft <code>:nth-of-type</code> oder <code>:nth-child(odd of li)</code>.'},
-{id:'has',cat:'sel',name:':has()',sub:'Der Eltern-Selektor',mode:'sel',mdn:':has',
- desc:'<code>:has()</code> wählt ein Element danach aus, was in ihm steckt. Hak die Karten an – die Markierung folgt live.',
- stage:`<div class="karten"><label class="karte"><input type="checkbox"> Tarif S</label><label class="karte"><input type="checkbox" checked> Tarif M <span class="badge">Beliebt</span></label><label class="karte"><input type="checkbox"> Tarif L</label></div>`,
- vals:[['.karte:has(input:checked)','has-checked:','Die Karte, deren Checkbox an ist.'],['.karte:has(.badge)','has-[.badge]:','Die Karte, die ein Badge enthält.'],['.karten:has(input:checked) .karte:not(:has(input:checked))','','Alle anderen – sobald irgendeine gewählt ist.']],
- tip:'Damit geht ohne JavaScript, wofür man früher Klassen umschalten musste. In dieser App färbt <code>.seg label:has(input:checked)</code> die Segmented Controls.'},
-{id:'states',cat:'sel',name:':hover, :focus & Co.',sub:'Zustände, die der Nutzer auslöst',mode:'sel',noCount:true,mdn:':focus-visible',
- desc:'Pseudoklassen beschreiben einen Zustand: Maus darüber, gedrückt, fokussiert. Wähl einen aus und probier ihn am Button oder am Feld aus.',
- stage:`<div class="ca-states"><button type="button" class="knopf btn btn-secondary">Button</button><div class="gruppe"><label for="ca-states-in">Name</label><input class="feld input" id="ca-states-in"></div></div>`,
- vals:[['.knopf:hover','hover:','Mit der Maus drüberfahren.'],['.knopf:active','active:','Klicken und gedrückt halten.'],['.knopf:focus','focus:','Anklicken – und dann per Tab hinspringen. Beide Male markiert.'],['.knopf:focus-visible','focus-visible:','Anklicken: keine Markierung. Per Tab: Markierung. Der Browser zeigt sie nur, wenn sie gebraucht wird.'],['.gruppe:focus-within','focus-within:','Ins Feld klicken: Die ganze Gruppe wird markiert.']],
- tip:'Für Fokusringe <code>:focus-visible</code> statt <code>:focus</code>: Nach einem Mausklick kein Ring, mit der Tastatur immer. <code>:hover</code> allein reicht nie – Touch und Tastatur kennen es nicht.'},
-{id:'pseudo-elements',cat:'sel',name:'::before & ::after',sub:'Pseudo-Elemente',mode:'css',mdn:'::before',
- desc:'<code>::before</code> und <code>::after</code> erzeugen ein zusätzliches Element vor oder nach dem Inhalt – nur mit CSS. <code>::marker</code> gestaltet Listenpunkte, <code>::selection</code> markierten Text.',
- stage:`<a class="link" href="#">Mehr erfahren</a><p class="hinweis">Das ist ein Hinweis zum Markieren.</p><ul class="punkte"><li>Erster Punkt</li><li>Zweiter Punkt</li></ul>`,
- vals:[['ohne','',''],['::after','& .link::after { content: " →"; }',"after:content-['_→']"],['::before','& .hinweis::before { content: "⚠ "; color: #B45309; }',''],['::marker','& .punkte li::marker { content: "✓  "; color: #047857; }','marker:text-emerald-700'],['::selection','& .hinweis::selection { background: #FDE047; color: #000; }','selection:bg-yellow-300','Markier den Hinweis-Text mit der Maus.']],
- tip:'Text aus <code>content</code> lesen die meisten Screenreader mit. Rein Dekoratives bekommt einen leeren Alternativtext: <code>content: "→" / ""</code>.'},
-{id:'attribute',cat:'sel',name:'Attribut-Selektoren',sub:'[href], ^=, $=, data-*',mode:'sel',mdn:'Attribute_selectors',
- desc:'Attribut-Selektoren wählen Elemente nach ihren Attributen und deren Werten – ohne zusätzliche Klassen.',
- stage:`<div class="ca-attrs"><a href="https://example.org">Extern</a><a href="/intern">Intern</a><a href="bericht.pdf">Bericht (PDF)</a><a>ohne href</a><button type="button" data-state="open" class="btn btn-secondary">Menü (offen)</button><button type="button" data-state="closed" class="btn btn-secondary">Suche (zu)</button></div>`,
- vals:[['a[href]','','Alle Links mit href.'],['a[href^="https"]','','^= beginnt mit.'],['a[href$=".pdf"]','','$= endet mit – etwa für ein PDF-Symbol.'],['[data-state="open"]','data-[state=open]:','Zustand als data-Attribut, typisch für Komponentenbibliotheken.'],['a:not([href])','','Ein a ohne href ist kein Link: nicht fokussierbar, keine Rolle.']],
- tip:'<code>[aria-expanded="true"]</code> oder <code>[aria-current="page"]</code> als Styling-Haken koppeln Optik und Barrierefreiheit: Stimmt das Attribut nicht, sieht man es sofort. Diese App stylt den aktiven Eintrag der Seitenleiste genau so.'},
-{id:'specificity',cat:'sel',name:'Spezifität',sub:'Welche Regel gewinnt?',mode:'css',mdn:'Specificity',
- desc:'Treffen mehrere Regeln dasselbe Element, gewinnt die spezifischere – erst bei Gleichstand die spätere. Gezählt wird (IDs, Klassen/Attribute/Pseudoklassen, Elemente).',
- stage:`<div class="box"><p class="note" id="ca-x">Welche Farbe gewinnt?</p></div>`,
- vals:[['Element vs. Klasse','& p { color: #0369A1; }\n& .note { color: #047857; }','','.note (0,1,0) schlägt p (0,0,1): grün.'],
-  ['Mehr Teile','& .box p { color: #BE185D; }\n& .note { color: #047857; }','','.box p (0,1,1) schlägt .note (0,1,0): pink – obwohl .note später steht.'],
-  [':where()','& :where(.box) p { color: #BE185D; }\n& .note { color: #047857; }','',':where() zählt null, bleibt also (0,0,1): grün. So bauen Resets Regeln, die man leicht überschreibt.'],
-  ['ID','& #ca-x { color: #6D28D9; }\n& .box p.note { color: #047857; }','','Eine ID (1,0,0) schlägt jede Menge Klassen: violett.'],
-  ['!important','& .note { color: #047857 !important; }\n& #ca-x { color: #6D28D9; }','','!important sticht jede Spezifität: grün. Danach hilft nur noch ein weiteres !important.']],
- tip:'Hohe Spezifität ist schwer zu überschreiben. Design-Systeme bleiben darum bei flachen Klassen, Tailwind erzeugt fast nur einzelne Klassen – alle mit derselben Spezifität.'}
+{id:'combinators',cat:'sel',name:tx('Kombinatoren','Combinators'),sub:tx('Leerzeichen, >, + und ~','Space, >, + and ~'),mode:'sel',mdn:'Child_combinator',
+ desc:tx('Kombinatoren verbinden zwei Selektoren und beschreiben die Beziehung im DOM: Nachkomme, Kind oder Geschwister.','Combinators connect two selectors and describe their relationship in the DOM: descendant, child or sibling.'),
+ stage:`<div class="box"><h4>${tx('Überschrift','Heading')}</h4><p>${tx('Absatz 1 – Kind von .box','Paragraph 1 – child of .box')}</p><p>${tx('Absatz 2 – Kind von .box','Paragraph 2 – child of .box')}</p><section><p>${tx('Absatz 3 – steckt in einer section','Paragraph 3 – sits inside a section')}</p></section><p>${tx('Absatz 4 – Kind von .box','Paragraph 4 – child of .box')}</p></div>`,
+ vals:[['.box p','[&_p]:',tx('Leerzeichen: alle Nachkommen, egal wie tief – auch Absatz 3.','Space: all descendants, however deep – including paragraph 3.')],['.box > p','[&>p]:',tx('>: nur direkte Kinder – Absatz 3 nicht.','>: direct children only – not paragraph 3.')],['h4 + p','',tx('+: nur das direkt folgende Geschwister.','+: only the immediately following sibling.')],['h4 ~ p','',tx('~: alle folgenden Geschwister auf derselben Ebene.','~: all following siblings on the same level.')]]},
+{id:'nth-child',cat:'sel',name:':nth-child',sub:tx('Nach Position auswählen','Selecting by position'),mode:'sel',mdn:':nth-child',
+ desc:tx('<code>:nth-child</code> wählt Elemente nach ihrer Position unter den Geschwistern – für Zebrastreifen, das erste oder „jedes dritte“.','<code>:nth-child</code> selects elements by their position among their siblings – for zebra stripes, the first one or “every third”.'),
+ stage:`<ol class="list">${[1,2,3,4,5,6,7].map(n=>`<li>${tx('Eintrag','Item')} ${n}</li>`).join('')}</ol>`,
+ vals:[['li:first-child','first:'],['li:nth-child(2)','nth-2:'],['li:nth-child(odd)','odd:',tx('odd = 1, 3, 5 … – even wären die geraden.','odd = 1, 3, 5 … – even would be the even ones.')],['li:nth-child(3n)','nth-[3n]:',tx('3n = jedes dritte: 3, 6, 9 …','3n = every third: 3, 6, 9 …')],['li:last-child','last:'],['li:nth-last-child(2)','nth-last-2:',tx('Von hinten gezählt.','Counted from the end.')]],
+ tip:tx('<code>:nth-child</code> zählt alle Geschwister, auch andere Tags. Steht eine Überschrift zwischen den <code>li</code>, verschiebt sie die Zählung. Dann hilft <code>:nth-of-type</code> oder <code>:nth-child(odd of li)</code>.','<code>:nth-child</code> counts all siblings, including other tags. If a heading sits between the <code>li</code> elements, it shifts the count. Then <code>:nth-of-type</code> or <code>:nth-child(odd of li)</code> helps.')},
+{id:'has',cat:'sel',name:':has()',sub:tx('Der Eltern-Selektor','The parent selector'),mode:'sel',mdn:':has',
+ desc:tx('<code>:has()</code> wählt ein Element danach aus, was in ihm steckt. Hak die Karten an – die Markierung folgt live.','<code>:has()</code> selects an element based on what’s inside it. Check the cards – the highlight follows live.'),
+ stage:`<div class="cards"><label class="card"><input type="checkbox"> ${tx('Tarif','Plan')} S</label><label class="card"><input type="checkbox" checked> ${tx('Tarif','Plan')} M <span class="badge">${tx('Beliebt','Popular')}</span></label><label class="card"><input type="checkbox"> ${tx('Tarif','Plan')} L</label></div>`,
+ vals:[['.card:has(input:checked)','has-checked:',tx('Die Karte, deren Checkbox an ist.','The card whose checkbox is on.')],['.card:has(.badge)','has-[.badge]:',tx('Die Karte, die ein Badge enthält.','The card that contains a badge.')],['.cards:has(input:checked) .card:not(:has(input:checked))','',tx('Alle anderen – sobald irgendeine gewählt ist.','All the others – as soon as any one is selected.')]],
+ tip:tx('Damit geht ohne JavaScript, wofür man früher Klassen umschalten musste. In dieser App färbt <code>.seg label:has(input:checked)</code> die Segmented Controls.','This does without JavaScript what used to require toggling classes. In this app, <code>.seg label:has(input:checked)</code> colors the segmented controls.')},
+{id:'states',cat:'sel',name:tx(':hover, :focus & Co.',':hover, :focus & co.'),sub:tx('Zustände, die der Nutzer auslöst','States the user triggers'),mode:'sel',noCount:true,mdn:':focus-visible',
+ desc:tx('Pseudoklassen beschreiben einen Zustand: Maus darüber, gedrückt, fokussiert. Wähl einen aus und probier ihn am Button oder am Feld aus.','Pseudo-classes describe a state: mouse over it, pressed, focused. Pick one and try it on the button or the field.'),
+ stage:`<div class="ca-states"><button type="button" class="button btn btn-secondary">Button</button><div class="group"><label for="ca-states-in">Name</label><input class="textbox input" id="ca-states-in"></div></div>`,
+ vals:[['.button:hover','hover:',tx('Mit der Maus drüberfahren.','Move the mouse over it.')],['.button:active','active:',tx('Klicken und gedrückt halten.','Click and hold.')],['.button:focus','focus:',tx('Anklicken – und dann per Tab hinspringen. Beide Male markiert.','Click it – then jump to it with Tab. Highlighted both times.')],['.button:focus-visible','focus-visible:',tx('Anklicken: keine Markierung. Per Tab: Markierung. Der Browser zeigt sie nur, wenn sie gebraucht wird.','Click: no highlight. With Tab: highlight. The browser only shows it when it’s needed.')],['.group:focus-within','focus-within:',tx('Ins Feld klicken: Die ganze Gruppe wird markiert.','Click into the field: the whole group gets highlighted.')]],
+ tip:tx('Für Fokusringe <code>:focus-visible</code> statt <code>:focus</code>: Nach einem Mausklick kein Ring, mit der Tastatur immer. <code>:hover</code> allein reicht nie – Touch und Tastatur kennen es nicht.','For focus rings, use <code>:focus-visible</code> instead of <code>:focus</code>: no ring after a mouse click, always one with the keyboard. <code>:hover</code> alone is never enough – touch and keyboard don’t have it.')},
+{id:'pseudo-elements',cat:'sel',name:'::before & ::after',sub:tx('Pseudo-Elemente','Pseudo-elements'),mode:'css',mdn:'::before',
+ desc:tx('<code>::before</code> und <code>::after</code> erzeugen ein zusätzliches Element vor oder nach dem Inhalt – nur mit CSS. <code>::marker</code> gestaltet Listenpunkte, <code>::selection</code> markierten Text.','<code>::before</code> and <code>::after</code> create an extra element before or after the content – with CSS alone. <code>::marker</code> styles list bullets, <code>::selection</code> styles selected text.'),
+ stage:`<a class="link" href="#">${tx('Mehr erfahren','Learn more')}</a><p class="notice">${tx('Das ist ein Hinweis zum Markieren.','This is a notice you can select.')}</p><ul class="bullets"><li>${tx('Erster Punkt','First item')}</li><li>${tx('Zweiter Punkt','Second item')}</li></ul>`,
+ vals:[[tx('ohne','without'),'',''],['::after','& .link::after { content: " →"; }',"after:content-['_→']"],['::before','& .notice::before { content: "⚠ "; color: #B45309; }',''],['::marker','& .bullets li::marker { content: "✓  "; color: #047857; }','marker:text-emerald-700'],['::selection','& .notice::selection { background: #FDE047; color: #000; }','selection:bg-yellow-300',tx('Markier den Hinweis-Text mit der Maus.','Select the notice text with your mouse.')]],
+ tip:tx('Text aus <code>content</code> lesen die meisten Screenreader mit. Rein Dekoratives bekommt einen leeren Alternativtext: <code>content: "→" / ""</code>.','Most screen readers read out text from <code>content</code>. Purely decorative content gets an empty alternative text: <code>content: "→" / ""</code>.')},
+{id:'attribute',cat:'sel',name:tx('Attribut-Selektoren','Attribute selectors'),sub:'[href], ^=, $=, data-*',mode:'sel',mdn:'Attribute_selectors',
+ desc:tx('Attribut-Selektoren wählen Elemente nach ihren Attributen und deren Werten – ohne zusätzliche Klassen.','Attribute selectors pick elements by their attributes and those attributes’ values – without extra classes.'),
+ stage:`<div class="ca-attrs"><a href="https://example.org">${tx('Extern','External')}</a><a href="/intern">${tx('Intern','Internal')}</a><a href="bericht.pdf">${tx('Bericht (PDF)','Report (PDF)')}</a><a>${tx('ohne href','without href')}</a><button type="button" data-state="open" class="btn btn-secondary">${tx('Menü (offen)','Menu (open)')}</button><button type="button" data-state="closed" class="btn btn-secondary">${tx('Suche (zu)','Search (closed)')}</button></div>`,
+ vals:[['a[href]','',tx('Alle Links mit href.','All links with href.')],['a[href^="https"]','',tx('^= beginnt mit.','^= starts with.')],['a[href$=".pdf"]','',tx('$= endet mit – etwa für ein PDF-Symbol.','$= ends with – e.g. for a PDF icon.')],['[data-state="open"]','data-[state=open]:',tx('Zustand als data-Attribut, typisch für Komponentenbibliotheken.','State as a data attribute, typical of component libraries.')],['a:not([href])','',tx('Ein a ohne href ist kein Link: nicht fokussierbar, keine Rolle.','An a without href isn’t a link: not focusable, no role.')]],
+ tip:tx('<code>[aria-expanded="true"]</code> oder <code>[aria-current="page"]</code> als Styling-Haken koppeln Optik und Barrierefreiheit: Stimmt das Attribut nicht, sieht man es sofort. Diese App stylt den aktiven Eintrag der Seitenleiste genau so.','Using <code>[aria-expanded="true"]</code> or <code>[aria-current="page"]</code> as styling hooks couples visuals and accessibility: if the attribute is wrong, you see it right away. This app styles the active sidebar entry exactly that way.')},
+{id:'specificity',cat:'sel',name:tx('Spezifität','Specificity'),sub:tx('Welche Regel gewinnt?','Which rule wins?'),mode:'css',mdn:'Specificity',
+ desc:tx('Treffen mehrere Regeln dasselbe Element, gewinnt die spezifischere – erst bei Gleichstand die spätere. Gezählt wird (IDs, Klassen/Attribute/Pseudoklassen, Elemente).','When several rules hit the same element, the more specific one wins – only on a tie does the later one win. The count is (IDs, classes/attributes/pseudo-classes, elements).'),
+ stage:`<div class="box"><p class="note" id="ca-x">${tx('Welche Farbe gewinnt?','Which color wins?')}</p></div>`,
+ vals:[[tx('Element vs. Klasse','Element vs. class'),'& p { color: #0369A1; }\n& .note { color: #047857; }','',tx('.note (0,1,0) schlägt p (0,0,1): grün.','.note (0,1,0) beats p (0,0,1): green.')],
+  [tx('Mehr Teile','More parts'),'& .box p { color: #BE185D; }\n& .note { color: #047857; }','',tx('.box p (0,1,1) schlägt .note (0,1,0): pink – obwohl .note später steht.','.box p (0,1,1) beats .note (0,1,0): pink – even though .note comes later.')],
+  [':where()','& :where(.box) p { color: #BE185D; }\n& .note { color: #047857; }','',tx(':where() zählt null, bleibt also (0,0,1): grün. So bauen Resets Regeln, die man leicht überschreibt.',':where() counts as zero, so it stays (0,0,1): green. That’s how resets build rules that are easy to override.')],
+  ['ID','& #ca-x { color: #6D28D9; }\n& .box p.note { color: #047857; }','',tx('Eine ID (1,0,0) schlägt jede Menge Klassen: violett.','One ID (1,0,0) beats any number of classes: violet.')],
+  ['!important','& .note { color: #047857 !important; }\n& #ca-x { color: #6D28D9; }','',tx('!important sticht jede Spezifität: grün. Danach hilft nur noch ein weiteres !important.','!important trumps any specificity: green. After that, only another !important helps.')]],
+ tip:tx('Hohe Spezifität ist schwer zu überschreiben. Design-Systeme bleiben darum bei flachen Klassen, Tailwind erzeugt fast nur einzelne Klassen – alle mit derselben Spezifität.','High specificity is hard to override. That’s why design systems stick to flat classes, and Tailwind generates almost only single classes – all with the same specificity.')}
 ];
+
 const CA_BY=Object.fromEntries(CSSA.map(e=>[e.id,e]));
 const CAT_BY=Object.fromEntries(CA_CATS.map(c=>[c.id,c]));
 const caMdn=p=>'https://developer.mozilla.org/en-US/docs/Web/CSS/'+p;
@@ -806,7 +840,7 @@ function caApply(e,art,i){
     code=`<span class="ca-hl">${esc(v.val)}</span> {\n  /* … */\n}`;
   }else if(e.mode==='css'){
     $('style',art).textContent=v.val.replaceAll('&',sid);
-    code=v.val?esc(v.val.replaceAll('& ','')):'/* keine Regel */';
+    code=v.val?esc(v.val.replaceAll('& ','')):tx('/* keine Regel */','/* no rule */');
   }else{
     const keys=[...new Set(e.vals.flatMap(x=>Object.keys(caVal(e,x).val)))];
     $$(e.t[0],st).forEach(el=>{keys.forEach(k=>el.style.removeProperty(k));Object.entries(v.val).forEach(([k,x])=>{if(x!=='')el.style.setProperty(k,x)})});
@@ -814,36 +848,36 @@ function caApply(e,art,i){
     const add=(sel,obj,hl)=>{const b=blocks.get(sel)||new Map();Object.entries(obj).forEach(([k,x])=>{if(x!=='')b.set(k,[x,hl])});blocks.set(sel,b)};
     (e.base||[]).forEach(([,sel,obj])=>add(sel,obj,false));
     add(e.t[1],v.val,true);
-    code=[...blocks].map(([sel,b])=>`${sel} {\n${b.size?[...b].map(([k,[x,hl]])=>{const l=esc(`  ${k}: ${x};`);return hl?`<span class="ca-hl">${l}</span>`:l}).join('\n'):'  /* Standardwerte */'}\n}`).join('\n\n');
+    code=[...blocks].map(([sel,b])=>`${sel} {\n${b.size?[...b].map(([k,[x,hl]])=>{const l=esc(`  ${k}: ${x};`);return hl?`<span class="ca-hl">${l}</span>`:l}).join('\n'):tx('  /* Standardwerte */','  /* default values */')}\n}`).join('\n\n');
   }
   $('.ca-pre code',art).innerHTML=code;
   const tw=$('.ca-tw',art);tw.hidden=!v.tw;$('code',tw).textContent=v.tw;
   const note=$('.ca-note',art);note.hidden=!v.note;note.textContent=v.note;
   const m=$('.ca-meas',art);let txt='';
   if(e.measure)txt=e.measure(st);
-  else if(e.mode==='sel'&&!e.noCount){try{const n=$$(v.val,st).length;txt=n===1?'Trifft 1 Element.':`Trifft ${n} Elemente.`}catch(err){}}
+  else if(e.mode==='sel'&&!e.noCount){try{const n=$$(v.val,st).length;txt=tx(n===1?'Trifft 1 Element.':`Trifft ${n} Elemente.`,n===1?'Matches 1 element.':`Matches ${n} elements.`)}catch(err){}}
   m.hidden=!txt;m.textContent=txt;
 }
 const caEntryHTML=e=>`<article class="ca-entry" id="ca-${e.id}" data-id="${e.id}" aria-labelledby="ca-${e.id}-h">
   <h2 id="ca-${e.id}-h" tabindex="-1"><code>${esc(e.name)}</code><span class="ca-sub">${e.sub}</span></h2>
   <p class="ca-desc">${e.desc}</p>
-  <fieldset class="ca-vals"><legend class="sr-only">Wert für ${esc(e.name)} wählen</legend>${e.vals.map((v,i)=>`<label><input type="radio" name="ca-${e.id}" value="${i}"${i===(e.def||0)?' checked':''}><code>${esc(caVal(e,v).label)}</code></label>`).join('')}</fieldset>
+  <fieldset class="ca-vals"><legend class="sr-only">${tx(`Wert für ${esc(e.name)} wählen`,`Choose a value for ${esc(e.name)}`)}</legend>${e.vals.map((v,i)=>`<label><input type="radio" name="ca-${e.id}" value="${i}"${i===(e.def||0)?' checked':''}><code>${esc(caVal(e,v).label)}</code></label>`).join('')}</fieldset>
   <div class="ca-stage" id="ca-st-${e.id}">${e.stage}</div>
   <p class="ca-meas" role="status" hidden></p><p class="ca-note" hidden></p>
-  <div class="ca-codebox"><pre class="code ca-pre" tabindex="0" role="region" aria-label="CSS zu ${esc(e.name)}"><code></code></pre><p class="ca-tw" hidden>${e.mode==='sel'?'Tailwind-Variante':'Tailwind'}: <code></code></p></div>
-  ${e.tip?`<p class="ca-tip"><b>Stolperfalle:</b> ${e.tip}</p>`:''}
-  <p class="ca-links"><a href="${caMdn(e.mdn)}">MDN: ${esc(e.name)} (englisch)</a> · <a href="#${e.cat}/${e.id}">Link zu diesem Eintrag</a></p>
+  <div class="ca-codebox"><pre class="code ca-pre" tabindex="0" role="region" aria-label="${tx('CSS zu','CSS for')} ${esc(e.name)}"><code></code></pre><p class="ca-tw" hidden>${e.mode==='sel'?tx('Tailwind-Variante','Tailwind variant'):'Tailwind'}: <code></code></p></div>
+  ${e.tip?`<p class="ca-tip"><b>${tx('Stolperfalle','Gotcha')}:</b> ${e.tip}</p>`:''}
+  <p class="ca-links"><a href="${caMdn(e.mdn)}">MDN: ${esc(e.name)}${tx(' (englisch)','')}</a> · <a href="#${e.cat}/${e.id}">${tx('Link zu diesem Eintrag','Link to this entry')}</a></p>
   <style></style>
 </article>`;
 function caCatHTML(cat){
   const c=CAT_BY[cat],i=CA_CATS.indexOf(c),prev=CA_CATS[i-1],next=CA_CATS[i+1],es=CSSA.filter(e=>e.cat===cat);
   return `<article class="lesson" aria-labelledby="lesson-title">
-  <p class="eyebrow">Kapitel ${i+1} von ${CA_CATS.length}</p>
+  <p class="eyebrow">${tx(`Kapitel ${i+1} von ${CA_CATS.length}`,`Chapter ${i+1} of ${CA_CATS.length}`)}</p>
   <h1 id="lesson-title" tabindex="-1">${c.title}</h1>
   <p class="rule">${c.intro}</p>
-  <nav aria-label="Einträge in ${c.title}" class="ca-toc"><ul class="chips">${es.map(e=>`<li><a href="#${cat}/${e.id}"><code>${esc(e.name)}</code></a></li>`).join('')}</ul></nav>
+  <nav aria-label="${tx('Einträge in','Entries in')} ${c.title}" class="ca-toc"><ul class="chips">${es.map(e=>`<li><a href="#${cat}/${e.id}"><code>${esc(e.name)}</code></a></li>`).join('')}</ul></nav>
   ${es.map(caEntryHTML).join('')}
-  <nav class="pager" aria-label="Weitere Kapitel">${prev?`<a class="prev" href="#${prev.id}"><small>← Voriges Kapitel</small>${prev.title}</a>`:`<a class="prev" href="#start"><small>← Zurück zum</small>Überblick</a>`}${next?`<a class="next" href="#${next.id}"><small>Nächstes Kapitel →</small>${next.title}</a>`:`<a class="next" href="#start"><small>Zurück zum</small>Überblick</a>`}</nav>
+  <nav class="pager" aria-label="${tx('Weitere Kapitel','More chapters')}">${prev?`<a class="prev" href="#${prev.id}"><small>${tx('← Voriges Kapitel','← Previous chapter')}</small>${prev.title}</a>`:`<a class="prev" href="#start"><small>${tx('← Zurück zum','← Back to the')}</small>${tx('Überblick','overview')}</a>`}${next?`<a class="next" href="#${next.id}"><small>${tx('Nächstes Kapitel →','Next chapter →')}</small>${next.title}</a>`:`<a class="next" href="#start"><small>${tx('Zurück zum','Back to the')}</small>${tx('Überblick','overview')}</a>`}</nav>
 </article>`;
 }
 function caCatInit(root,sub){
@@ -860,21 +894,21 @@ function caCatInit(root,sub){
 }
 function caStartHTML(){
   return `<article class="lesson" aria-labelledby="lesson-title">
-  <p class="eyebrow">Überblick</p>
-  <h1 id="lesson-title" tabindex="-1">CSS zum Anfassen</h1>
-  <p class="rule">${CSSA.length} Eigenschaften und Selektoren, jede mit einer Live-Vorschau: Wert anklicken, Wirkung sehen, CSS und Tailwind-Klasse ablesen. Wie die Tailwind-Doku – nur für das CSS darunter.</p>
-  <div class="start-grid">${CA_CATS.map(c=>`<div class="tile"><h3>${c.title}</h3><p>${c.intro}</p><a class="btn btn-secondary" href="#${c.id}">${CSSA.filter(e=>e.cat===c.id).length} Einträge<span class="sr-only"> in ${c.title}</span></a></div>`).join('')}</div>
-  <h2>Alle Einträge</h2>
-  <div class="field ca-find"><label for="ca-q">Eigenschaft suchen <span class="opt">Name oder Stichwort</span></label><input class="input" id="ca-q" type="search" autocomplete="off" spellcheck="false"></div>
+  <p class="eyebrow">${tx('Überblick','Overview')}</p>
+  <h1 id="lesson-title" tabindex="-1">${tx('CSS zum Anfassen','CSS you can touch')}</h1>
+  <p class="rule">${tx(`${CSSA.length} Eigenschaften und Selektoren, jede mit einer Live-Vorschau: Wert anklicken, Wirkung sehen, CSS und Tailwind-Klasse ablesen. Wie die Tailwind-Doku – nur für das CSS darunter.`,`${CSSA.length} properties and selectors, each with a live preview: click a value, see the effect, read the CSS and the Tailwind class. Like the Tailwind docs – but for the CSS underneath.`)}</p>
+  <div class="start-grid">${CA_CATS.map(c=>`<div class="tile"><h3>${c.title}</h3><p>${c.intro}</p><a class="btn btn-secondary" href="#${c.id}">${tx(`${CSSA.filter(e=>e.cat===c.id).length} Einträge`,`${CSSA.filter(e=>e.cat===c.id).length} entries`)}<span class="sr-only"> in ${c.title}</span></a></div>`).join('')}</div>
+  <h2>${tx('Alle Einträge','All entries')}</h2>
+  <div class="field ca-find"><label for="ca-q">${tx('Eigenschaft suchen','Search properties')} <span class="opt">${tx('Name oder Stichwort','name or keyword')}</span></label><input class="input" id="ca-q" type="search" autocomplete="off" spellcheck="false"></div>
   <p class="count" id="ca-count" role="status"></p>
-  <div class="table-wrap" tabindex="0" role="region" aria-label="Alle Einträge im CSS-Atlas"><table class="table ca-index"><caption class="sr-only">Alle Einträge im CSS-Atlas</caption><thead><tr><th scope="col">Eigenschaft</th><th scope="col">Was sie tut</th><th scope="col">Kapitel</th></tr></thead><tbody>${CSSA.map(e=>`<tr data-q="${esc(norm(`${e.name} ${e.sub} ${CAT_BY[e.cat].title} ${e.desc.replace(/<[^>]+>/g,'')}`))}"><td><a href="#${e.cat}/${e.id}"><code>${esc(e.name)}</code></a></td><td>${e.sub}</td><td>${CAT_BY[e.cat].title}</td></tr>`).join('')}</tbody></table></div>
-  <nav class="pager" aria-label="Weiter"><a class="next" href="#${CA_CATS[0].id}"><small>Erstes Kapitel →</small>${CA_CATS[0].title}</a></nav>
+  <div class="table-wrap" tabindex="0" role="region" aria-label="${tx('Alle Einträge im CSS-Atlas','All entries in the CSS Atlas')}"><table class="table ca-index"><caption class="sr-only">${tx('Alle Einträge im CSS-Atlas','All entries in the CSS Atlas')}</caption><thead><tr><th scope="col">${tx('Eigenschaft','Property')}</th><th scope="col">${tx('Was sie tut','What it does')}</th><th scope="col">${tx('Kapitel','Chapter')}</th></tr></thead><tbody>${CSSA.map(e=>`<tr data-q="${esc(norm(`${e.name} ${e.sub} ${CAT_BY[e.cat].title} ${e.desc.replace(/<[^>]+>/g,'')}`))}"><td><a href="#${e.cat}/${e.id}"><code>${esc(e.name)}</code></a></td><td>${e.sub}</td><td>${CAT_BY[e.cat].title}</td></tr>`).join('')}</tbody></table></div>
+  <nav class="pager" aria-label="${tx('Weiter','Next')}"><a class="next" href="#${CA_CATS[0].id}"><small>${tx('Erstes Kapitel →','First chapter →')}</small>${CA_CATS[0].title}</a></nav>
 </article>`;
 }
 function caStartInit(root){
   const q=$('#ca-q',root),rows=$$('tbody tr',root),count=$('#ca-count',root);let t;
   const upd=typed=>{const s=norm(q.value.trim());let n=0;rows.forEach(r=>{const ok=!s||r.dataset.q.includes(s);r.hidden=!ok;if(ok)n++});
-    clearTimeout(t);t=setTimeout(()=>{count.textContent=s?`${n} von ${CSSA.length} Einträgen`:`${CSSA.length} Einträge`},typed?400:0)};
+    clearTimeout(t);t=setTimeout(()=>{count.textContent=s?tx(`${n} von ${CSSA.length} Einträgen`,`${n} of ${CSSA.length} entries`):tx(`${CSSA.length} Einträge`,`${CSSA.length} entries`)},typed?400:0)};
   q.addEventListener('input',()=>upd(true));upd(false);
   return ()=>clearTimeout(t);
 }
@@ -885,16 +919,16 @@ let current=null,statusTimer=null;
 function renderList(){
   const q=norm(search.value.trim());
   const hit=e=>!q||norm(`${e.name} ${e.sub} ${CAT_BY[e.cat].title}`).includes(q);
-  let html=q?'':`<ul class="items"><li><a class="item item-page" href="#start" data-id="start"><span class="item-title">Überblick</span><span class="item-short">Alle Kapitel und eine Tabelle aller Einträge.</span></a></li></ul>`,count=0;
+  let html=q?'':`<ul class="items"><li><a class="item item-page" href="#start" data-id="start"><span class="item-title">${tx('Überblick','Overview')}</span><span class="item-short">${tx('Alle Kapitel und eine Tabelle aller Einträge.','All chapters and a table of all entries.')}</span></a></li></ul>`,count=0;
   CA_CATS.forEach(c=>{
     const es=CSSA.filter(e=>e.cat===c.id&&hit(e));if(!es.length)return;count+=es.length;
     html+=`<a class="grp" id="grp-${c.id}" href="#${c.id}" data-id="${c.id}">${c.title}</a><ul class="items" aria-labelledby="grp-${c.id}">${es.map(e=>`<li><a class="item" href="#${c.id}/${e.id}" data-id="${c.id}/${e.id}"><code>${esc(e.name)}</code></a></li>`).join('')}</ul>`;
   });
-  if(q&&!count)html=`<div class="list-empty">${ic('search')}<p class="le-title">Nichts zu „${esc(search.value.trim())}“</p><p class="hint">Probier eine Eigenschaft wie „gap“, „z-index“ oder ein Stichwort wie „Schatten“.</p><button type="button" class="btn btn-secondary" id="q-reset">Suche zurücksetzen</button></div>`;
+  if(q&&!count)html=`<div class="list-empty">${ic('search')}<p class="le-title">${tx(`Nichts zu „${esc(search.value.trim())}“`,`Nothing for “${esc(search.value.trim())}”`)}</p><p class="hint">${tx('Probier eine Eigenschaft wie „gap“, „z-index“ oder ein Stichwort wie „Schatten“.','Try a property like “gap”, “z-index” or a keyword like “shadow”.')}</p><button type="button" class="btn btn-secondary" id="q-reset">${tx('Suche zurücksetzen','Clear search')}</button></div>`;
   listEl.innerHTML=html;
   markActive(current,false);
   clearTimeout(statusTimer);
-  statusTimer=setTimeout(()=>{qStatus.textContent=q?(count===1?'1 Treffer':`${count} Treffer`):`${CSSA.length} Einträge in ${CA_CATS.length} Kapiteln`},q?450:0);
+  statusTimer=setTimeout(()=>{qStatus.textContent=q?tx(count===1?'1 Treffer':`${count} Treffer`,count===1?'1 result':`${count} results`):tx(`${CSSA.length} Einträge in ${CA_CATS.length} Kapiteln`,`${CSSA.length} entries in ${CA_CATS.length} chapters`)},q?450:0);
 }
 function markActive(id,reveal){
   $$('[data-id]',listEl).forEach(a=>{
@@ -910,14 +944,14 @@ const view=$('#view'),master=$('#master'),detail=$('#hauptinhalt'),shell=$('#she
 let cleanup=null;
 function notFoundHTML(id){
   return `<article class="lesson" aria-labelledby="lesson-title"><div class="empty">${ic('search')}
-  <h1 id="lesson-title" tabindex="-1">Diese Seite gibt es nicht</h1>
-  <p style="margin:0;max-width:60ch">Unter <code>#${esc(id)}</code> steht kein Eintrag. Vielleicht hat der Link einen Tippfehler.</p>
-  <div class="btn-row"><a class="btn btn-primary" href="#start">Zum Überblick</a><button type="button" class="btn btn-secondary" id="nf-search">Eintrag suchen</button></div>
+  <h1 id="lesson-title" tabindex="-1">${tx('Diese Seite gibt es nicht','This page doesn’t exist')}</h1>
+  <p style="margin:0;max-width:60ch">${tx(`Unter <code>#${esc(id)}</code> steht kein Eintrag. Vielleicht hat der Link einen Tippfehler.`,`There is no entry at <code>#${esc(id)}</code>. Maybe the link has a typo.`)}</p>
+  <div class="btn-row"><a class="btn btn-primary" href="#start">${tx('Zum Überblick','Go to overview')}</a><button type="button" class="btn btn-secondary" id="nf-search">${tx('Eintrag suchen','Search entries')}</button></div>
   </div></article>`;
 }
 function updateTitle(base,sub){
   const c=CAT_BY[base],e=CA_BY[sub];
-  document.title=c?(e?`${e.name} · ${c.title} · CSS-Atlas`:`${c.title} · CSS-Atlas`):base==='start'?'CSS-Atlas – CSS zum Anfassen':'Nicht gefunden · CSS-Atlas';
+  document.title=c?(e?`${e.name} · ${c.title} · CSS-Atlas`:`${c.title} · CSS-Atlas`):base==='start'?tx('CSS-Atlas – CSS zum Anfassen','CSS Atlas – CSS you can touch'):tx('Nicht gefunden · CSS-Atlas','Not found · CSS Atlas');
 }
 let masterScroll=0,lastId=null;
 function route(fromUser){
@@ -937,6 +971,7 @@ function route(fromUser){
     focusEl=sub&&$('#ca-'+sub+'-h',view);
   }
   else{base=null;sub='';view.innerHTML=notFoundHTML(id)}
+  withLang(view);
   current=base&&sub?`${base}/${sub}`:base;
   markActive(current,true);updateTitle(base,sub);
   if(!fromUser)return;
@@ -950,7 +985,7 @@ function route(fromUser){
   }
   if(!overview&&current)lastId=current;
 }
-window.addEventListener('hashchange',()=>route(true));
+window.addEventListener('hashchange',()=>{route(true);updateLangLink()});
 
 /* ---------- Globale Ereignisse ---------- */
 document.addEventListener('click',e=>{if(e.target.closest('#nf-search'))focusSearch()});
@@ -964,7 +999,14 @@ document.addEventListener('keydown',e=>{
   if((e.ctrlKey||e.metaKey)&&!e.altKey&&e.key.toLowerCase()==='k'){e.preventDefault();focusSearch()}
 });
 
+/* ---------- Sprachumschalter ----------
+   Ein Link, kein Button: er führt zu einer anderen Adresse (?lang=…) und behält den Hash. Beschriftet in der
+   Zielsprache selbst, mit lang-Attribut, damit Screenreader „English“ englisch aussprechen (WCAG 3.1.2). */
+function updateLangLink(){const a=$('#lang-link'),o=tx('en','de');a.href=langHref(o);a.hreflang=o;a.lang=o;a.textContent=tx('English','Deutsch')}
+
 /* ---------- Start ---------- */
+withLang(document);
+updateLangLink();
 renderList();
 route(false);
 })();

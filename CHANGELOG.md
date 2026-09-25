@@ -12,6 +12,9 @@ Kategorien: **Neu** (neue Funktionen), **Verbessert** (bestehendes Verhalten), *
 ## Unveröffentlicht
 
 ### Neu
+- Zweisprachig: alle Einträge, Vorschauen, Hinweise und Messwerte auf Deutsch und Englisch.
+  Ein Link oben rechts wechselt die Sprache; sie steht als `?lang=en` in der Adresse und wird
+  gemerkt. Links zur Daumenregel tragen die Sprache mit.
 - Ein Klick auf das Logo führt zum Überblick.
 - CSS-Atlas als eigene App: 53 CSS-Eigenschaften und Selektoren in neun Kapiteln, jeweils
   mit Live-Vorschau, CSS-Code mit hervorgehobener Zeile, Tailwind-Klasse und MDN-Link,
@@ -21,3 +24,7 @@ Kategorien: **Neu** (neue Funktionen), **Verbessert** (bestehendes Verhalten), *
 - Eigene Adresse für jeden Eintrag (`#flex/justify-content`), Kurzform `#gap` springt ins
   richtige Kapitel.
 - Überblick mit durchsuchbarer Tabelle aller Einträge.
+
+### Verbessert
+- Klassennamen in den Vorschauen sind jetzt englisch (`.card` statt `.karte`), wie in
+  echtem Code üblich.
