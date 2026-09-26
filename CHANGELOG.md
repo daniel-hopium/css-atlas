@@ -12,6 +12,19 @@ Kategorien: **Neu** (neue Funktionen), **Verbessert** (bestehendes Verhalten), *
 ## Unveröffentlicht
 
 ### Neu
+- Der Atlas wächst von 53 auf 105 Einträge und von neun auf zwölf Kapitel. Neue Kapitel:
+  „Einheiten & Responsive“ (rem/em, Viewport-Einheiten, `ch`, `calc()`, `clamp()`,
+  `min()`/`max()`, Media und Container Queries, Nutzereinstellungen), „Farben & Hintergründe“
+  (`currentColor`, Transparenz, `color-mix()`, Verläufe, `background-size`, `object-fit`,
+  `color-scheme`) und „Kaskade & Variablen“ (Custom Properties, Vererbung, `@layer`, Nesting,
+  `@supports`, logische Eigenschaften).
+- Neue Einträge in den bestehenden Kapiteln: `inset`, `float`, `margin: auto`, `align-content`,
+  `fr` & `minmax()`, `grid-auto-flow`, `subgrid`, `padding`, `font-family`, `text-transform`,
+  `text-decoration`, `font-variant-numeric`, `text-wrap`, `hyphens`, `line-clamp`, `clip-path`,
+  `mask-image`, `@keyframes`/`animation`, `animation-fill-mode`, `@starting-style`,
+  `prefers-reduced-motion`, `scroll-margin`, `scroll-behavior`, `overscroll-behavior`,
+  `touch-action`, `:is()`/`:where()`, `:not()`, Formularzustände, `:empty` und
+  `::first-letter`.
 - Abschnitt „Die Schwester-Apps“ im Überblick: Kacheln zu Daumenregel und ARIA-Kompass,
   beide mit Symbol für externe Links. Auch der Daumenregel-Link oben trägt das Symbol.
 - Zweisprachig: alle Einträge, Vorschauen, Hinweise und Messwerte auf Deutsch und Englisch.
@@ -28,6 +41,10 @@ Kategorien: **Neu** (neue Funktionen), **Verbessert** (bestehendes Verhalten), *
 - Überblick mit durchsuchbarer Tabelle aller Einträge.
 
 ### Verbessert
+- Das Kapitel „Transform & Transition“ heißt jetzt „Bewegung & Animation“, weil es auch
+  Keyframe-Animationen enthält.
+- Bei `grid-template-columns` steht zu `repeat(2, 1fr)` die exakte Tailwind-Klasse; `grid-cols-2`
+  ist `repeat(2, minmax(0, 1fr))`, wie der neue Eintrag „fr & minmax()“ zeigt.
 - Klassennamen in den Vorschauen sind jetzt englisch (`.card` statt `.karte`), wie in
   echtem Code üblich.
 

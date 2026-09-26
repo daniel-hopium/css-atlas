@@ -1,7 +1,7 @@
 # CSS-Atlas – CSS zum Anfassen
 
-53 CSS-Eigenschaften und Selektoren im Stil der Tailwind-Doku: Wert anklicken, Wirkung in
-der Live-Vorschau sehen, darunter das CSS mit hervorgehobener Zeile und die passende
+105 CSS-Eigenschaften, Funktionen und Selektoren im Stil der Tailwind-Doku: Wert anklicken,
+Wirkung in der Live-Vorschau sehen, darunter das CSS mit hervorgehobener Zeile und die passende
 Tailwind-Klasse. Auf Deutsch und Englisch.
 
 Online: https://daniel-hopium.github.io/css-atlas/
@@ -13,19 +13,22 @@ Abhängigkeiten. Internet braucht es nur für die Google-Schriften.
 
 ## Inhalt
 
-Neun Kapitel:
+Zwölf Kapitel:
 
 | Kapitel | Beispiele |
 |---|---|
-| Layout & Position | `display`, `position`, `z-index`, `overflow` |
-| Flexbox | `flex-direction`, `justify-content`, `align-items`, `gap`, `flex` |
-| Grid | `grid-template-columns`, `grid-column`, `place-items` |
-| Box & Größe | Box Model, Margin Collapsing, `max-width`, `aspect-ratio` |
-| Typografie | `font-size`, `line-height`, `text-overflow`, `white-space` |
-| Rahmen & Effekte | `border-radius`, `box-shadow`, `filter`, vier Arten zu verstecken |
-| Transform & Transition | `transform`, `transform-origin`, `transition` |
-| Interaktion | `cursor`, `pointer-events`, `scroll-snap-type`, `accent-color` |
-| Selektoren | Kombinatoren, `:nth-child`, `:has()`, Attribute, Spezifität |
+| Layout & Position | `display`, `position`, `z-index`, `overflow`, `inset`, `float` |
+| Flexbox | `flex-direction`, `justify-content`, `align-items`, `gap`, `flex`, `margin: auto` |
+| Grid | `grid-template-columns`, `fr` & `minmax()`, `grid-auto-flow`, `subgrid` |
+| Box & Größe | Box Model, Margin Collapsing, `max-width`, `aspect-ratio`, `padding` |
+| Einheiten & Responsive | `rem`/`em`, `vw`/`dvh`, `ch`, `calc()`, `clamp()`, `@media`, `@container` |
+| Typografie | `font-size`, `line-height`, `text-wrap`, `line-clamp`, `hyphens`, `tabular-nums` |
+| Farben & Hintergründe | `currentColor`, `color-mix()`, Verläufe, `background-size`, `object-fit`, `light-dark()` |
+| Rahmen & Effekte | `border-radius`, `box-shadow`, `filter`, `clip-path`, `mask-image`, vier Arten zu verstecken |
+| Bewegung & Animation | `transform`, `transition`, `@keyframes`, `@starting-style`, `prefers-reduced-motion` |
+| Interaktion | `cursor`, `scroll-snap-type`, `scroll-margin`, `overscroll-behavior`, `touch-action` |
+| Kaskade & Variablen | Custom Properties, `inherit`/`revert`, `@layer`, Nesting, `@supports`, logische Eigenschaften |
+| Selektoren | Kombinatoren, `:nth-child`, `:has()`, `:is()`, `:not()`, Formularzustände, Spezifität |
 
 Jeder Eintrag hat einen MDN-Link und eine eigene Adresse (`#flex/justify-content`),
 fast alle auch eine Stolperfalle. Die Kurzform `#gap` springt ins richtige Kapitel. Der
@@ -45,7 +48,7 @@ fast alle auch eine Stolperfalle. Die Kurzform `#gap` springt ins richtige Kapit
 
 Alles steckt in einer Datei:
 
-- **`CA_CATS`**: die neun Kapitel.
+- **`CA_CATS`**: die zwölf Kapitel.
 - **`CSSA`**: ein Objekt pro Eintrag – Vorschau-HTML (`stage`), Werte (`vals`) mit
   Tailwind-Klasse und Hinweis, optional `measure()` für Messwerte und `mode` für
   Selektoren (`sel`) oder ganze Regeln (`css`).
