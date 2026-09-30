@@ -41,6 +41,8 @@ Kategorien: **Neu** (neue Funktionen), **Verbessert** (bestehendes Verhalten), *
 - Überblick mit durchsuchbarer Tabelle aller Einträge.
 
 ### Verbessert
+- Die Schwester-Apps HTML-Atlas und Angular-Patterns erscheinen als Kacheln bei den
+  Schwester-Apps; die Kachel zum ARIA-Kompass nennt dessen neuen Screenreader-Trainer.
 - Das Kapitel „Transform & Transition“ heißt jetzt „Bewegung & Animation“, weil es auch
   Keyframe-Animationen enthält.
 - Bei `grid-template-columns` steht zu `repeat(2, 1fr)` die exakte Tailwind-Klasse; `grid-cols-2`
