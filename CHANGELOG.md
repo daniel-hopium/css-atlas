@@ -41,6 +41,9 @@ Kategorien: **Neu** (neue Funktionen), **Verbessert** (bestehendes Verhalten), *
 - Überblick mit durchsuchbarer Tabelle aller Einträge.
 
 ### Verbessert
+- Neues App-Symbol im Stil der Schwester-App Daumenregel: dunkler Grund, blasse Linien und
+  ein goldener Akzent – alle fünf Apps sehen jetzt im Tab wie eine Familie aus. Dazu
+  `favicon.ico` für ältere Browser und ein Icon für den Homescreen (`apple-touch-icon.png`).
 - Die Schwester-Apps HTML-Atlas und Angular-Patterns erscheinen als Kacheln bei den
   Schwester-Apps; die Kachel zum ARIA-Kompass nennt dessen neuen Screenreader-Trainer.
 - Das Kapitel „Transform & Transition“ heißt jetzt „Bewegung & Animation“, weil es auch
@@ -59,3 +62,6 @@ Kategorien: **Neu** (neue Funktionen), **Verbessert** (bestehendes Verhalten), *
   `:nth-child`-Stolperfalle, fehlende Farbe bei einer Outline-Klasse und der MDN-Link zu den
   Kombinatoren.
 
+### Intern
+- `tools/make_icons.py` erzeugt SVG, ICO und PNG aus einer einzigen Geometrie (braucht
+  Pillow).
