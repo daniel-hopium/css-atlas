@@ -12,6 +12,8 @@ Kategorien: **Neu** (neue Funktionen), **Verbessert** (bestehendes Verhalten), *
 ## Unveröffentlicht
 
 ### Neu
+- Sonne/Mond-Knopf in der Kopfleiste: schaltet zwischen hellem und dunklem Design um. Die
+  Wahl bleibt gespeichert; ohne eigene Wahl gilt weiter die Systemeinstellung.
 - Der Atlas wächst von 53 auf 105 Einträge und von neun auf zwölf Kapitel. Neue Kapitel:
   „Einheiten & Responsive“ (rem/em, Viewport-Einheiten, `ch`, `calc()`, `clamp()`,
   `min()`/`max()`, Media und Container Queries, Nutzereinstellungen), „Farben & Hintergründe“
