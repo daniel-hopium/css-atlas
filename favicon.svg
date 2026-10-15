@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Layout-Raster im Linienstil der Daumenregel. Erzeugt von tools/make_icons.py. -->
+  <!-- Layout-Raster im Linienstil des UI-Atlas. Erzeugt von tools/make_icons.py. -->
   <rect width="32" height="32" rx="7" fill="#0F1418"/>
   <path d="M7 7 L25 7 L25 12 L7 12 Z" fill="none" stroke="#C2D6EA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.45"/>
   <path d="M7 16 L13.5 16 L13.5 25 L7 25 Z" fill="none" stroke="#C2D6EA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
