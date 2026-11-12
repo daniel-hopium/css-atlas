@@ -12,6 +12,9 @@ Kategorien: **Neu** (neue Funktionen), **Verbessert** (bestehendes Verhalten), *
 ## Unveröffentlicht
 
 ### Neu
+- In der breiten Ansicht lässt sich die Lektion am Griff rechts schmaler oder breiter ziehen
+  (mindestens 48rem). Doppelklick stellt die ganze Breite her, per Tastatur gehen ←/→, Pos1
+  und Ende. Die gezogene Breite wird gemerkt.
 - Breite-Umschalter neben Sonne/Mond: Die breite Ansicht lässt die Lektion die ganze Spalte
   neben der Liste füllen statt 48rem. Die Wahl wird gemerkt; unter 1280px ist der Knopf
   ausgeblendet.

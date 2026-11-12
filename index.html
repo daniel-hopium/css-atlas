@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
 <script>try{const t=JSON.parse(localStorage.getItem('css-atlas:theme'));if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}
-try{if(JSON.parse(localStorage.getItem('css-atlas:width'))==='wide')document.documentElement.setAttribute('data-width','wide')}catch(e){}</script>
+try{if(JSON.parse(localStorage.getItem('css-atlas:width'))==='wide')document.documentElement.setAttribute('data-width','wide')}catch(e){}
+try{const w=JSON.parse(localStorage.getItem('css-atlas:lessonW'));if(w>0)document.documentElement.style.setProperty('--lesson-w',w+'px')}catch(e){}</script>
 <title>CSS-Atlas – CSS zum Anfassen</title>
 <meta name="description" content="CSS-Eigenschaften und Selektoren mit Live-Vorschau: Wert anklicken, Wirkung sehen, CSS und Tailwind-Klasse ablesen.">
 <link rel="icon" href="favicon.ico?v=2" sizes="32x32">
@@ -120,7 +121,16 @@ img.logo-mark{background:none;object-fit:contain}
 /* Unter 1280px ist „breit“ kaum breiter als normal – dann braucht es den Knopf nicht */
 @media (max-width:1279px){.width-btn{display:none}}
 /* Breite Ansicht: die Lektion nutzt die ganze Spalte statt 48rem */
-:root[data-width="wide"] .lesson{max-width:none;padding-left:clamp(16px,3vw,56px);padding-right:clamp(16px,3vw,56px)}
+:root[data-width="wide"] .lesson{position:relative;max-width:var(--lesson-w,none);padding-left:clamp(16px,3vw,56px);padding-right:clamp(16px,3vw,56px)}
+/* Zieh-Griff am rechten Rand der Lektion – nur in der breiten Ansicht */
+.lesson-grip{display:none}
+:root[data-width="wide"] .lesson-grip{display:block;position:absolute;top:0;bottom:0;right:0;width:14px;cursor:ew-resize;touch-action:none}
+.lesson-grip::before{content:"";position:absolute;top:0;bottom:0;left:6px;width:2px;background:var(--line);transition:background-color .15s}
+.lesson-grip span{position:sticky;top:calc(50% - 24px);display:block;width:8px;height:48px;margin-left:3px;border-radius:4px;background:var(--line-strong);transition:background-color .15s}
+.lesson-grip:hover::before,.lesson-grip:focus-visible::before,.lesson-grip.is-dragging::before,.lesson-grip:hover span,.lesson-grip:focus-visible span,.lesson-grip.is-dragging span{background:var(--brand)}
+.lesson-grip:focus-visible{outline-offset:0}
+:root.is-resizing,:root.is-resizing *{cursor:ew-resize!important;user-select:none}
+@media (max-width:1279px){:root[data-width="wide"] .lesson-grip{display:none}}
 .spinner{width:18px;height:18px;border:2.5px solid currentColor;border-right-color:transparent;border-radius:50%;animation:spin .8s linear infinite;display:none;flex:none}
 .is-loading .spinner{display:inline-block}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -557,6 +567,46 @@ const langHref=l=>{const u=new URL(location.href);u.searchParams.set('lang',l);r
     store.set('width',wide?'wide':'normal');sync();
   });
   sync();
+})();
+/* Breite ziehen: Griff am rechten Rand der Lektion, nur in der breiten Ansicht. Die Lektion ist
+   zentriert, darum wächst sie beim Ziehen nach beiden Seiten – Breite = 2 × Abstand zur Mitte. */
+(()=>{
+  const root=document.documentElement,view=$('#view');
+  const lesson=()=>$('.lesson',view);
+  const min=()=>parseFloat(getComputedStyle(root).fontSize)*48;
+  const max=()=>view.clientWidth;
+  const clamp=w=>Math.min(max(),Math.max(min(),w));
+  const set=w=>{if(w==null)root.style.removeProperty('--lesson-w');else root.style.setProperty('--lesson-w',Math.round(w)+'px')};
+  const aria=()=>{const g=$('.lesson-grip',view),L=lesson();if(!g||!L)return;
+    g.setAttribute('aria-valuemin',Math.round(min()));g.setAttribute('aria-valuemax',Math.round(max()));g.setAttribute('aria-valuenow',Math.round(L.getBoundingClientRect().width))};
+  // An den Rand gezogen heißt „ganze Breite“ – dann wächst die Lektion auch mit dem Fenster mit
+  const commit=w=>{const full=w>=max()-1;set(full?null:w);store.set('lessonW',full?null:Math.round(w));aria()};
+  function attach(){
+    const L=lesson();if(!L||$('.lesson-grip',L))return;
+    const g=document.createElement('div');
+    g.className='lesson-grip';g.tabIndex=0;g.setAttribute('role','separator');g.setAttribute('aria-orientation','vertical');
+    g.setAttribute('aria-label',tx('Breite der Lektion','Lesson width'));
+    g.title=tx('Ziehen ändert die Breite · Doppelklick: ganze Breite','Drag to resize · double-click: full width');
+    g.innerHTML='<span></span>';L.append(g);aria();
+  }
+  view.addEventListener('pointerdown',e=>{
+    const g=e.target.closest('.lesson-grip');if(!g||e.button!==0)return;
+    e.preventDefault();
+    const r=lesson().getBoundingClientRect(),cx=r.left+r.width/2;
+    g.setPointerCapture(e.pointerId);g.classList.add('is-dragging');root.classList.add('is-resizing');
+    const move=ev=>set(clamp(2*(ev.clientX-cx)));
+    const up=()=>{g.removeEventListener('pointermove',move);g.classList.remove('is-dragging');root.classList.remove('is-resizing');commit(lesson().getBoundingClientRect().width)};
+    g.addEventListener('pointermove',move);g.addEventListener('lostpointercapture',up,{once:true});
+  });
+  view.addEventListener('dblclick',e=>{if(e.target.closest('.lesson-grip'))commit(max())});
+  view.addEventListener('keydown',e=>{
+    if(!e.target.classList.contains('lesson-grip'))return;
+    const w=lesson().getBoundingClientRect().width,step=e.shiftKey?160:40;
+    const next={ArrowLeft:w-step,ArrowRight:w+step,Home:min(),End:max()}[e.key];
+    if(next!=null){e.preventDefault();e.stopPropagation();commit(clamp(next))}
+  });
+  view.addEventListener('focusin',e=>{if(e.target.classList.contains('lesson-grip'))aria()});
+  new MutationObserver(attach).observe(view,{childList:true});attach();
 })();
 /* Statische Texte der Hülle: data-en ersetzt den Text, data-en-label das aria-label */
 if(LANG==='en')$$('[data-en],[data-en-label]').forEach(el=>{
