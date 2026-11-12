@@ -12,6 +12,8 @@ Kategorien: **Neu** (neue Funktionen), **Verbessert** (bestehendes Verhalten), *
 ## Unveröffentlicht
 
 ### Neu
+- Neue Schwester-Kachel Rechte-Kompass auf der Startseite: Login und Rechte mit OAuth,
+  OIDC, JWT, RBAC bis ReBAC, umgesetzt in Angular und Spring.
 - In der breiten Ansicht lässt sich die Lektion am Griff rechts schmaler oder breiter ziehen
   (mindestens 48rem). Doppelklick stellt die ganze Breite her, per Tastatur gehen ←/→, Pos1
   und Ende. Die gezogene Breite wird gemerkt.
