@@ -12,6 +12,9 @@ Kategorien: **Neu** (neue Funktionen), **Verbessert** (bestehendes Verhalten), *
 ## Unveröffentlicht
 
 ### Neu
+- Breite-Umschalter neben Sonne/Mond: Die breite Ansicht lässt die Lektion die ganze Spalte
+  neben der Liste füllen statt 48rem. Die Wahl wird gemerkt; unter 1280px ist der Knopf
+  ausgeblendet.
 - Die Kacheln der Schwester-Apps zeigen jetzt deren echtes App-Symbol statt eines
   allgemeinen Icons.
 - Im Kopf steht jetzt das App-Symbol – dasselbe wie im Browser-Tab und auf dem
